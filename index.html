@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DontPark.com - Skip Expensive Parking, Fix Your Car Instead</title>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -13,7 +14,6 @@
             min-height: 100vh;
             color: #1e293b;
             padding: 20px;
-            line-height: 1.6;
         }
         
         .container {
@@ -40,6 +40,15 @@
         }
         
         .logo { font-size: 2.5rem; font-weight: 800; }
+        
+        .slogan {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fbbf24;
+            margin-top: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
+        }
         
         .claude-badge {
             display: flex;
@@ -86,13 +95,12 @@
             padding: 20px;
             background: rgba(255,255,255,0.1);
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
         }
         
         .slider-value { font-size: 2.5rem; font-weight: 700; color: #fbbf24; margin-bottom: 8px; }
         .slider-description { color: #cbd5e1; font-size: 1rem; }
         
-        .custom-slider {
+        input[type="range"] {
             width: 100%;
             height: 10px;
             border-radius: 5px;
@@ -100,10 +108,9 @@
             outline: none;
             -webkit-appearance: none;
             cursor: pointer;
-            margin-bottom: 20px;
         }
         
-        .custom-slider::-webkit-slider-thumb {
+        input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 28px;
             height: 28px;
@@ -113,27 +120,35 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
         
-        .form-section { margin-bottom: 40px; }
-        .section-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .form-group { margin-bottom: 25px; }
-        .form-label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.95rem; }
+        input[type="range"]::-moz-range-thumb {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border: none;
+        }
+        
+        .form-section { margin-bottom: 30px; }
+        .section-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 20px; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 600; }
         
         .form-input {
             width: 100%;
-            padding: 14px 18px;
+            padding: 12px 16px;
             border: 2px solid #e2e8f0;
-            border-radius: 12px;
+            border-radius: 10px;
             font-size: 1rem;
-            transition: all 0.3s ease;
         }
         
-        .form-input:focus {
-            outline: none;
-            border-color: #4f46e5;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
-        
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         
         .primary-button {
             width: 100%;
@@ -145,8 +160,7 @@
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 30px;
-            transition: all 0.3s ease;
+            margin-top: 20px;
         }
         
         .primary-button:hover {
@@ -331,12 +345,8 @@
         }
         
         @media (max-width: 768px) {
-            body { padding: 10px; }
-            .content { padding: 30px 20px; }
-            .form-row { grid-template-columns: 1fr; }
-            .savings-calculator { padding: 20px; }
             .header-top { flex-direction: column; gap: 15px; }
-            .chat-input-container { flex-direction: column; }
+            .form-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -344,7 +354,10 @@
     <div class="container">
         <header class="header">
             <div class="header-top">
-                <div class="logo">dontpark.com</div>
+                <div>
+                    <div class="logo">dontpark.com</div>
+                    <div class="slogan">Take CareYa Car</div>
+                </div>
                 <div class="claude-badge">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="color: white;">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
@@ -357,7 +370,7 @@
         
         <main class="content">
             <div class="status-banner">
-                <span>✅ Connected to Victory Nissan - Ready to book your service!</span>
+                ✅ Connected to Victory Nissan - Ready to book your service!
             </div>
             
             <section class="savings-calculator">
@@ -372,7 +385,7 @@
                         <div class="slider-value" id="parkingCost">$75</div>
                         <div class="slider-description" id="parkingDays">3 days of airport parking</div>
                     </div>
-                    <input type="range" id="parkingSlider" min="1" max="14" value="3" class="custom-slider">
+                    <input type="range" id="parkingSlider" min="1" max="14" value="3">
                 </div>
                 
                 <div class="slider-section">
@@ -381,15 +394,13 @@
                         <div class="slider-value" id="repairCost">$180</div>
                         <div class="slider-description" id="repairService">Brake pad replacement</div>
                     </div>
-                    <input type="range" id="repairSlider" min="0" max="100" value="30" class="custom-slider">
+                    <input type="range" id="repairSlider" min="0" max="11" value="6">
                 </div>
             </section>
             
             <form id="bookingForm">
                 <section class="form-section">
-                    <h2 class="section-title">
-                        <span>👤</span> Contact Information
-                    </h2>
+                    <h2 class="section-title">👤 Contact Information</h2>
                     
                     <div class="form-group">
                         <label class="form-label">Full Name *</label>
@@ -409,9 +420,7 @@
                 </section>
                 
                 <section class="form-section">
-                    <h2 class="section-title">
-                        <span>✈️</span> Flight Information
-                    </h2>
+                    <h2 class="section-title">✈️ Flight Information</h2>
                     
                     <div class="form-row">
                         <div class="form-group">
@@ -419,21 +428,19 @@
                             <input type="date" name="departureDate" class="form-input" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Flight Departure Time *</label>
-                            <input type="time" name="departureTime" class="form-input" value="16:15" required>
+                            <label class="form-label">Departure Time *</label>
+                            <input type="time" name="departureTime" class="form-input" required>
                         </div>
                     </div>
                 </section>
                 
                 <section class="form-section">
-                    <h2 class="section-title">
-                        <span>🚗</span> Vehicle Information
-                    </h2>
+                    <h2 class="section-title">🚗 Vehicle Information</h2>
                     
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Year *</label>
-                            <input type="number" name="year" class="form-input" placeholder="2020" min="1990" max="2025" required>
+                            <input type="number" name="year" class="form-input" placeholder="2020" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Make & Model *</label>
@@ -444,7 +451,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">License Plate *</label>
-                            <input type="text" name="licensePlate" class="form-input" placeholder="TN ABC123" required>
+                            <input type="text" name="licensePlate" class="form-input" placeholder="ABC123" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Color *</label>
@@ -455,11 +462,7 @@
                 
                 <section class="ai-chat-section">
                     <div class="ai-header">
-                        <div class="ai-avatar">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-                            </svg>
-                        </div>
+                        <div class="ai-avatar">AI</div>
                         <div class="ai-info">
                             <div class="ai-name">Claude AI - Your Car Expert</div>
                             <div class="ai-subtitle">Tell me what's happening with your car for personalized service recommendations</div>
@@ -478,13 +481,15 @@
                                 • "Steering is pulling to the left"<br>
                                 • "Brakes make a noise when I press them"<br>
                                 • "My right power mirror doesn't work"<br>
-                                • "Check engine light is on"
+                                • "Check engine light is on"<br>
+                                • "Need an oil change"<br>
+                                • "AC isn't cold"
                             </div>
                         </div>
                     </div>
                     
                     <div class="chat-input-container">
-                        <textarea class="chat-input" id="claudeInput" placeholder="Describe what's happening with your car..." rows="2"></textarea>
+                        <textarea class="chat-input" id="chatInput" placeholder="Describe what's happening with your car..." rows="2"></textarea>
                         <button type="button" class="chat-send-btn" id="chatSendBtn">Send</button>
                     </div>
                     
@@ -507,16 +512,15 @@
                 </button>
                 
                 <div id="successMessage" class="success-message">
-                    <strong>🎉 Booking Confirmed!</strong><br>
-                    Thank you! Your service appointment has been booked. You'll receive a confirmation email shortly with pickup details.
+                    🎉 Booking Confirmed! Check your email for details.
                 </div>
             </form>
         </main>
     </div>
 
     <script>
-        // Repair options for calculator
-        var repairs = [
+        // Repair services array
+        const repairs = [
             {cost: 15, desc: 'Car air freshener'},
             {cost: 25, desc: 'Replace windshield wipers'},
             {cost: 45, desc: 'Standard oil change'},
@@ -530,512 +534,141 @@
             {cost: 1200, desc: 'Transmission repair'},
             {cost: 3500, desc: 'Engine rebuild'}
         ];
-
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Page loaded, initializing sliders...');
+        
+        // Wait for DOM to load
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded - initializing...');
             
-            var parkingSlider = document.getElementById('parkingSlider');
-            var repairSlider = document.getElementById('repairSlider');
+            // Initialize parking slider
+            const parkingSlider = document.getElementById('parkingSlider');
+            const parkingCost = document.getElementById('parkingCost');
+            const parkingDays = document.getElementById('parkingDays');
             
-            if (!parkingSlider || !repairSlider) {
-                console.error('Sliders not found!');
-                return;
+            function updateParking() {
+                const days = parkingSlider.value;
+                const cost = days * 25;
+                parkingCost.textContent = '$' + cost;
+                parkingDays.textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
             }
             
-            // Parking cost calculator
-            parkingSlider.addEventListener('input', function() {
-                console.log('Parking slider moved to:', this.value);
-                var days = parseInt(this.value);
-                var cost = days * 25; // $25 per day airport parking
-                document.getElementById('parkingCost').textContent = '
+            parkingSlider.addEventListener('input', updateParking);
+            updateParking(); // Initialize
             
-            // Set minimum date to today
-            var today = new Date().toISOString().split('T')[0];
+            // Initialize repair slider
+            const repairSlider = document.getElementById('repairSlider');
+            const repairCost = document.getElementById('repairCost');
+            const repairService = document.getElementById('repairService');
+            
+            function updateRepair() {
+                const index = parseInt(repairSlider.value);
+                const repair = repairs[index];
+                repairCost.textContent = '$' + repair.cost;
+                repairService.textContent = repair.desc;
+            }
+            
+            repairSlider.addEventListener('input', updateRepair);
+            updateRepair(); // Initialize
+            
+            // Set minimum date
+            const today = new Date().toISOString().split('T')[0];
             document.querySelector('input[name="departureDate"]').setAttribute('min', today);
             
-            // Claude AI chat functionality
-            document.getElementById('chatSendBtn').addEventListener('click', handleChatSend);
-            document.getElementById('claudeInput').addEventListener('keypress', function(e) {
+            // Form submission
+            document.getElementById('bookingForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                document.getElementById('successMessage').style.display = 'block';
+                this.style.display = 'none';
+            });
+            
+            // Claude AI Chat
+            let selectedService = null;
+            
+            document.getElementById('chatSendBtn').addEventListener('click', sendMessage);
+            document.getElementById('chatInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
-                    handleChatSend();
+                    sendMessage();
                 }
             });
             
-            // Form submission
-            document.getElementById('bookingForm').addEventListener('submit', handleFormSubmit);
-        });
-        
-        // Handle chat message sending
-        function handleChatSend() {
-            var input = document.getElementById('claudeInput');
-            var message = input.value.trim();
-            if (!message) return;
-            
-            // Add user message to chat
-            addMessage(message, 'user');
-            input.value = '';
-            
-            // Simulate Claude thinking
-            var sendBtn = document.getElementById('chatSendBtn');
-            sendBtn.disabled = true;
-            sendBtn.textContent = 'Thinking...';
-            
-            // Generate Claude response after delay
-            setTimeout(function() {
-                var response = getClaudeResponse(message);
-                addMessage(response.message, 'claude');
+            function sendMessage() {
+                const input = document.getElementById('chatInput');
+                const message = input.value.trim();
+                if (!message) return;
                 
-                // Show service recommendation if applicable
-                if (response.recommendation) {
-                    showServiceRecommendation(response.recommendation);
-                }
+                // Add user message
+                addMessage(message, 'user');
+                input.value = '';
                 
-                sendBtn.disabled = false;
-                sendBtn.textContent = 'Send';
-            }, 1500);
-        }
-        
-        // Add message to chat
-        function addMessage(message, sender) {
-            var chat = document.getElementById('chatMessages');
-            var messageDiv = document.createElement('div');
-            messageDiv.className = 'message ' + sender + '-message';
-            messageDiv.innerHTML = '<div class="message-content">' + message + '</div>';
-            chat.appendChild(messageDiv);
-            chat.scrollTop = chat.scrollHeight;
-        }
-        
-        // Generate Claude response based on user input
-        function getClaudeResponse(message) {
-            var lower = message.toLowerCase();
-            
-            if (lower.includes('brake') || lower.includes('noise') || lower.includes('squeal') || lower.includes('grind')) {
-                return {
-                    message: 'Brake noises like squealing, grinding, or squeaking often indicate worn brake pads or other brake system issues. This is a safety concern that should be addressed promptly before your trip.',
-                    recommendation: {
-                        service: 'Brake Inspection & Pad Replacement',
-                        description: 'Based on your description, I recommend a comprehensive brake inspection. If the pads are worn, we can replace them while you\'re traveling. This ensures your safety and gives you peace of mind.',
-                        cost: 180
+                // Disable send button
+                const sendBtn = document.getElementById('chatSendBtn');
+                sendBtn.disabled = true;
+                sendBtn.textContent = 'Thinking...';
+                
+                // Generate response
+                setTimeout(function() {
+                    const response = getClaudeResponse(message);
+                    addMessage(response.message, 'claude');
+                    
+                    if (response.recommendation) {
+                        selectedService = response.recommendation;
+                        showServiceRecommendation(response.recommendation);
                     }
-                };
-            } else if (lower.includes('steering') || lower.includes('pull') || lower.includes('vibrat')) {
-                return {
-                    message: 'If your car pulls to one side while driving or the steering wheel vibrates, this usually indicates an alignment issue or uneven tire wear. This can affect your safety and tire longevity.',
-                    recommendation: {
-                        service: 'Wheel Alignment & Tire Inspection',
-                        description: 'We\'ll check your alignment and inspect your tires for uneven wear patterns. If needed, we can perform an alignment to ensure straight, safe driving.',
-                        cost: 95
-                    }
-                };
-            } else if (lower.includes('mirror') || lower.includes('power mirror') || lower.includes('side mirror')) {
-                return {
-                    message: 'Power mirror issues are often caused by faulty motors, wiring problems, or switch malfunctions. While not a safety issue, it affects visibility and convenience.',
-                    recommendation: {
-                        service: 'Power Mirror Diagnosis & Repair',
-                        description: 'We\'ll diagnose the mirror issue and repair or replace the faulty components to restore full functionality.',
-                        cost: 125
-                    }
-                };
-            } else if (lower.includes('oil') || lower.includes('change') || lower.includes('maintenance')) {
-                return {
-                    message: 'Regular oil changes are crucial for engine health. If it\'s been 6+ months or 5,000+ miles since your last oil change, it\'s definitely time for fresh oil.',
-                    recommendation: {
-                        service: 'Full Service Oil Change',
-                        description: 'We\'ll perform a complete oil change with high-quality oil and a new filter. Perfect timing while you\'re away on your trip!',
-                        cost: 45
-                    }
-                };
-            } else if (lower.includes('check engine') || lower.includes('light') || lower.includes('warning')) {
-                return {
-                    message: 'A check engine light should be diagnosed promptly. It could be something simple like a loose gas cap, or something more serious that needs attention.',
-                    recommendation: {
-                        service: 'Diagnostic Scan & Inspection',
-                        description: 'We\'ll run a comprehensive diagnostic scan to identify the exact issue triggering your check engine light.',
-                        cost: 125
-                    }
-                };
-            } else if (lower.includes('ac') || lower.includes('air') || lower.includes('cool') || lower.includes('heat')) {
-                return {
-                    message: 'AC problems are common, especially before summer travel. It could be low refrigerant, a bad compressor, or other issues that need attention.',
-                    recommendation: {
-                        service: 'AC System Diagnosis & Repair',
-                        description: 'We\'ll test your AC system, check refrigerant levels, and identify any components that need repair or replacement.',
-                        cost: 450
-                    }
-                };
-            } else {
-                return {
-                    message: 'Thanks for the information! Based on what you\'ve described, I recommend having one of our certified technicians take a look for a proper diagnosis.',
-                    recommendation: {
-                        service: 'General Vehicle Inspection',
-                        description: 'Our technicians will perform a comprehensive inspection of your vehicle to identify any issues and provide recommendations.',
-                        cost: 75
-                    }
-                };
+                    
+                    sendBtn.disabled = false;
+                    sendBtn.textContent = 'Send';
+                }, 1500);
             }
-        }
-        
-        // Show service recommendation box
-        function showServiceRecommendation(recommendation) {
-            document.getElementById('recommendationContent').innerHTML = 
-                '<strong>' + recommendation.service + '</strong><br><br>' + recommendation.description;
-            document.getElementById('costAmount').textContent = '$' + recommendation.cost;
-            document.getElementById('serviceRecommendation').style.display = 'block';
-        }
-        
-        // Handle form submission
-        function handleFormSubmit(event) {
-            event.preventDefault();
             
-            // Show success message
-            document.getElementById('successMessage').style.display = 'block';
-            
-            // Hide form
-            event.target.style.display = 'none';
-            
-            // Scroll to success message
-            document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
-            
-            // In a real implementation, you would:
-            // - Send data to your backend
-            // - Save to Supabase database
-            // - Send confirmation emails
-            // - Integrate with shop management system
-        }
-    </script>
-</body>
-</html> + cost;
-                document.getElementById('parkingDays').textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
-            });
-            
-            // Repair service calculator
-            repairSlider.addEventListener('input', function() {
-                console.log('Repair slider moved to:', this.value);
-                var value = parseInt(this.value);
-                var index = Math.floor((value / 100) * (repairs.length - 1));
-                var repair = repairs[index];
-                document.getElementById('repairCost').textContent = '
-            
-            // Set minimum date to today
-            var today = new Date().toISOString().split('T')[0];
-            document.querySelector('input[name="departureDate"]').setAttribute('min', today);
-            
-            // Claude AI chat functionality
-            document.getElementById('chatSendBtn').addEventListener('click', handleChatSend);
-            document.getElementById('claudeInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleChatSend();
-                }
-            });
-            
-            // Form submission
-            document.getElementById('bookingForm').addEventListener('submit', handleFormSubmit);
-        });
-        
-        // Handle chat message sending
-        function handleChatSend() {
-            var input = document.getElementById('claudeInput');
-            var message = input.value.trim();
-            if (!message) return;
-            
-            // Add user message to chat
-            addMessage(message, 'user');
-            input.value = '';
-            
-            // Simulate Claude thinking
-            var sendBtn = document.getElementById('chatSendBtn');
-            sendBtn.disabled = true;
-            sendBtn.textContent = 'Thinking...';
-            
-            // Generate Claude response after delay
-            setTimeout(function() {
-                var response = getClaudeResponse(message);
-                addMessage(response.message, 'claude');
-                
-                // Show service recommendation if applicable
-                if (response.recommendation) {
-                    showServiceRecommendation(response.recommendation);
-                }
-                
-                sendBtn.disabled = false;
-                sendBtn.textContent = 'Send';
-            }, 1500);
-        }
-        
-        // Add message to chat
-        function addMessage(message, sender) {
-            var chat = document.getElementById('chatMessages');
-            var messageDiv = document.createElement('div');
-            messageDiv.className = 'message ' + sender + '-message';
-            messageDiv.innerHTML = '<div class="message-content">' + message + '</div>';
-            chat.appendChild(messageDiv);
-            chat.scrollTop = chat.scrollHeight;
-        }
-        
-        // Generate Claude response based on user input
-        function getClaudeResponse(message) {
-            var lower = message.toLowerCase();
-            
-            if (lower.includes('brake') || lower.includes('noise') || lower.includes('squeal') || lower.includes('grind')) {
-                return {
-                    message: 'Brake noises like squealing, grinding, or squeaking often indicate worn brake pads or other brake system issues. This is a safety concern that should be addressed promptly before your trip.',
-                    recommendation: {
-                        service: 'Brake Inspection & Pad Replacement',
-                        description: 'Based on your description, I recommend a comprehensive brake inspection. If the pads are worn, we can replace them while you\'re traveling. This ensures your safety and gives you peace of mind.',
-                        cost: 180
-                    }
-                };
-            } else if (lower.includes('steering') || lower.includes('pull') || lower.includes('vibrat')) {
-                return {
-                    message: 'If your car pulls to one side while driving or the steering wheel vibrates, this usually indicates an alignment issue or uneven tire wear. This can affect your safety and tire longevity.',
-                    recommendation: {
-                        service: 'Wheel Alignment & Tire Inspection',
-                        description: 'We\'ll check your alignment and inspect your tires for uneven wear patterns. If needed, we can perform an alignment to ensure straight, safe driving.',
-                        cost: 95
-                    }
-                };
-            } else if (lower.includes('mirror') || lower.includes('power mirror') || lower.includes('side mirror')) {
-                return {
-                    message: 'Power mirror issues are often caused by faulty motors, wiring problems, or switch malfunctions. While not a safety issue, it affects visibility and convenience.',
-                    recommendation: {
-                        service: 'Power Mirror Diagnosis & Repair',
-                        description: 'We\'ll diagnose the mirror issue and repair or replace the faulty components to restore full functionality.',
-                        cost: 125
-                    }
-                };
-            } else if (lower.includes('oil') || lower.includes('change') || lower.includes('maintenance')) {
-                return {
-                    message: 'Regular oil changes are crucial for engine health. If it\'s been 6+ months or 5,000+ miles since your last oil change, it\'s definitely time for fresh oil.',
-                    recommendation: {
-                        service: 'Full Service Oil Change',
-                        description: 'We\'ll perform a complete oil change with high-quality oil and a new filter. Perfect timing while you\'re away on your trip!',
-                        cost: 45
-                    }
-                };
-            } else if (lower.includes('check engine') || lower.includes('light') || lower.includes('warning')) {
-                return {
-                    message: 'A check engine light should be diagnosed promptly. It could be something simple like a loose gas cap, or something more serious that needs attention.',
-                    recommendation: {
-                        service: 'Diagnostic Scan & Inspection',
-                        description: 'We\'ll run a comprehensive diagnostic scan to identify the exact issue triggering your check engine light.',
-                        cost: 125
-                    }
-                };
-            } else if (lower.includes('ac') || lower.includes('air') || lower.includes('cool') || lower.includes('heat')) {
-                return {
-                    message: 'AC problems are common, especially before summer travel. It could be low refrigerant, a bad compressor, or other issues that need attention.',
-                    recommendation: {
-                        service: 'AC System Diagnosis & Repair',
-                        description: 'We\'ll test your AC system, check refrigerant levels, and identify any components that need repair or replacement.',
-                        cost: 450
-                    }
-                };
-            } else {
-                return {
-                    message: 'Thanks for the information! Based on what you\'ve described, I recommend having one of our certified technicians take a look for a proper diagnosis.',
-                    recommendation: {
-                        service: 'General Vehicle Inspection',
-                        description: 'Our technicians will perform a comprehensive inspection of your vehicle to identify any issues and provide recommendations.',
-                        cost: 75
-                    }
-                };
+            function addMessage(message, sender) {
+                const chat = document.getElementById('chatMessages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message ' + (sender === 'user' ? 'user-message' : 'claude-message');
+                messageDiv.innerHTML = '<div class="message-content">' + message + '</div>';
+                chat.appendChild(messageDiv);
+                chat.scrollTop = chat.scrollHeight;
             }
-        }
-        
-        // Show service recommendation box
-        function showServiceRecommendation(recommendation) {
-            document.getElementById('recommendationContent').innerHTML = 
-                '<strong>' + recommendation.service + '</strong><br><br>' + recommendation.description;
-            document.getElementById('costAmount').textContent = '$' + recommendation.cost;
-            document.getElementById('serviceRecommendation').style.display = 'block';
-        }
-        
-        // Handle form submission
-        function handleFormSubmit(event) {
-            event.preventDefault();
             
-            // Show success message
-            document.getElementById('successMessage').style.display = 'block';
-            
-            // Hide form
-            event.target.style.display = 'none';
-            
-            // Scroll to success message
-            document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
-            
-            // In a real implementation, you would:
-            // - Send data to your backend
-            // - Save to Supabase database
-            // - Send confirmation emails
-            // - Integrate with shop management system
-        }
-    </script>
-</body>
-</html> + repair.cost;
-                document.getElementById('repairService').textContent = repair.desc;
-            });
-            
-            // Initialize sliders with default values
-            parkingSlider.dispatchEvent(new Event('input'));
-            repairSlider.dispatchEvent(new Event('input'));
-            
-            // Set minimum date to today
-            var today = new Date().toISOString().split('T')[0];
-            document.querySelector('input[name="departureDate"]').setAttribute('min', today);
-            
-            // Claude AI chat functionality
-            document.getElementById('chatSendBtn').addEventListener('click', handleChatSend);
-            document.getElementById('claudeInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleChatSend();
-                }
-            });
-            
-            // Form submission
-            document.getElementById('bookingForm').addEventListener('submit', handleFormSubmit);
-        });
-        
-        // Handle chat message sending
-        function handleChatSend() {
-            var input = document.getElementById('claudeInput');
-            var message = input.value.trim();
-            if (!message) return;
-            
-            // Add user message to chat
-            addMessage(message, 'user');
-            input.value = '';
-            
-            // Simulate Claude thinking
-            var sendBtn = document.getElementById('chatSendBtn');
-            sendBtn.disabled = true;
-            sendBtn.textContent = 'Thinking...';
-            
-            // Generate Claude response after delay
-            setTimeout(function() {
-                var response = getClaudeResponse(message);
-                addMessage(response.message, 'claude');
+            function getClaudeResponse(message) {
+                const lower = message.toLowerCase();
                 
-                // Show service recommendation if applicable
-                if (response.recommendation) {
-                    showServiceRecommendation(response.recommendation);
+                if (lower.includes('brake') || lower.includes('squeal') || lower.includes('grind')) {
+                    return {
+                        message: '🚨 Brake issues are serious safety concerns. Based on your description, you likely need brake pad replacement or rotor service. This is critical for safe driving.',
+                        recommendation: {
+                            service: 'Complete Brake Inspection & Service',
+                            description: 'Full brake system inspection and repair including pads, rotors, and fluid check.',
+                            cost: 180
+                        }
+                    };
+                } else if (lower.includes('oil') || lower.includes('change')) {
+                    return {
+                        message: '🛢️ Regular oil changes keep your engine healthy! Perfect timing to do this while you travel.',
+                        recommendation: {
+                            service: 'Full Synthetic Oil Change',
+                            description: 'Premium synthetic oil change with filter replacement and multi-point inspection.',
+                            cost: 65
+                        }
+                    };
+                } else {
+                    return {
+                        message: '🔍 I understand your concern. Let me arrange a comprehensive inspection to identify and fix the issue.',
+                        recommendation: {
+                            service: 'Comprehensive Vehicle Inspection',
+                            description: 'Complete diagnostic inspection to identify all issues with detailed report.',
+                            cost: 75
+                        }
+                    };
                 }
-                
-                sendBtn.disabled = false;
-                sendBtn.textContent = 'Send';
-            }, 1500);
-        }
-        
-        // Add message to chat
-        function addMessage(message, sender) {
-            var chat = document.getElementById('chatMessages');
-            var messageDiv = document.createElement('div');
-            messageDiv.className = 'message ' + sender + '-message';
-            messageDiv.innerHTML = '<div class="message-content">' + message + '</div>';
-            chat.appendChild(messageDiv);
-            chat.scrollTop = chat.scrollHeight;
-        }
-        
-        // Generate Claude response based on user input
-        function getClaudeResponse(message) {
-            var lower = message.toLowerCase();
-            
-            if (lower.includes('brake') || lower.includes('noise') || lower.includes('squeal') || lower.includes('grind')) {
-                return {
-                    message: 'Brake noises like squealing, grinding, or squeaking often indicate worn brake pads or other brake system issues. This is a safety concern that should be addressed promptly before your trip.',
-                    recommendation: {
-                        service: 'Brake Inspection & Pad Replacement',
-                        description: 'Based on your description, I recommend a comprehensive brake inspection. If the pads are worn, we can replace them while you\'re traveling. This ensures your safety and gives you peace of mind.',
-                        cost: 180
-                    }
-                };
-            } else if (lower.includes('steering') || lower.includes('pull') || lower.includes('vibrat')) {
-                return {
-                    message: 'If your car pulls to one side while driving or the steering wheel vibrates, this usually indicates an alignment issue or uneven tire wear. This can affect your safety and tire longevity.',
-                    recommendation: {
-                        service: 'Wheel Alignment & Tire Inspection',
-                        description: 'We\'ll check your alignment and inspect your tires for uneven wear patterns. If needed, we can perform an alignment to ensure straight, safe driving.',
-                        cost: 95
-                    }
-                };
-            } else if (lower.includes('mirror') || lower.includes('power mirror') || lower.includes('side mirror')) {
-                return {
-                    message: 'Power mirror issues are often caused by faulty motors, wiring problems, or switch malfunctions. While not a safety issue, it affects visibility and convenience.',
-                    recommendation: {
-                        service: 'Power Mirror Diagnosis & Repair',
-                        description: 'We\'ll diagnose the mirror issue and repair or replace the faulty components to restore full functionality.',
-                        cost: 125
-                    }
-                };
-            } else if (lower.includes('oil') || lower.includes('change') || lower.includes('maintenance')) {
-                return {
-                    message: 'Regular oil changes are crucial for engine health. If it\'s been 6+ months or 5,000+ miles since your last oil change, it\'s definitely time for fresh oil.',
-                    recommendation: {
-                        service: 'Full Service Oil Change',
-                        description: 'We\'ll perform a complete oil change with high-quality oil and a new filter. Perfect timing while you\'re away on your trip!',
-                        cost: 45
-                    }
-                };
-            } else if (lower.includes('check engine') || lower.includes('light') || lower.includes('warning')) {
-                return {
-                    message: 'A check engine light should be diagnosed promptly. It could be something simple like a loose gas cap, or something more serious that needs attention.',
-                    recommendation: {
-                        service: 'Diagnostic Scan & Inspection',
-                        description: 'We\'ll run a comprehensive diagnostic scan to identify the exact issue triggering your check engine light.',
-                        cost: 125
-                    }
-                };
-            } else if (lower.includes('ac') || lower.includes('air') || lower.includes('cool') || lower.includes('heat')) {
-                return {
-                    message: 'AC problems are common, especially before summer travel. It could be low refrigerant, a bad compressor, or other issues that need attention.',
-                    recommendation: {
-                        service: 'AC System Diagnosis & Repair',
-                        description: 'We\'ll test your AC system, check refrigerant levels, and identify any components that need repair or replacement.',
-                        cost: 450
-                    }
-                };
-            } else {
-                return {
-                    message: 'Thanks for the information! Based on what you\'ve described, I recommend having one of our certified technicians take a look for a proper diagnosis.',
-                    recommendation: {
-                        service: 'General Vehicle Inspection',
-                        description: 'Our technicians will perform a comprehensive inspection of your vehicle to identify any issues and provide recommendations.',
-                        cost: 75
-                    }
-                };
             }
-        }
-        
-        // Show service recommendation box
-        function showServiceRecommendation(recommendation) {
-            document.getElementById('recommendationContent').innerHTML = 
-                '<strong>' + recommendation.service + '</strong><br><br>' + recommendation.description;
-            document.getElementById('costAmount').textContent = '$' + recommendation.cost;
-            document.getElementById('serviceRecommendation').style.display = 'block';
-        }
-        
-        // Handle form submission
-        function handleFormSubmit(event) {
-            event.preventDefault();
             
-            // Show success message
-            document.getElementById('successMessage').style.display = 'block';
-            
-            // Hide form
-            event.target.style.display = 'none';
-            
-            // Scroll to success message
-            document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
-            
-            // In a real implementation, you would:
-            // - Send data to your backend
-            // - Save to Supabase database
-            // - Send confirmation emails
-            // - Integrate with shop management system
-        }
+            function showServiceRecommendation(recommendation) {
+                document.getElementById('recommendationContent').innerHTML = 
+                    '<strong>' + recommendation.service + '</strong><br><br>' + recommendation.description;
+                document.getElementById('costAmount').textContent = '$' + recommendation.cost;
+                document.getElementById('serviceRecommendation').style.display = 'block';
+            }
+        });
     </script>
 </body>
 </html>
