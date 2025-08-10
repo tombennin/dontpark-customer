@@ -472,9 +472,7 @@
                             <span style="color: #0ea5e9; font-weight: 700;">Anthropic</span>
                         </div>
                     </div>
-                    // SUPABASE CONFIGURATION - ADD YOUR KEYS HERE!
-const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co'; 
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw';
+                    
                     <div class="chat-messages" id="chatMessages">
                         <div class="message claude-message">
                             <div class="message-content">
@@ -521,6 +519,13 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
     </div>
 
     <script>
+        // ============================================
+        // SUPABASE CONFIGURATION - ADD YOUR KEYS HERE!
+        // ============================================
+        // REPLACE THESE WITH YOUR ACTUAL SUPABASE CREDENTIALS:
+        const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co'; // Example: https://abcdef123456.supabase.co
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw'; // Example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        
         // Repair services array
         const repairs = [
             {cost: 15, desc: 'Car air freshener'},
