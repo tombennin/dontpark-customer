@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DontPark.com - Skip Expensive Parking, Fix Your Car Instead</title>
+    
     <!-- Supabase Client Library -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -433,6 +435,17 @@
                             <input type="time" name="departureTime" class="form-input" required>
                         </div>
                     </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Return to Nashville Date *</label>
+                            <input type="date" name="returnDate" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Return to Nashville Time *</label>
+                            <input type="time" name="returnTime" class="form-input" required>
+                        </div>
+                    </div>
                 </section>
                 
                 <section class="form-section">
@@ -523,11 +536,552 @@
         // ============================================
         // SUPABASE CONFIGURATION - ADD YOUR KEYS HERE!
         // ============================================
-        // REPLACE THESE WITH YOUR ACTUAL SUPABASE CREDENTIALS:
-        const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co'; // Example: https://abcdef123456.supabase.co
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw'; // Example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        const SUPABASE_URL = '<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DontPark.com - Skip Expensive Parking, Fix Your Car Instead</title>
+    
+    <!-- Supabase Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        // Repair services array
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .logo { font-size: 2.5rem; font-weight: 800; }
+        
+        .slogan {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fbbf24;
+            margin-top: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
+        }
+        
+        .claude-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .tagline { font-size: 1.1rem; opacity: 0.95; }
+        
+        .content { padding: 40px 30px; }
+        
+        .status-banner {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .savings-calculator {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        .calculator-header { text-align: center; margin-bottom: 30px; }
+        .calculator-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 8px; }
+        .calculator-subtitle { color: #cbd5e1; font-size: 1rem; }
+        
+        .slider-section { margin-bottom: 30px; }
+        .slider-label { font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; text-align: center; }
+        
+        .slider-display {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+        }
+        
+        .slider-value { font-size: 2.5rem; font-weight: 700; color: #fbbf24; margin-bottom: 8px; }
+        .slider-description { color: #cbd5e1; font-size: 1rem; }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #ef4444 100%);
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border: none;
+        }
+        
+        .form-section { margin-bottom: 30px; }
+        .section-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 20px; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 600; }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .primary-button {
+            width: 100%;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            padding: 18px 24px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        }
+        
+        .ai-chat-section {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 2px solid #0ea5e9;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .ai-avatar {
+            width: 50px;
+            height: 50px;
+            background: #0ea5e9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+        
+        .ai-info { flex: 1; }
+        .ai-name { font-weight: 700; color: #0c4a6e; margin-bottom: 4px; font-size: 1.1rem; }
+        .ai-subtitle { font-size: 0.9rem; color: #64748b; }
+        
+        .ai-branding {
+            text-align: right;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        
+        .chat-messages {
+            max-height: 350px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .claude-message {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid #0ea5e9;
+        }
+        
+        .user-message {
+            background: #f0f9ff;
+            border-radius: 15px;
+            padding: 15px;
+            border-left: 4px solid #4f46e5;
+            margin-left: 25px;
+        }
+        
+        .message-content {
+            color: #1e293b;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 14px 16px;
+            border: 2px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            resize: none;
+            min-height: 50px;
+            font-family: inherit;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+        
+        .chat-send-btn {
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            min-width: 80px;
+            transition: all 0.2s ease;
+        }
+        
+        .chat-send-btn:hover { 
+            background: #0284c7; 
+            transform: translateY(-1px);
+        }
+        .chat-send-btn:disabled { background: #9ca3af; cursor: not-allowed; }
+        
+        .service-recommendation {
+            background: #f0f9ff;
+            border: 2px solid #4f46e5;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .recommendation-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: #1e40af;
+            font-size: 1.1rem;
+        }
+        
+        .recommendation-content {
+            color: #1e293b;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        .estimated-cost {
+            background: #dcfce7;
+            border: 2px solid #16a34a;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cost-label {
+            color: #15803d;
+            font-weight: 600;
+        }
+        
+        .cost-amount {
+            color: #15803d;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .success-message {
+            background: #dcfce7;
+            border: 2px solid #16a34a;
+            color: #15803d;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-top { flex-direction: column; gap: 15px; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <div>
+                    <div class="logo">dontpark.com</div>
+                    <div class="slogan">Take CareYa Car</div>
+                </div>
+                <div class="claude-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="color: white;">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                    </svg>
+                    <span style="color: white; font-weight: 600;">Powered by Claude AI</span>
+                </div>
+            </div>
+            <div class="tagline">Skip Expensive Parking - Fix Your Car Instead</div>
+        </header>
+        
+        <main class="content">
+            <div class="status-banner">
+                ✅ Connected to Victory Nissan - Ready to book your service!
+            </div>
+            
+            <section class="savings-calculator">
+                <div class="calculator-header">
+                    <div class="calculator-title">See How Much You Could Save</div>
+                    <div class="calculator-subtitle">Adjust the sliders to see real parking costs vs. car maintenance</div>
+                </div>
+                
+                <div class="slider-section">
+                    <div class="slider-label">🅿️ How many days will you park at the airport?</div>
+                    <div class="slider-display">
+                        <div class="slider-value" id="parkingCost">$75</div>
+                        <div class="slider-description" id="parkingDays">3 days of airport parking</div>
+                    </div>
+                    <input type="range" id="parkingSlider" min="1" max="14" value="3">
+                </div>
+                
+                <div class="slider-section">
+                    <div class="slider-label">🔧 What could you fix for that money?</div>
+                    <div class="slider-display">
+                        <div class="slider-value" id="repairCost">$180</div>
+                        <div class="slider-description" id="repairService">Brake pad replacement</div>
+                    </div>
+                    <input type="range" id="repairSlider" min="0" max="11" value="6">
+                </div>
+            </section>
+            
+            <form id="bookingForm">
+                <section class="form-section">
+                    <h2 class="section-title">👤 Contact Information</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Full Name *</label>
+                        <input type="text" name="fullName" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" name="phone" class="form-input" placeholder="(615) 555-0123" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address *</label>
+                            <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="form-section">
+                    <h2 class="section-title">✈️ Flight Information</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Departure Date *</label>
+                            <input type="date" name="departureDate" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Departure Time *</label>
+                            <input type="time" name="departureTime" class="form-input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Return to Nashville Date *</label>
+                            <input type="date" name="returnDate" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Return to Nashville Time *</label>
+                            <input type="time" name="returnTime" class="form-input" required>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="form-section">
+                    <h2 class="section-title">🚗 Vehicle Information</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Year *</label>
+                            <input type="number" name="year" class="form-input" placeholder="2020" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Make & Model *</label>
+                            <input type="text" name="makeModel" class="form-input" placeholder="Honda Accord" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">License Plate *</label>
+                            <input type="text" name="licensePlate" class="form-input" placeholder="ABC123" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Color *</label>
+                            <input type="text" name="color" class="form-input" placeholder="Silver" required>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="ai-chat-section">
+                    <div class="ai-header">
+                        <div class="ai-avatar">AI</div>
+                        <div class="ai-info">
+                            <div class="ai-name">Claude AI - Your Car Expert</div>
+                            <div class="ai-subtitle">Tell me what's happening with your car for personalized service recommendations</div>
+                        </div>
+                        <div class="ai-branding">
+                            <strong>Powered by</strong><br>
+                            <span style="color: #0ea5e9; font-weight: 700;">Anthropic</span>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message claude-message">
+                            <div class="message-content">
+                                Hi! I'm Claude, your automotive expert. What's happening with your car? You can describe symptoms like:
+                                <br><br>
+                                • "Steering is pulling to the left"<br>
+                                • "Brakes make a noise when I press them"<br>
+                                • "My right power mirror doesn't work"<br>
+                                • "Check engine light is on"<br>
+                                • "Need an oil change"<br>
+                                • "AC isn't cold"
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <textarea class="chat-input" id="chatInput" placeholder="Describe what's happening with your car..." rows="2"></textarea>
+                        <button type="button" class="chat-send-btn" id="chatSendBtn">Send</button>
+                    </div>
+                    
+                    <div id="serviceRecommendation" class="service-recommendation">
+                        <div class="recommendation-header">
+                            <span>🔧</span>
+                            <strong>Claude AI's Recommendation</strong>
+                            <span style="margin-left: auto; font-size: 0.8rem; color: #64748b;">Powered by Anthropic</span>
+                        </div>
+                        <div id="recommendationContent" class="recommendation-content"></div>
+                        <div class="estimated-cost">
+                            <span class="cost-label">Estimated Cost:</span>
+                            <span id="costAmount" class="cost-amount">$0</span>
+                        </div>
+                    </div>
+                </section>
+                
+                <button type="submit" class="primary-button">
+                    📅 Book Service Appointment
+                </button>
+                
+                <div id="successMessage" class="success-message">
+                    🎉 Booking Confirmed! Check your email for details.
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        // ============================================
+        // SUPABASE CONFIGURATION - ADD YOUR KEYS HERE!
+        // ============================================
+        const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co'; // Replace with: https://uhrhukcovvvbmopvoncr.supabase.co
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw'; // Replace with your key
+        
+        // Global variables
+        let supabase = null;
+        let isConnected = false;
+        
+        // Repair services
         const repairs = [
             {cost: 15, desc: 'Car air freshener'},
             {cost: 25, desc: 'Replace windshield wipers'},
@@ -543,140 +1097,547 @@
             {cost: 3500, desc: 'Engine rebuild'}
         ];
         
-        // Wait for DOM to load
-        window.addEventListener('DOMContentLoaded', function() {
-            console.log('Page loaded - initializing...');
+        // Selected service from Claude
+        let selectedService = null;
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DontPark.com starting...');
             
-            // Initialize parking slider
+            // Initialize Supabase if credentials are provided
+            if (SUPABASE_URL !== 'YOUR_SUPABASE_URL_HERE') {
+                connectToSupabase();
+            } else {
+                console.log('⚠️ Supabase not configured - running in demo mode');
+            }
+            
+            // SLIDERS FIRST
             const parkingSlider = document.getElementById('parkingSlider');
-            const parkingCost = document.getElementById('parkingCost');
-            const parkingDays = document.getElementById('parkingDays');
-            
-            function updateParking() {
-                const days = parkingSlider.value;
-                const cost = days * 25;
-                parkingCost.textContent = '$' + cost;
-                parkingDays.textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
-            }
-            
-            parkingSlider.addEventListener('input', updateParking);
-            updateParking(); // Initialize
-            
-            // Initialize repair slider
             const repairSlider = document.getElementById('repairSlider');
-            const repairCost = document.getElementById('repairCost');
-            const repairService = document.getElementById('repairService');
             
-            function updateRepair() {
-                const index = parseInt(repairSlider.value);
+            parkingSlider.oninput = function() {
+                const days = this.value;
+                const cost = days * 25;
+                document.getElementById('parkingCost').textContent = '
+</body>
+</html> + cost;
+                document.getElementById('parkingDays').textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
+            };
+            
+            repairSlider.oninput = function() {
+                const index = parseInt(this.value);
                 const repair = repairs[index];
-                repairCost.textContent = '$' + repair.cost;
-                repairService.textContent = repair.desc;
-            }
+                document.getElementById('repairCost').textContent = '
+</body>
+</html> + repair.cost;
+                document.getElementById('repairService').textContent = repair.desc;
+            };
             
-            repairSlider.addEventListener('input', updateRepair);
-            updateRepair(); // Initialize
+            // Initialize slider values
+            parkingSlider.oninput();
+            repairSlider.oninput();
             
-            // Set minimum date
+            // Set minimum dates
             const today = new Date().toISOString().split('T')[0];
-            document.querySelector('input[name="departureDate"]').setAttribute('min', today);
+            document.querySelector('input[name="departureDate"]').min = today;
+            document.querySelector('input[name="returnDate"]').min = today;
             
-            // Form submission
-            document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            // Form submission WITH SUPABASE
+            document.getElementById('bookingForm').onsubmit = async function(e) {
                 e.preventDefault();
+                
+                // Collect form data
+                const formData = new FormData(this);
+                
+                // Create booking object
+                const booking = {
+                    customer_name: formData.get('fullName'),
+                    customer_email: formData.get('email'),
+                    customer_phone: formData.get('phone'),
+                    departure_date: formData.get('departureDate'),
+                    departure_time: formData.get('departureTime'),
+                    return_date: formData.get('returnDate'),
+                    return_time: formData.get('returnTime'),
+                    vehicle_year: parseInt(formData.get('year')),
+                    vehicle_make_model: formData.get('makeModel'),
+                    vehicle_license: formData.get('licensePlate'),
+                    vehicle_color: formData.get('color'),
+                    service_requested: selectedService ? selectedService.service : 'General Inspection',
+                    service_notes: document.getElementById('chatInput').value || null,
+                    estimated_cost: selectedService ? selectedService.cost : 75,
+                    shop_id: 1, // Victory Nissan
+                    status: 'pending',
+                    booking_reference: 'DP-' + Date.now().toString(36).toUpperCase(),
+                    created_at: new Date().toISOString()
+                };
+                
+                // If Supabase is connected, save to database
+                if (isConnected && supabase) {
+                    try {
+                        console.log('📤 Saving booking to Supabase...');
+                        
+                        const { data, error } = await supabase
+                            .from('bookings')
+                            .insert([booking])
+                            .select();
+                        
+                        if (error) throw error;
+                        
+                        console.log('✅ Booking saved successfully!', data);
+                        
+                        // Show success with reference number
+                        document.getElementById('successMessage').innerHTML = 
+                            `🎉 Booking Confirmed!<br>
+                            <strong>Reference: ${booking.booking_reference}</strong><br>
+                            Victory Nissan will contact you shortly with pickup details.`;
+                    } catch (error) {
+                        console.error('❌ Error saving booking:', error);
+                        // Still show success but note the error
+                        document.getElementById('successMessage').innerHTML = 
+                            `⚠️ Booking received but database offline.<br>
+                            Please call Victory Nissan at (615) 555-0123 to confirm.`;
+                    }
+                } else {
+                    // Demo mode - no database
+                    console.log('📝 Demo booking (not saved):', booking);
+                    document.getElementById('successMessage').innerHTML = 
+                        `🎉 Demo Booking Complete!<br>
+                        Reference: ${booking.booking_reference}<br>
+                        (Configure Supabase to save real bookings)`;
+                }
+                
+                // Show success message and hide form
                 document.getElementById('successMessage').style.display = 'block';
                 this.style.display = 'none';
-            });
+                
+                // Scroll to success message
+                document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+            };
             
             // Claude AI Chat
-            let selectedService = null;
-            
-            document.getElementById('chatSendBtn').addEventListener('click', sendMessage);
-            document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            document.getElementById('chatSendBtn').onclick = sendMessage;
+            document.getElementById('chatInput').onkeypress = function(e) {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
                     sendMessage();
                 }
-            });
-            
-            function sendMessage() {
-                const input = document.getElementById('chatInput');
-                const message = input.value.trim();
-                if (!message) return;
-                
-                // Add user message
-                addMessage(message, 'user');
-                input.value = '';
-                
-                // Disable send button
-                const sendBtn = document.getElementById('chatSendBtn');
-                sendBtn.disabled = true;
-                sendBtn.textContent = 'Thinking...';
-                
-                // Generate response
-                setTimeout(function() {
-                    const response = getClaudeResponse(message);
-                    addMessage(response.message, 'claude');
-                    
-                    if (response.recommendation) {
-                        selectedService = response.recommendation;
-                        showServiceRecommendation(response.recommendation);
-                    }
-                    
-                    sendBtn.disabled = false;
-                    sendBtn.textContent = 'Send';
-                }, 1500);
-            }
-            
-            function addMessage(message, sender) {
-                const chat = document.getElementById('chatMessages');
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'message ' + (sender === 'user' ? 'user-message' : 'claude-message');
-                messageDiv.innerHTML = '<div class="message-content">' + message + '</div>';
-                chat.appendChild(messageDiv);
-                chat.scrollTop = chat.scrollHeight;
-            }
-            
-            function getClaudeResponse(message) {
-                const lower = message.toLowerCase();
-                
-                if (lower.includes('brake') || lower.includes('squeal') || lower.includes('grind')) {
-                    return {
-                        message: '🚨 Brake issues are serious safety concerns. Based on your description, you likely need brake pad replacement or rotor service. This is critical for safe driving.',
-                        recommendation: {
-                            service: 'Complete Brake Inspection & Service',
-                            description: 'Full brake system inspection and repair including pads, rotors, and fluid check.',
-                            cost: 180
-                        }
-                    };
-                } else if (lower.includes('oil') || lower.includes('change')) {
-                    return {
-                        message: '🛢️ Regular oil changes keep your engine healthy! Perfect timing to do this while you travel.',
-                        recommendation: {
-                            service: 'Full Synthetic Oil Change',
-                            description: 'Premium synthetic oil change with filter replacement and multi-point inspection.',
-                            cost: 65
-                        }
-                    };
-                } else {
-                    return {
-                        message: '🔍 I understand your concern. Let me arrange a comprehensive inspection to identify and fix the issue.',
-                        recommendation: {
-                            service: 'Comprehensive Vehicle Inspection',
-                            description: 'Complete diagnostic inspection to identify all issues with detailed report.',
-                            cost: 75
-                        }
-                    };
-                }
-            }
-            
-            function showServiceRecommendation(recommendation) {
-                document.getElementById('recommendationContent').innerHTML = 
-                    '<strong>' + recommendation.service + '</strong><br><br>' + recommendation.description;
-                document.getElementById('costAmount').textContent = '$' + recommendation.cost;
-                document.getElementById('serviceRecommendation').style.display = 'block';
-            }
+            };
         });
+        
+        // Connect to Supabase
+        async function connectToSupabase() {
+            try {
+                console.log('🔄 Connecting to Supabase...');
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                
+                // Test the connection
+                const { data, error } = await supabase
+                    .from('bookings')
+                    .select('count')
+                    .limit(1);
+                
+                if (error) throw error;
+                
+                isConnected = true;
+                console.log('✅ Supabase connected successfully!');
+                
+                // Update status banner
+                document.querySelector('.status-banner').innerHTML = 
+                    '✅ Connected to Victory Nissan - Ready to book your service!';
+                    
+            } catch (error) {
+                console.error('❌ Supabase connection error:', error);
+                isConnected = false;
+                
+                // Update status banner
+                document.querySelector('.status-banner').innerHTML = 
+                    '⚠️ Booking system offline - Please call (615) 555-0123';
+            }
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            addMessage(message, 'user');
+            input.value = '';
+            
+            const btn = document.getElementById('chatSendBtn');
+            btn.disabled = true;
+            btn.textContent = 'Thinking...';
+            
+            setTimeout(() => {
+                const response = getResponse(message);
+                addMessage(response.message, 'claude');
+                
+                if (response.recommendation) {
+                    selectedService = response.recommendation;
+                    showRecommendation(response.recommendation);
+                }
+                
+                btn.disabled = false;
+                btn.textContent = 'Send';
+            }, 1500);
+        }
+        
+        function addMessage(text, sender) {
+            const chat = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = 'message ' + (sender === 'user' ? 'user-message' : 'claude-message');
+            div.innerHTML = '<div class="message-content">' + text + '</div>';
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
+        }
+        
+        function getResponse(msg) {
+            const lower = msg.toLowerCase();
+            
+            if (lower.includes('brake')) {
+                return {
+                    message: '🚨 Brake issues need immediate attention for safety. I recommend a full inspection and service while you travel.',
+                    recommendation: {
+                        service: 'Complete Brake Inspection & Service',
+                        description: 'Full brake system inspection including pads, rotors, and fluid. Safety is our top priority.',
+                        cost: 180
+                    }
+                };
+            }
+            
+            if (lower.includes('oil')) {
+                return {
+                    message: '🛢️ Perfect timing for an oil change! We\'ll use premium synthetic oil while you\'re away.',
+                    recommendation: {
+                        service: 'Full Synthetic Oil Change',
+                        description: 'Premium synthetic oil change with new filter and 21-point inspection.',
+                        cost: 65
+                    }
+                };
+            }
+            
+            if (lower.includes('check engine') || lower.includes('light')) {
+                return {
+                    message: '⚠️ Check engine lights should be diagnosed promptly. We\'ll scan the codes and identify the issue.',
+                    recommendation: {
+                        service: 'Diagnostic Scan & Analysis',
+                        description: 'Computer diagnostic to identify error codes and recommend repairs.',
+                        cost: 89
+                    }
+                };
+            }
+            
+            if (lower.includes('ac') || lower.includes('air') || lower.includes('cool')) {
+                return {
+                    message: '🌡️ AC problems can make driving miserable! We\'ll diagnose and fix the issue.',
+                    recommendation: {
+                        service: 'AC System Service',
+                        description: 'Complete AC system check, recharge, and leak detection.',
+                        cost: 125
+                    }
+                };
+            }
+            
+            return {
+                message: '🔍 I\'ll have our certified technicians perform a complete inspection to identify and fix any issues.',
+                recommendation: {
+                    service: 'Comprehensive Vehicle Inspection',
+                    description: 'Full vehicle diagnostic inspection with detailed report and recommendations.',
+                    cost: 75
+                }
+            };
+        }
+        
+        function showRecommendation(rec) {
+            document.getElementById('recommendationContent').innerHTML = 
+                '<strong>' + rec.service + '</strong><br><br>' + rec.description;
+            document.getElementById('costAmount').textContent = '
+</body>
+</html> + rec.cost;
+            document.getElementById('serviceRecommendation').style.display = 'block';
+        }
+    </script>
+</body>
+</html>'; // Replace with: https://uhrhukcovvvbmopvoncr.supabase.co
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw'; // Replace with your key
+        
+        // Global variables
+        let supabase = null;
+        let isConnected = false;
+        
+        // Repair services
+        const repairs = [
+            {cost: 15, desc: 'Car air freshener'},
+            {cost: 25, desc: 'Replace windshield wipers'},
+            {cost: 45, desc: 'Standard oil change'},
+            {cost: 75, desc: 'Battery test & cleaning'},
+            {cost: 95, desc: 'Tire rotation & balance'},
+            {cost: 125, desc: 'Brake inspection'},
+            {cost: 180, desc: 'Brake pad replacement'},
+            {cost: 220, desc: 'Transmission service'},
+            {cost: 350, desc: 'Engine tune-up'},
+            {cost: 450, desc: 'AC repair & recharge'},
+            {cost: 1200, desc: 'Transmission repair'},
+            {cost: 3500, desc: 'Engine rebuild'}
+        ];
+        
+        // Selected service from Claude
+        let selectedService = null;
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DontPark.com starting...');
+            
+            // Initialize Supabase if credentials are provided
+            if (SUPABASE_URL !== 'YOUR_SUPABASE_URL_HERE') {
+                connectToSupabase();
+            } else {
+                console.log('⚠️ Supabase not configured - running in demo mode');
+            }
+            
+            // SLIDERS FIRST
+            const parkingSlider = document.getElementById('parkingSlider');
+            const repairSlider = document.getElementById('repairSlider');
+            
+            parkingSlider.oninput = function() {
+                const days = this.value;
+                const cost = days * 25;
+                document.getElementById('parkingCost').textContent = '
+</body>
+</html> + cost;
+                document.getElementById('parkingDays').textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
+            };
+            
+            repairSlider.oninput = function() {
+                const index = parseInt(this.value);
+                const repair = repairs[index];
+                document.getElementById('repairCost').textContent = '
+</body>
+</html> + repair.cost;
+                document.getElementById('repairService').textContent = repair.desc;
+            };
+            
+            // Initialize slider values
+            parkingSlider.oninput();
+            repairSlider.oninput();
+            
+            // Set minimum dates
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelector('input[name="departureDate"]').min = today;
+            document.querySelector('input[name="returnDate"]').min = today;
+            
+            // Form submission WITH SUPABASE
+            document.getElementById('bookingForm').onsubmit = async function(e) {
+                e.preventDefault();
+                
+                // Collect form data
+                const formData = new FormData(this);
+                
+                // Create booking object
+                const booking = {
+                    customer_name: formData.get('fullName'),
+                    customer_email: formData.get('email'),
+                    customer_phone: formData.get('phone'),
+                    departure_date: formData.get('departureDate'),
+                    departure_time: formData.get('departureTime'),
+                    return_date: formData.get('returnDate'),
+                    return_time: formData.get('returnTime'),
+                    vehicle_year: parseInt(formData.get('year')),
+                    vehicle_make_model: formData.get('makeModel'),
+                    vehicle_license: formData.get('licensePlate'),
+                    vehicle_color: formData.get('color'),
+                    service_requested: selectedService ? selectedService.service : 'General Inspection',
+                    service_notes: document.getElementById('chatInput').value || null,
+                    estimated_cost: selectedService ? selectedService.cost : 75,
+                    shop_id: 1, // Victory Nissan
+                    status: 'pending',
+                    booking_reference: 'DP-' + Date.now().toString(36).toUpperCase(),
+                    created_at: new Date().toISOString()
+                };
+                
+                // If Supabase is connected, save to database
+                if (isConnected && supabase) {
+                    try {
+                        console.log('📤 Saving booking to Supabase...');
+                        
+                        const { data, error } = await supabase
+                            .from('bookings')
+                            .insert([booking])
+                            .select();
+                        
+                        if (error) throw error;
+                        
+                        console.log('✅ Booking saved successfully!', data);
+                        
+                        // Show success with reference number
+                        document.getElementById('successMessage').innerHTML = 
+                            `🎉 Booking Confirmed!<br>
+                            <strong>Reference: ${booking.booking_reference}</strong><br>
+                            Victory Nissan will contact you shortly with pickup details.`;
+                    } catch (error) {
+                        console.error('❌ Error saving booking:', error);
+                        // Still show success but note the error
+                        document.getElementById('successMessage').innerHTML = 
+                            `⚠️ Booking received but database offline.<br>
+                            Please call Victory Nissan at (615) 555-0123 to confirm.`;
+                    }
+                } else {
+                    // Demo mode - no database
+                    console.log('📝 Demo booking (not saved):', booking);
+                    document.getElementById('successMessage').innerHTML = 
+                        `🎉 Demo Booking Complete!<br>
+                        Reference: ${booking.booking_reference}<br>
+                        (Configure Supabase to save real bookings)`;
+                }
+                
+                // Show success message and hide form
+                document.getElementById('successMessage').style.display = 'block';
+                this.style.display = 'none';
+                
+                // Scroll to success message
+                document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+            };
+            
+            // Claude AI Chat
+            document.getElementById('chatSendBtn').onclick = sendMessage;
+            document.getElementById('chatInput').onkeypress = function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            };
+        });
+        
+        // Connect to Supabase
+        async function connectToSupabase() {
+            try {
+                console.log('🔄 Connecting to Supabase...');
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                
+                // Test the connection
+                const { data, error } = await supabase
+                    .from('bookings')
+                    .select('count')
+                    .limit(1);
+                
+                if (error) throw error;
+                
+                isConnected = true;
+                console.log('✅ Supabase connected successfully!');
+                
+                // Update status banner
+                document.querySelector('.status-banner').innerHTML = 
+                    '✅ Connected to Victory Nissan - Ready to book your service!';
+                    
+            } catch (error) {
+                console.error('❌ Supabase connection error:', error);
+                isConnected = false;
+                
+                // Update status banner
+                document.querySelector('.status-banner').innerHTML = 
+                    '⚠️ Booking system offline - Please call (615) 555-0123';
+            }
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            addMessage(message, 'user');
+            input.value = '';
+            
+            const btn = document.getElementById('chatSendBtn');
+            btn.disabled = true;
+            btn.textContent = 'Thinking...';
+            
+            setTimeout(() => {
+                const response = getResponse(message);
+                addMessage(response.message, 'claude');
+                
+                if (response.recommendation) {
+                    selectedService = response.recommendation;
+                    showRecommendation(response.recommendation);
+                }
+                
+                btn.disabled = false;
+                btn.textContent = 'Send';
+            }, 1500);
+        }
+        
+        function addMessage(text, sender) {
+            const chat = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = 'message ' + (sender === 'user' ? 'user-message' : 'claude-message');
+            div.innerHTML = '<div class="message-content">' + text + '</div>';
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
+        }
+        
+        function getResponse(msg) {
+            const lower = msg.toLowerCase();
+            
+            if (lower.includes('brake')) {
+                return {
+                    message: '🚨 Brake issues need immediate attention for safety. I recommend a full inspection and service while you travel.',
+                    recommendation: {
+                        service: 'Complete Brake Inspection & Service',
+                        description: 'Full brake system inspection including pads, rotors, and fluid. Safety is our top priority.',
+                        cost: 180
+                    }
+                };
+            }
+            
+            if (lower.includes('oil')) {
+                return {
+                    message: '🛢️ Perfect timing for an oil change! We\'ll use premium synthetic oil while you\'re away.',
+                    recommendation: {
+                        service: 'Full Synthetic Oil Change',
+                        description: 'Premium synthetic oil change with new filter and 21-point inspection.',
+                        cost: 65
+                    }
+                };
+            }
+            
+            if (lower.includes('check engine') || lower.includes('light')) {
+                return {
+                    message: '⚠️ Check engine lights should be diagnosed promptly. We\'ll scan the codes and identify the issue.',
+                    recommendation: {
+                        service: 'Diagnostic Scan & Analysis',
+                        description: 'Computer diagnostic to identify error codes and recommend repairs.',
+                        cost: 89
+                    }
+                };
+            }
+            
+            if (lower.includes('ac') || lower.includes('air') || lower.includes('cool')) {
+                return {
+                    message: '🌡️ AC problems can make driving miserable! We\'ll diagnose and fix the issue.',
+                    recommendation: {
+                        service: 'AC System Service',
+                        description: 'Complete AC system check, recharge, and leak detection.',
+                        cost: 125
+                    }
+                };
+            }
+            
+            return {
+                message: '🔍 I\'ll have our certified technicians perform a complete inspection to identify and fix any issues.',
+                recommendation: {
+                    service: 'Comprehensive Vehicle Inspection',
+                    description: 'Full vehicle diagnostic inspection with detailed report and recommendations.',
+                    cost: 75
+                }
+            };
+        }
+        
+        function showRecommendation(rec) {
+            document.getElementById('recommendationContent').innerHTML = 
+                '<strong>' + rec.service + '</strong><br><br>' + rec.description;
+            document.getElementById('costAmount').textContent = '
+</body>
+</html> + rec.cost;
+            document.getElementById('serviceRecommendation').style.display = 'block';
+        }
     </script>
 </body>
 </html>
