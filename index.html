@@ -586,7 +586,7 @@
            
 repairSlider.oninput = function() {
     const index = parseInt(this.value);
-    const repair = repairs[index];
+    const repair = window.repairs ? window.repairs[index] : {cost: 0, desc: 'Not found'};
     document.getElementById('repairCost').textContent = '$' + repair.cost;
     document.getElementById('repairService').textContent = repair.desc;
 };
