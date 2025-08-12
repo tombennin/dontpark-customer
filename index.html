@@ -580,7 +580,7 @@
             parkingSlider.oninput = function() {
                 const days = this.value;
                 const cost = days * 25;
-                document.getElementById('parkingCost').textContent = '
+                document.getElementById('parkingCost').textContent = '$' + cost;
 </body>
 </html> + cost;
                 document.getElementById('parkingDays').textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
