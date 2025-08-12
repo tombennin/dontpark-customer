@@ -583,16 +583,14 @@
                 document.getElementById('parkingCost').textContent = '$' + cost;
                 document.getElementById('parkingDays').textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
             };
-            
-            repairSlider.oninput = function() {
-                const index = parseInt(this.value);
-                const repair = repairs[index];
-                document.getElementById('repairCost').textContent = '
-</body>
-</html> + repair.cost;
-                document.getElementById('repairService').textContent = repair.desc;
-            };
-            
+           
+repairSlider.oninput = function() {
+    const index = parseInt(this.value);
+    const repair = repairs[index];
+    document.getElementById('repairCost').textContent = '$' + repair.cost;
+    document.getElementById('repairService').textContent = repair.desc;
+};
+             
             // Initialize slider values
             parkingSlider.oninput();
             repairSlider.oninput();
