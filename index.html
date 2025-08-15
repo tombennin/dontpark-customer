@@ -497,10 +497,10 @@
                         </div>
                     </div>
                     
-                    <div class="chat-input-container">
-                        <textarea class="chat-input" id="chatInput" placeholder="Describe what's happening with your car..." rows="2"></textarea>
-                        <button type="button" class="chat-send-btn" id="chatSendBtn">Send</button>
-                    </div>
+                   <div class="chat-input-container" id="initialChatInput">
+    <textarea class="chat-input" id="chatInput" placeholder="Describe what's happening with your car..." rows="2"></textarea>
+    <button type="button" class="chat-send-btn" id="chatSendBtn">Send</button>
+</div>
                     
                     <div id="serviceRecommendation" class="service-recommendation">
                         <div class="recommendation-header">
@@ -681,6 +681,7 @@
             function showServiceRecommendation(recommendation) {
                 document.getElementById('recommendationContent').innerHTML = 
                     '<strong>' + recommendation.service + '</strong><br><br>' + recommendation.description;
+                document.getElementById('initialChatInput').style.display = 'none';
                 document.getElementById('costAmount').textContent = '$' + recommendation.cost;
                 document.getElementById('serviceRecommendation').style.display = 'block';
             }
