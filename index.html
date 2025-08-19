@@ -437,13 +437,33 @@
                    <div class="form-row">
         <div class="form-group">
             <label class="form-label">Return to Nashville Date *</label>
-            <input type="date" name="returnDate" class="form-input" required>
+       <input type="date" name="returnDate" class="form-input" required>
         </div>
         <div class="form-group">
             <label class="form-label">Return to Nashville Time *</label>
             <input type="time" name="returnTime" class="form-input" required>
         </div>
     </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <label class="form-label">Return Flight Number *</label>
+            <input type="text" name="returnFlight" class="form-input" placeholder="DL 1234" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Return Airline</label>
+            <select name="returnAirline" class="form-input">
+                <option value="">Select airline</option>
+                <option value="AA">American Airlines</option>
+                <option value="DL">Delta</option>
+                <option value="WN">Southwest</option>
+                <option value="UA">United</option>
+                <option value="NK">Spirit</option>
+                <option value="F9">Frontier</option>
+            </select>
+        </div>
+    </div>
+    
                 <section class="form-section">
                     <h2 class="section-title">🚗 Vehicle Information</h2>
                     
