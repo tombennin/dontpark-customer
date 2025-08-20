@@ -428,41 +428,34 @@
                             <label class="form-label">Departure Date *</label>
                             <input type="date" name="departureDate" class="form-input" required>
                         </div>
+                  </section>
+                
+                <section class="form-section">
+                    <h2 class="section-title">🛬 Return Flight Information</h2>
+                    
+                    <div class="form-row">
                         <div class="form-group">
-                            <label class="form-label">Departure Time *</label>
-                            <input type="time" name="departureTime" class="form-input" required>
+                            <label class="form-label">Return to Nashville Date *</label>
+                            <input type="date" name="returnDate" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Return to Nashville Time *</label>
+                            <input type="time" name="returnTime" class="form-input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Return Flight Number *</label>
+                            <input type="text" name="returnFlight" class="form-input" placeholder="WN 1234 or Southwest 1234" required>
+                        </div>
+                        <div class="form-group">
+                            <!-- Removed redundant airline dropdown -->
                         </div>
                     </div>
                 </section>
-                   <div class="form-row">
-        <div class="form-group">
-            <label class="form-label">Return to Nashville Date *</label>
-       <input type="date" name="returnDate" class="form-input" required>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Return to Nashville Time *</label>
-            <input type="time" name="returnTime" class="form-input" required>
-        </div>
-    </div>
-    
-    <div class="form-row">
-        <div class="form-group">
-            <label class="form-label">Return Flight Number *</label>
-            <input type="text" name="returnFlight" class="form-input" placeholder="DL 1234" required>
-        </div>
-        <div class="form-group">
             <label class="form-label">Return Airline</label>
-            <select name="returnAirline" class="form-input">
-                <option value="">Select airline</option>
-                <option value="AA">American Airlines</option>
-                <option value="DL">Delta</option>
-                <option value="WN">Southwest</option>
-                <option value="UA">United</option>
-                <option value="NK">Spirit</option>
-                <option value="F9">Frontier</option>
-            </select>
-        </div>
-    </div>
+           
     
                 <section class="form-section">
                     <h2 class="section-title">🚗 Vehicle Information</h2>
@@ -555,8 +548,59 @@
         // REPLACE THESE WITH YOUR ACTUAL SUPABASE CREDENTIALS:
         const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co'; // Example: https://abcdef123456.supabase.co
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw'; // Example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-        
+              // Flight number normalization for FlightAware integration
+        function normalizeFlightNumber(input) {
+            if (!input) return '';
+            
+            const airlineCodes = {
+                'southwest': 'WN', 'american': 'AA', 'delta': 'DL', 
+                'united': 'UA', 'spirit': 'NK', 'frontier': 'F9',
+                'jetblue': 'B6', 'alaska': 'AS', 'hawaiian': 'HA'
+            };
+            
+            // Remove extra spaces and convert to uppercase
+            let cleaned = input.trim().toUpperCase();
+            
+            // Handle "Southwest 1234" format
+            for (let [airline, code] of Object.entries(airlineCodes)) {
+                if (cleaned.startsWith(airline.toUpperCase() + ' ')) {
+                    return code + cleaned.substring(airline.length + 1);
+                }
+            }
+            
+            // Handle "WN 1234" format - remove space
+            if (/^[A-Z]{1,3}\s+\d+/.test(cleaned)) {
+                return cleaned.replace(/\s+/, '');
+            }
+            
+            return cleaned;
+        }
+           // FlightAware RSS integration
+        async function getFlightStatus(flightNumber) {
+            try {
+                const normalizedFlight = normalizeFlightNumber(flightNumber);
+                const rssUrl = `https://flightaware.com/live/flight/${normalizedFlight}/history/rss`;
+                
+                // Note: This requires CORS proxy for browser requests
+                // For now, we'll return mock data and implement server-side later
+                return {
+                    flightNumber: normalizedFlight,
+                    status: 'On Time',
+                    delay: 0,
+                    lastUpdated: new Date().toISOString()
+                };
+            } catch (error) {
+                console.error('Flight status error:', error);
+                return {
+                    flightNumber: flightNumber,
+                    status: 'Unknown',
+                    delay: 0,
+                    lastUpdated: new Date().toISOString()
+                };
+            }
+        }
         // Repair services array
+        
         const repairs = [
             {cost: 15, desc: 'Car air freshener'},
             {cost: 25, desc: 'Replace windshield wipers'},
@@ -610,11 +654,28 @@
             const today = new Date().toISOString().split('T')[0];
             document.querySelector('input[name="departureDate"]').setAttribute('min', today);
             
-            // Form submission
-            document.getElementById('bookingForm').addEventListener('submit', function(e) {
+           // Form submission with flight tracking
+            document.getElementById('bookingForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(this);
+                const returnFlight = formData.get('returnFlight');
+                
+                // Normalize flight number
+                const normalizedFlight = normalizeFlightNumber(returnFlight);
+                console.log('Original flight:', returnFlight, 'Normalized:', normalizedFlight);
+                
+                // Get flight status (mock for now)
+                const flightStatus = await getFlightStatus(normalizedFlight);
+                console.log('Flight status:', flightStatus);
+                
+                // Show success with flight info
+                document.getElementById('successMessage').innerHTML = 
+                    `🎉 Booking Confirmed! We're tracking flight ${flightStatus.flightNumber}. Check your email for details.`;
                 document.getElementById('successMessage').style.display = 'block';
-                // this.style.display = 'none';  // Commented out - don't hide form
+                
+                // TODO: Send data to Supabase here
             });
             
             // Claude AI Chat
