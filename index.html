@@ -419,8 +419,7 @@
                         </div>
                     </div>
                 </section>
-                
-                <section class="form-section">
+                        <section class="form-section">
                     <h2 class="section-title">✈️ Flight Information</h2>
                     
                     <div class="form-row">
@@ -428,7 +427,12 @@
                             <label class="form-label">Departure Date *</label>
                             <input type="date" name="departureDate" class="form-input" required>
                         </div>
-                  </section>
+                        <div class="form-group">
+                            <label class="form-label">Departure Time *</label>
+                            <input type="time" name="departureTime" class="form-input" required>
+                        </div>
+                    </div>
+                </section>
                 
                 <section class="form-section">
                     <h2 class="section-title">🛬 Return Flight Information</h2>
@@ -449,14 +453,9 @@
                             <label class="form-label">Return Flight Number *</label>
                             <input type="text" name="returnFlight" class="form-input" placeholder="WN 1234 or Southwest 1234" required>
                         </div>
-                        <div class="form-group">
-                            <!-- Removed redundant airline dropdown -->
-                        </div>
                     </div>
                 </section>
-            <label class="form-label">Return Airline</label>
-           
-    
+               
                 <section class="form-section">
                     <h2 class="section-title">🚗 Vehicle Information</h2>
                     
