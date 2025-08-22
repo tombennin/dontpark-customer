@@ -545,7 +545,8 @@
             </form>
         </main>
     </div>
-
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    
     <script>
         // ============================================
         // SUPABASE CONFIGURATION - ADD YOUR KEYS HERE!
@@ -679,8 +680,42 @@
                 document.getElementById('successMessage').innerHTML = 
                     `🎉 Booking Confirmed! We'll be tracking return flight ${flightStatus.flightNumber}. Check your email for details.`;
                 document.getElementById('successMessage').style.display = 'block';
-                
-                // TODO: Send data to Supabase here
+                        // Save booking data to Supabase
+                try {
+                    const { createClient } = window.supabase;
+                    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    
+                    const formData = new FormData(this);
+                    
+                    const bookingData = {
+                        customer_name: formData.get('fullName'),
+                        customer_phone: formData.get('phone'),
+                        customer_email: formData.get('email'),
+                        flight_date: formData.get('departureDate'),
+                        flight_time: formData.get('departureTime'),
+                        return_date: formData.get('returnDate'),
+                        arrival_time: formData.get('returnTime'),
+                        car_year: parseInt(formData.get('year')),
+                        car_make: formData.get('makeModel'),
+                        car_license: formData.get('licensePlate'),
+                        car_color: formData.get('color'),
+                        service_description: selectedService ? JSON.stringify(selectedService) : null,
+                        dontpark_booking_id: 'DP-' + Date.now()
+                    };
+                    
+                    const { data, error } = await supabaseClient
+                        .from('bookings')
+                        .insert([bookingData]);
+                    
+                    if (error) {
+                        console.error('Supabase error:', error);
+                    } else {
+                        console.log('Booking saved successfully:', data);
+                    }
+                    
+                } catch (error) {
+                    console.error('Database error:', error);
+                }
             });
             
             // Claude AI Chat
