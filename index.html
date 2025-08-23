@@ -398,34 +398,7 @@
                     <input type="range" id="repairSlider" min="0" max="11" value="6">
                 </div>
             </section>
-<section class="map-section">
-    <h2 style="text-align: center; margin-bottom: 20px;">📍 Service Locations</h2>
-    <div style="height: 400px; border-radius: 15px; overflow: hidden; margin: 20px 0;">
-        <div id="serviceMap" style="height: 100%; width: 100%;"></div>
-    </div>
-</section>
 
-<script>
-function initServiceMap() {
-    const map = new google.maps.Map(document.getElementById("serviceMap"), {
-        zoom: 10,
-        center: { lat: 36.1627, lng: -86.7816 }
-    });
-
-    // Nashville Airport
-    new google.maps.Marker({
-        position: { lat: 36.1245, lng: -86.6782 },
-        map: map,
-        title: "Nashville International Airport"
-    });
-
-    // Bennett's Auto
-    new google.maps.Marker({
-        position: { lat: 35.9828, lng: -86.5186 },
-        map: map,
-        title: "Bennett's Automotive - Smyrna, TN"
-    });
-}
 </script>
               <div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8fafc; border-radius: 12px;">
               <div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8fafc; border-radius: 12px;">
