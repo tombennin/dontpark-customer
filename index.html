@@ -543,14 +543,74 @@
         </main>
     </div>
     
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+// Built-in Supabase client (no CDN required)
+class SimpleSupabaseClient {
+    constructor(url, key) {
+        this.url = url;
+        this.key = key;
+        this.headers = {
+            'apikey': key,
+            'Authorization': `Bearer ${key}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+        };
+    }
     
-    <script>
-        const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw';
-        
-        // Initialize Supabase client
-        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    from(table) {
+        return new SupabaseTable(this.url, this.headers, table);
+    }
+}
+
+class SupabaseTable {
+    constructor(baseUrl, headers, table) {
+        this.baseUrl = baseUrl;
+        this.headers = headers;
+        this.table = table;
+    }
+    
+    async insert(data) {
+        try {
+            const response = await fetch(`${this.baseUrl}/rest/v1/${this.table}`, {
+                method: 'POST',
+                headers: this.headers,
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.text();
+            
+            if (!response.ok) {
+                let errorData;
+                try {
+                    errorData = JSON.parse(result);
+                } catch {
+                    errorData = { message: result || 'Unknown error' };
+                }
+                return { data: null, error: errorData };
+            }
+            
+            let responseData = null;
+            if (result) {
+                try {
+                    responseData = JSON.parse(result);
+                } catch {
+                    responseData = result;
+                }
+            }
+            
+            return { data: responseData, error: null };
+        } catch (error) {
+            return { data: null, error: { message: error.message } };
+        }
+    }
+}
+
+const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw';
+
+// Initialize with our CDN-free client
+const supabase = new SimpleSupabaseClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+console.log('✅ CDN-free Supabase client ready!');
 
         // Repair services array
         const repairs = [
