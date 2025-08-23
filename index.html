@@ -398,12 +398,35 @@
                     <input type="range" id="repairSlider" min="0" max="11" value="6">
                 </div>
             </section>
-
-              <div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8fafc; border-radius: 12px;">
+    <div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8fafc; border-radius: 12px;">
                 <p style="font-size: 1.1rem; color: #1e293b; font-weight: 500;">
                     Fill in your info below, then tell Claude what's going on with your car. To book a shop visit with concierge service to the airport, press the bottom button.
                 </p>
             </div>
+            
+            <form id="bookingForm">
+                <section class="form-section">
+                    <h2 class="section-title">👤 Contact Information</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Full Name *</label>
+                        <input type="text" name="fullName" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" name="phone" class="form-input" placeholder="(615) 555-0123" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address *</label>
+                            <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="form-section">
+                    <h2 class="section-title">✈️ Flight Information</h2>
                     
                     <div class="form-row">
                         <div class="form-group">
@@ -491,9 +514,9 @@
                     </div>
                     
                    <div class="chat-input-container" id="initialChatInput">
-    <textarea class="chat-input" id="chatInput" placeholder="Describe what's happening with your car..." rows="2"></textarea>
-    <button type="button" class="chat-send-btn" id="chatSendBtn">Send</button>
-</div>
+                    <textarea class="chat-input" id="chatInput" placeholder="Describe what's happening with your car..." rows="2"></textarea>
+                    <button type="button" class="chat-send-btn" id="chatSendBtn">Send</button>
+                </div>
                     
                     <div id="serviceRecommendation" class="service-recommendation">
                         <div class="recommendation-header">
@@ -519,68 +542,17 @@
             </form>
         </main>
     </div>
+    
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     
     <script>
-        // ============================================
-        // SUPABASE CONFIGURATION - ADD YOUR KEYS HERE!
-        // ============================================
-        // REPLACE THESE WITH YOUR ACTUAL SUPABASE CREDENTIALS:
-        const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co'; // Example: https://abcdef123456.supabase.co
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw'; // Example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-              // Flight number normalization for FlightAware integration
-        function normalizeFlightNumber(input) {
-            if (!input) return '';
-            
-            const airlineCodes = {
-                'southwest': 'WN', 'american': 'AA', 'delta': 'DL', 
-                'united': 'UA', 'spirit': 'NK', 'frontier': 'F9',
-                'jetblue': 'B6', 'alaska': 'AS', 'hawaiian': 'HA'
-            };
-            
-            // Remove extra spaces and convert to uppercase
-            let cleaned = input.trim().toUpperCase();
-            
-            // Handle "Southwest 1234" format
-            for (let [airline, code] of Object.entries(airlineCodes)) {
-                if (cleaned.startsWith(airline.toUpperCase() + ' ')) {
-                    return code + cleaned.substring(airline.length + 1);
-                }
-            }
-            
-            // Handle "WN 1234" format - remove space
-            if (/^[A-Z]{1,3}\s+\d+/.test(cleaned)) {
-                return cleaned.replace(/\s+/, '');
-            }
-            
-            return cleaned;
-        }
-           // FlightAware RSS integration
-        async function getFlightStatus(flightNumber) {
-            try {
-                const normalizedFlight = normalizeFlightNumber(flightNumber);
-                const rssUrl = `https://flightaware.com/live/flight/${normalizedFlight}/history/rss`;
-                
-                // Note: This requires CORS proxy for browser requests
-                // For now, we'll return mock data and implement server-side later
-                return {
-                    flightNumber: normalizedFlight,
-                    status: 'On Time',
-                    delay: 0,
-                    lastUpdated: new Date().toISOString()
-                };
-            } catch (error) {
-                console.error('Flight status error:', error);
-                return {
-                    flightNumber: flightNumber,
-                    status: 'Unknown',
-                    delay: 0,
-                    lastUpdated: new Date().toISOString()
-                };
-            }
-        }
-        // Repair services array
+        const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw';
         
+        // Initialize Supabase client
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Repair services array
         const repairs = [
             {cost: 15, desc: 'Car air freshener'},
             {cost: 25, desc: 'Replace windshield wipers'},
@@ -596,7 +568,6 @@
             {cost: 3500, desc: 'Engine rebuild'}
         ];
         
-        // Wait for DOM to load
         window.addEventListener('DOMContentLoaded', function() {
             console.log('Page loaded - initializing...');
             
@@ -613,7 +584,7 @@
             }
             
             parkingSlider.addEventListener('input', updateParking);
-            updateParking(); // Initialize
+            updateParking();
             
             // Initialize repair slider
             const repairSlider = document.getElementById('repairSlider');
@@ -628,37 +599,18 @@
             }
             
             repairSlider.addEventListener('input', updateRepair);
-            updateRepair(); // Initialize
+            updateRepair();
             
             // Set minimum date
             const today = new Date().toISOString().split('T')[0];
             document.querySelector('input[name="departureDate"]').setAttribute('min', today);
             
-           // Form submission with flight tracking
+            // Form submission
             document.getElementById('bookingForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
+                console.log('Form submitted!');
                 
-                // Get form data
-                const formData = new FormData(this);
-                const returnFlight = formData.get('returnFlight');
-                
-                // Normalize flight number
-                const normalizedFlight = normalizeFlightNumber(returnFlight);
-                console.log('Original flight:', returnFlight, 'Normalized:', normalizedFlight);
-                
-                // Get flight status (mock for now)
-                const flightStatus = await getFlightStatus(normalizedFlight);
-                console.log('Flight status:', flightStatus);
-                
-                // Show success with flight info
-                document.getElementById('successMessage').innerHTML = 
-                    `🎉 Booking Confirmed! We'll be tracking return flight ${flightStatus.flightNumber}. Check your email for details.`;
-                document.getElementById('successMessage').style.display = 'block';
-                        // Save booking data to Supabase
                 try {
-                    const { createClient } = window.supabase;
-                    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                    
                     const formData = new FormData(this);
                     
                     const bookingData = {
@@ -669,26 +621,32 @@
                         flight_time: formData.get('departureTime'),
                         return_date: formData.get('returnDate'),
                         arrival_time: formData.get('returnTime'),
-                        car_year: parseInt(formData.get('year')),
-                        car_make: formData.get('makeModel'),
-                        car_license: formData.get('licensePlate'),
-                        car_color: formData.get('color'),
+                        year: parseInt(formData.get('year')),
+                        makeModel: formData.get('makeModel'),
+                        licensePlate: formData.get('licensePlate'),
+                        color: formData.get('color'),
                         service_description: selectedService ? JSON.stringify(selectedService) : null,
-                        dontpark_booking_id: 'DP-' + Date.now()
+                        created_at: new Date().toISOString()
                     };
                     
-                    const { data, error } = await supabaseClient
+                    console.log('Booking data:', bookingData);
+                    
+                    const { data, error } = await supabase
                         .from('bookings')
                         .insert([bookingData]);
                     
                     if (error) {
                         console.error('Supabase error:', error);
+                        alert('Booking error: ' + error.message);
                     } else {
                         console.log('Booking saved successfully:', data);
+                        document.getElementById('successMessage').style.display = 'block';
+                        this.reset();
                     }
                     
                 } catch (error) {
                     console.error('Database error:', error);
+                    alert('Connection error: ' + error.message);
                 }
             });
             
@@ -708,16 +666,13 @@
                 const message = input.value.trim();
                 if (!message) return;
                 
-                // Add user message
                 addMessage(message, 'user');
                 input.value = '';
                 
-                // Disable send button
                 const sendBtn = document.getElementById('chatSendBtn');
                 sendBtn.disabled = true;
                 sendBtn.textContent = 'Thinking...';
                 
-                // Generate response
                 setTimeout(function() {
                     const response = getClaudeResponse(message);
                     addMessage(response.message, 'claude');
@@ -782,33 +737,6 @@
                 document.getElementById('serviceRecommendation').style.display = 'block';
             }
         });
-    </script>
-    
-    <script>
-    function initServiceMap() {
-        const map = new google.maps.Map(document.getElementById("serviceMap"), {
-            zoom: 10,
-            center: { lat: 36.1627, lng: -86.7816 }
-        });
-
-        // Nashville Airport
-        new google.maps.Marker({
-            position: { lat: 36.1245, lng: -86.6782 },
-            map: map,
-            title: "Nashville International Airport"
-        });
-
-        // Bennett's Auto
-        new google.maps.Marker({
-            position: { lat: 35.9828, lng: -86.5186 },
-            map: map,
-            title: "Bennett's Automotive - Smyrna, TN"
-        });
-    }
-    </script>
-    
-    <script async defer 
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA55xI2xoTn_kGTLDmHnDOoWhw18ZehT4A&callback=initServiceMap">
     </script>
 </body>
 </html>
