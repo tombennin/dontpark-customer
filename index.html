@@ -398,7 +398,7 @@
                     <input type="range" id="repairSlider" min="0" max="11" value="6">
                 </div>
             </section>
-    <div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8fafc; border-radius: 12px;">
+  <div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8fafc; border-radius: 12px;">
                 <p style="font-size: 1.1rem; color: #1e293b; font-weight: 500;">
                     Fill in your info below, then tell Claude what's going on with your car. To book a shop visit with concierge service to the airport, press the bottom button.
                 </p>
@@ -543,74 +543,80 @@
         </main>
     </div>
     
-<script>
-// Built-in Supabase client (no CDN required)
-class SimpleSupabaseClient {
-    constructor(url, key) {
-        this.url = url;
-        this.key = key;
-        this.headers = {
-            'apikey': key,
-            'Authorization': `Bearer ${key}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=representation'
-        };
-    }
-    
-    from(table) {
-        return new SupabaseTable(this.url, this.headers, table);
-    }
-}
-
-class SupabaseTable {
-    constructor(baseUrl, headers, table) {
-        this.baseUrl = baseUrl;
-        this.headers = headers;
-        this.table = table;
-    }
-    
-    async insert(data) {
-        try {
-            const response = await fetch(`${this.baseUrl}/rest/v1/${this.table}`, {
-                method: 'POST',
-                headers: this.headers,
-                body: JSON.stringify(data)
-            });
-            
-            const result = await response.text();
-            
-            if (!response.ok) {
-                let errorData;
-                try {
-                    errorData = JSON.parse(result);
-                } catch {
-                    errorData = { message: result || 'Unknown error' };
-                }
-                return { data: null, error: errorData };
+    <script>
+        // ============================================
+        // CDN-FREE SUPABASE CLIENT - NO EXTERNAL DEPENDENCIES!
+        // ============================================
+        class SimpleSupabaseClient {
+            constructor(url, key) {
+                this.url = url;
+                this.key = key;
+                this.headers = {
+                    'apikey': key,
+                    'Authorization': `Bearer ${key}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=representation'
+                };
             }
             
-            let responseData = null;
-            if (result) {
-                try {
-                    responseData = JSON.parse(result);
-                } catch {
-                    responseData = result;
-                }
+            from(table) {
+                return new SupabaseTable(this.url, this.headers, table);
             }
-            
-            return { data: responseData, error: null };
-        } catch (error) {
-            return { data: null, error: { message: error.message } };
         }
-    }
-}
+        
+        class SupabaseTable {
+            constructor(baseUrl, headers, table) {
+                this.baseUrl = baseUrl;
+                this.headers = headers;
+                this.table = table;
+            }
+            
+            async insert(data) {
+                try {
+                    console.log('Inserting data to Supabase:', data);
+                    
+                    const response = await fetch(`${this.baseUrl}/rest/v1/${this.table}`, {
+                        method: 'POST',
+                        headers: this.headers,
+                        body: JSON.stringify(Array.isArray(data) ? data : [data])
+                    });
+                    
+                    const result = await response.text();
+                    console.log('Supabase response:', { status: response.status, result });
+                    
+                    if (!response.ok) {
+                        let errorData;
+                        try {
+                            errorData = JSON.parse(result);
+                        } catch {
+                            errorData = { message: result || 'Unknown error' };
+                        }
+                        return { data: null, error: errorData };
+                    }
+                    
+                    let responseData = null;
+                    if (result) {
+                        try {
+                            responseData = JSON.parse(result);
+                        } catch {
+                            responseData = result;
+                        }
+                    }
+                    
+                    return { data: responseData, error: null };
+                } catch (error) {
+                    console.error('Supabase client error:', error);
+                    return { data: null, error: { message: error.message } };
+                }
+            }
+        }
 
-const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw';
-
-// Initialize with our CDN-free client
-const supabase = new SimpleSupabaseClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-console.log('✅ CDN-free Supabase client ready!');
+        // Initialize Supabase with CDN-free client
+        const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw';
+        
+        const supabase = new SimpleSupabaseClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('✅ CDN-free Supabase client initialized!');
 
         // Repair services array
         const repairs = [
@@ -628,174 +634,253 @@ console.log('✅ CDN-free Supabase client ready!');
             {cost: 3500, desc: 'Engine rebuild'}
         ];
         
+        // Global variables
+        let selectedService = null;
+        
         window.addEventListener('DOMContentLoaded', function() {
-            console.log('Page loaded - initializing...');
+            console.log('🚀 Page loaded - initializing DontPark...');
             
             // Initialize parking slider
             const parkingSlider = document.getElementById('parkingSlider');
             const parkingCost = document.getElementById('parkingCost');
             const parkingDays = document.getElementById('parkingDays');
             
-            function updateParking() {
-                const days = parkingSlider.value;
-                const cost = days * 25;
-                parkingCost.textContent = '$' + cost;
-                parkingDays.textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
+            if (parkingSlider) {
+                function updateParking() {
+                    const days = parkingSlider.value;
+                    const cost = days * 25;
+                    parkingCost.textContent = '$' + cost;
+                    parkingDays.textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
+                }
+                
+                parkingSlider.addEventListener('input', updateParking);
+                updateParking();
             }
-            
-            parkingSlider.addEventListener('input', updateParking);
-            updateParking();
             
             // Initialize repair slider
             const repairSlider = document.getElementById('repairSlider');
             const repairCost = document.getElementById('repairCost');
             const repairService = document.getElementById('repairService');
             
-            function updateRepair() {
-                const index = parseInt(repairSlider.value);
-                const repair = repairs[index];
-                repairCost.textContent = '$' + repair.cost;
-                repairService.textContent = repair.desc;
+            if (repairSlider) {
+                function updateRepair() {
+                    const index = parseInt(repairSlider.value);
+                    const repair = repairs[index];
+                    repairCost.textContent = '$' + repair.cost;
+                    repairService.textContent = repair.desc;
+                }
+                
+                repairSlider.addEventListener('input', updateRepair);
+                updateRepair();
             }
             
-            repairSlider.addEventListener('input', updateRepair);
-            updateRepair();
-            
-            // Set minimum date
+            // Set minimum date to today
             const today = new Date().toISOString().split('T')[0];
-            document.querySelector('input[name="departureDate"]').setAttribute('min', today);
+            const depDateInput = document.querySelector('input[name="departureDate"]');
+            if (depDateInput) {
+                depDateInput.setAttribute('min', today);
+            }
             
-            // Form submission
-            document.getElementById('bookingForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                console.log('Form submitted!');
-                
-                try {
-                    const formData = new FormData(this);
-                    
-                    const bookingData = {
-                        customer_name: formData.get('fullName'),
-                        customer_phone: formData.get('phone'),
-                        customer_email: formData.get('email'),
-                        flight_date: formData.get('departureDate'),
-                        flight_time: formData.get('departureTime'),
-                        return_date: formData.get('returnDate'),
-                        arrival_time: formData.get('returnTime'),
-                        year: parseInt(formData.get('year')),
-                        makeModel: formData.get('makeModel'),
-                        licensePlate: formData.get('licensePlate'),
-                        color: formData.get('color'),
-                        service_description: selectedService ? JSON.stringify(selectedService) : null,
-                        created_at: new Date().toISOString()
-                    };
-                    
-                    console.log('Booking data:', bookingData);
-                    
-                    const { data, error } = await supabase
-                        .from('bookings')
-                        .insert([bookingData]);
-                    
-                    if (error) {
-                        console.error('Supabase error:', error);
-                        alert('Booking error: ' + error.message);
-                    } else {
-                        console.log('Booking saved successfully:', data);
-                        document.getElementById('successMessage').style.display = 'block';
-                        this.reset();
-                    }
-                    
-                } catch (error) {
-                    console.error('Database error:', error);
-                    alert('Connection error: ' + error.message);
-                }
-            });
-            
-            // Claude AI Chat
-            let selectedService = null;
-            
-            document.getElementById('chatSendBtn').addEventListener('click', sendMessage);
-            document.getElementById('chatInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
+            // ============================================
+            // FORM SUBMISSION WITH CORRECT COLUMN NAMES
+            // ============================================
+            const bookingForm = document.getElementById('bookingForm');
+            if (bookingForm) {
+                bookingForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
-                    sendMessage();
-                }
-            });
-            
-            function sendMessage() {
-                const input = document.getElementById('chatInput');
-                const message = input.value.trim();
-                if (!message) return;
-                
-                addMessage(message, 'user');
-                input.value = '';
-                
-                const sendBtn = document.getElementById('chatSendBtn');
-                sendBtn.disabled = true;
-                sendBtn.textContent = 'Thinking...';
-                
-                setTimeout(function() {
-                    const response = getClaudeResponse(message);
-                    addMessage(response.message, 'claude');
+                    console.log('📋 Form submitted!');
                     
-                    if (response.recommendation) {
-                        selectedService = response.recommendation;
-                        showServiceRecommendation(response.recommendation);
+                    try {
+                        const formData = new FormData(this);
+                        
+                        // Map form data to correct Supabase column names
+                        const bookingData = {
+                            customer_name: formData.get('fullName'),
+                            customer_phone: formData.get('phone'),
+                            customer_email: formData.get('email'),
+                            flight_date: formData.get('departureDate'),
+                            flight_time: formData.get('departureTime'),
+                            return_date: formData.get('returnDate'),
+                            arrival_time: formData.get('returnTime'),
+                            return_flight: formData.get('returnFlight'),
+                            // Vehicle info with correct column names
+                            year: parseInt(formData.get('year')) || null,
+                            makeModel: formData.get('makeModel'),
+                            licensePlate: formData.get('licensePlate'),  // This matches your DB column
+                            color: formData.get('color'),
+                            // Service and metadata
+                            service_description: selectedService ? JSON.stringify(selectedService) : null,
+                            created_at: new Date().toISOString(),
+                            status: 'new'
+                        };
+                        
+                        console.log('💾 Sending to Supabase:', bookingData);
+                        
+                        const { data, error } = await supabase
+                            .from('bookings')
+                            .insert(bookingData);
+                        
+                        if (error) {
+                            console.error('❌ Supabase error:', error);
+                            alert('Booking error: ' + (error.message || 'Unknown error occurred'));
+                        } else {
+                            console.log('✅ Booking saved successfully:', data);
+                            
+                            // Show success message
+                            const successMsg = document.getElementById('successMessage');
+                            if (successMsg) {
+                                successMsg.style.display = 'block';
+                                successMsg.scrollIntoView({ behavior: 'smooth' });
+                            }
+                            
+                            // Reset form
+                            this.reset();
+                            
+                            // Reset service recommendation
+                            const serviceRec = document.getElementById('serviceRecommendation');
+                            const initialInput = document.getElementById('initialChatInput');
+                            if (serviceRec) serviceRec.style.display = 'none';
+                            if (initialInput) initialInput.style.display = 'block';
+                            selectedService = null;
+                        }
+                        
+                    } catch (error) {
+                        console.error('💥 Unexpected error:', error);
+                        alert('Connection error: ' + error.message);
                     }
-                    
-                    sendBtn.disabled = false;
-                    sendBtn.textContent = 'Send';
-                }, 1500);
+                });
             }
             
-            function addMessage(message, sender) {
-                const chat = document.getElementById('chatMessages');
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'message ' + (sender === 'user' ? 'user-message' : 'claude-message');
-                messageDiv.innerHTML = '<div class="message-content">' + message + '</div>';
-                chat.appendChild(messageDiv);
-                chat.scrollTop = chat.scrollHeight;
-            }
+            // ============================================
+            // CLAUDE AI CHAT FUNCTIONALITY
+            // ============================================
+            const chatSendBtn = document.getElementById('chatSendBtn');
+            const chatInput = document.getElementById('chatInput');
             
-            function getClaudeResponse(message) {
-                const lower = message.toLowerCase();
+            if (chatSendBtn && chatInput) {
+                console.log('✅ Claude chat elements found');
                 
-                if (lower.includes('brake') || lower.includes('squeal') || lower.includes('grind')) {
-                    return {
-                        message: '🚨 Brake issues are serious safety concerns. Based on your description, you likely need brake pad replacement or rotor service. This is critical for safe driving.',
-                        recommendation: {
-                            service: 'Complete Brake Inspection & Service',
-                            description: 'Full brake system inspection and repair including pads, rotors, and fluid check.',
-                            cost: 180
+                chatSendBtn.addEventListener('click', sendMessage);
+                chatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendMessage();
+                    }
+                });
+                
+                function sendMessage() {
+                    const message = chatInput.value.trim();
+                    if (!message) return;
+                    
+                    console.log('💬 Sending message:', message);
+                    
+                    // Add user message
+                    addMessage(message, 'user');
+                    chatInput.value = '';
+                    
+                    // Show thinking state
+                    chatSendBtn.disabled = true;
+                    chatSendBtn.textContent = 'Thinking...';
+                    
+                    // Generate Claude response
+                    setTimeout(function() {
+                        const response = getClaudeResponse(message);
+                        addMessage(response.message, 'claude');
+                        
+                        if (response.recommendation) {
+                            selectedService = response.recommendation;
+                            showServiceRecommendation(response.recommendation);
                         }
-                    };
-                } else if (lower.includes('oil') || lower.includes('change')) {
-                    return {
-                        message: '🛢️ Regular oil changes keep your engine healthy! Perfect timing to do this while you travel.',
-                        recommendation: {
-                            service: 'Full Synthetic Oil Change',
-                            description: 'Premium synthetic oil change with filter replacement and multi-point inspection.',
-                            cost: 65
-                        }
-                    };
-                } else {
-                    return {
-                        message: '🔍 I understand your concern. Let me arrange a comprehensive inspection to identify and fix the issue.',
-                        recommendation: {
-                            service: 'Comprehensive Vehicle Inspection',
-                            description: 'Complete diagnostic inspection to identify all issues with detailed report.',
-                            cost: 75
-                        }
-                    };
+                        
+                        // Reset button
+                        chatSendBtn.disabled = false;
+                        chatSendBtn.textContent = 'Send';
+                    }, 1500);
                 }
+                
+                function addMessage(message, sender) {
+                    const chat = document.getElementById('chatMessages');
+                    if (chat) {
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = 'message ' + (sender === 'user' ? 'user-message' : 'claude-message');
+                        messageDiv.innerHTML = '<div class="message-content">' + message + '</div>';
+                        chat.appendChild(messageDiv);
+                        chat.scrollTop = chat.scrollHeight;
+                    }
+                }
+                
+                function getClaudeResponse(message) {
+                    const lower = message.toLowerCase();
+                    
+                    if (lower.includes('brake') || lower.includes('squeal') || lower.includes('grind')) {
+                        return {
+                            message: '🚨 Brake issues are serious safety concerns. Based on your description, you likely need brake pad replacement or rotor service. This is critical for safe driving.',
+                            recommendation: {
+                                service: 'Complete Brake Inspection & Service',
+                                description: 'Full brake system inspection and repair including pads, rotors, and fluid check.',
+                                cost: 180
+                            }
+                        };
+                    } else if (lower.includes('oil') || lower.includes('change')) {
+                        return {
+                            message: '🛢️ Regular oil changes keep your engine healthy! Perfect timing to do this while you travel.',
+                            recommendation: {
+                                service: 'Full Synthetic Oil Change',
+                                description: 'Premium synthetic oil change with filter replacement and multi-point inspection.',
+                                cost: 65
+                            }
+                        };
+                    } else if (lower.includes('ac') || lower.includes('air') || lower.includes('cold') || lower.includes('heat')) {
+                        return {
+                            message: '🌡️ Climate control issues can make driving uncomfortable. Common causes include refrigerant leaks, compressor problems, or electrical issues.',
+                            recommendation: {
+                                service: 'Complete A/C System Diagnosis',
+                                description: 'Full air conditioning system inspection including refrigerant levels, compressor function, and electrical components.',
+                                cost: 120
+                            }
+                        };
+                    } else if (lower.includes('engine') || lower.includes('check engine') || lower.includes('light')) {
+                        return {
+                            message: '🔍 Check engine lights indicate your car\'s computer has detected an issue. A diagnostic scan will reveal the specific problem code.',
+                            recommendation: {
+                                service: 'Engine Diagnostic Scan',
+                                description: 'Computer diagnostic scan to identify error codes and determine necessary repairs.',
+                                cost: 95
+                            }
+                        };
+                    } else {
+                        return {
+                            message: '🔍 I understand your concern. Let me arrange a comprehensive inspection to identify and fix the issue.',
+                            recommendation: {
+                                service: 'Comprehensive Vehicle Inspection',
+                                description: 'Complete diagnostic inspection to identify all issues with detailed report.',
+                                cost: 75
+                            }
+                        };
+                    }
+                }
+                
+                function showServiceRecommendation(recommendation) {
+                    const recContent = document.getElementById('recommendationContent');
+                    const costAmount = document.getElementById('costAmount');
+                    const serviceRec = document.getElementById('serviceRecommendation');
+                    const initialInput = document.getElementById('initialChatInput');
+                    
+                    if (recContent && costAmount && serviceRec) {
+                        recContent.innerHTML = '<strong>' + recommendation.service + '</strong><br><br>' + recommendation.description;
+                        costAmount.textContent = '$' + recommendation.cost;
+                        serviceRec.style.display = 'block';
+                        
+                        if (initialInput) {
+                            initialInput.style.display = 'none';
+                        }
+                    }
+                }
+            } else {
+                console.log('❌ Claude chat elements not found');
             }
             
-            function showServiceRecommendation(recommendation) {
-                document.getElementById('recommendationContent').innerHTML = 
-                    '<strong>' + recommendation.service + '</strong><br><br>' + recommendation.description;
-                document.getElementById('initialChatInput').style.display = 'none';
-                document.getElementById('costAmount').textContent = '$' + recommendation.cost;
-                document.getElementById('serviceRecommendation').style.display = 'block';
-            }
+            console.log('🎉 DontPark initialization complete!');
         });
     </script>
 </body>
