@@ -838,5 +838,32 @@ function initServiceMap() {
             }
         });
     </script>
+    
+    <script>
+    function initServiceMap() {
+        const map = new google.maps.Map(document.getElementById("serviceMap"), {
+            zoom: 10,
+            center: { lat: 36.1627, lng: -86.7816 }
+        });
+
+        // Nashville Airport
+        new google.maps.Marker({
+            position: { lat: 36.1245, lng: -86.6782 },
+            map: map,
+            title: "Nashville International Airport"
+        });
+
+        // Bennett's Auto
+        new google.maps.Marker({
+            position: { lat: 35.9828, lng: -86.5186 },
+            map: map,
+            title: "Bennett's Automotive - Smyrna, TN"
+        });
+    }
+    </script>
+    
+    <script async defer 
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA55xI2xoTn_kGTLDmHnDOoWhw18ZehT4A&callback=initServiceMap">
+    </script>
 </body>
 </html>
