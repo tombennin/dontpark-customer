@@ -633,42 +633,9 @@ const repairs = [
 
         // Repair services array
              
-        // Global variables
-        let selectedService = null;
-     
- const parkingSlider = document.getElementById('parkingSlider');
-    if (parkingSlider) {
-        parkingSlider.addEventListener('input', function() {
-            const days = this.value;
-            const cost = days * 25;
-            document.getElementById('parkingCost').textContent = '$' + cost;
-            document.getElementById('parkingDays').textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
-        });
-        // Set initial value
-        parkingSlider.dispatchEvent(new Event('input'));
-    }
-    
-    // REPAIR SLIDER (the working version from console)
-    const repairSlider = document.getElementById('repairSlider');
-    if (repairSlider) {
-        repairSlider.addEventListener('input', function() {
-            const repair = repairs[parseInt(this.value)];
-            document.getElementById('repairCost').textContent = '$' + repair.cost;
-            document.getElementById('repairService').textContent = repair.desc;
-        });
-        // Set initial value
-        repairSlider.dispatchEvent(new Event('input'));
-    }
-    
-    // Set minimum date to today
-    const today = new Date().toISOString().split('T')[0];
-    const depDateInput = document.querySelector('input[name="departureDate"]');
-    if (depDateInput) {
-        depDateInput.setAttribute('min', today);
-    }
-    
-    console.log('✅ Sliders initialized successfully!');
-});
+    // Global variables
+let selectedService = null;
+
 // Global repairs array (must be OUTSIDE DOMContentLoaded)
 const repairs = [
     {cost: 15, desc: 'Car air freshener'},
@@ -689,7 +656,7 @@ const repairs = [
 window.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Page loaded - initializing sliders...');
     
-    // PARKING SLIDER (the working version from console)
+    // PARKING SLIDER
     const parkingSlider = document.getElementById('parkingSlider');
     if (parkingSlider) {
         parkingSlider.addEventListener('input', function() {
@@ -698,11 +665,10 @@ window.addEventListener('DOMContentLoaded', function() {
             document.getElementById('parkingCost').textContent = '$' + cost;
             document.getElementById('parkingDays').textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
         });
-        // Set initial value
         parkingSlider.dispatchEvent(new Event('input'));
     }
     
-    // REPAIR SLIDER (the working version from console)
+    // REPAIR SLIDER
     const repairSlider = document.getElementById('repairSlider');
     if (repairSlider) {
         repairSlider.addEventListener('input', function() {
@@ -710,7 +676,6 @@ window.addEventListener('DOMContentLoaded', function() {
             document.getElementById('repairCost').textContent = '$' + repair.cost;
             document.getElementById('repairService').textContent = repair.desc;
         });
-        // Set initial value
         repairSlider.dispatchEvent(new Event('input'));
     }
     
