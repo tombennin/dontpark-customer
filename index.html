@@ -664,17 +664,25 @@ window.addEventListener('DOMContentLoaded', function() {  // This stays at line 
             const repairCost = document.getElementById('repairCost');
             const repairService = document.getElementById('repairService');
             
-            if (repairSlider) {
-                function updateRepair() {
-                    const index = parseInt(repairSlider.value);
-                    const repair = repairs[index];
-                    repairCost.textContent = '$' + repair.cost;
-                    repairService.textContent = repair.desc;
-                }
-                
-                repairSlider.addEventListener('input', updateRepair);
-                updateRepair();
-            }
+       const repairService = document.getElementById('repairService'); 
+if (repairSlider) { 
+    console.log('✅ Repair slider found!');
+    console.log('🔍 Testing repairs array:', repairs);
+    
+    function updateRepair() { 
+        console.log('🎯 updateRepair called, slider value:', repairSlider.value);
+        const index = parseInt(repairSlider.value); 
+        console.log('📍 Index:', index, 'repairs[index]:', repairs[index]);
+        const repair = repairs[index]; 
+        repairCost.textContent = '$' + repair.cost; 
+        repairService.textContent = repair.desc; 
+        console.log('✨ Updated display to:', repair.desc);
+    } 
+    repairSlider.addEventListener('input', updateRepair); 
+    updateRepair(); 
+} else {
+    console.log('❌ Repair slider NOT found!');
+}
             
             // Set minimum date to today
             const today = new Date().toISOString().split('T')[0];
