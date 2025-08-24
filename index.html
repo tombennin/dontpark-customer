@@ -717,7 +717,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     service_description: selectedService ? JSON.stringify(selectedService) : null,
                     customer_notes: userMessages || 'No specific issue described',
                     estimated_cost: selectedService ? selectedService.cost : null,
-                    status: 'new',
+                    status: 'pending',
                     priority_score: 5,
                     dontpark_booking_id: 'DP' + Date.now().toString().slice(-6),
                     created_at: new Date().toISOString(),
