@@ -638,23 +638,23 @@ const repairs = [
     {cost: 1200, desc: 'Transmission repair'},
     {cost: 3500, desc: 'Engine rebuild'}
 ];
-
 // Initialize sliders when page loads
 window.addEventListener('DOMContentLoaded', function() {
+    alert('DOM LOADED TEST!'); // ADD THIS LINE FOR TESTING
     console.log('🚀 Page loaded - initializing sliders...');
     
-    // PARKING SLIDER
-    const parkingSlider = document.getElementById('parkingSlider');
-    if (parkingSlider) {
-        parkingSlider.addEventListener('input', function() {
-            const days = this.value;
-            const cost = days * 25;
-            document.getElementById('parkingCost').textContent = '$' + cost;
-            document.getElementById('parkingDays').textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
-        });
-        parkingSlider.dispatchEvent(new Event('input'));
-    }
-    
+  // PARKING SLIDER
+const parkingSlider = document.getElementById('parkingSlider');
+if (parkingSlider) {
+    parkingSlider.addEventListener('input', function() {
+        const days = this.value;
+        const cost = days * 25;
+        document.getElementById('parkingCost').textContent = '$' + cost;
+        document.getElementById('parkingDays').textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
+    });
+    parkingSlider.dispatchEvent(new Event('input'));
+}
+      
     // REPAIR SLIDER
     const repairSlider = document.getElementById('repairSlider');
     if (repairSlider) {
