@@ -649,7 +649,24 @@ const repairs = [
         
         // Global variables
         let selectedService = null;
-        
+        const repairs = [
+    {cost: 15, desc: 'Car air freshener'},
+    {cost: 25, desc: 'Replace windshield wipers'},
+    {cost: 45, desc: 'Standard oil change'},
+    {cost: 75, desc: 'Battery test & cleaning'},
+    {cost: 95, desc: 'Tire rotation & balance'},
+    {cost: 125, desc: 'Brake inspection'},
+    {cost: 180, desc: 'Brake pad replacement'},
+    {cost: 220, desc: 'Transmission service'},
+    {cost: 350, desc: 'Engine tune-up'},
+    {cost: 450, desc: 'AC repair & recharge'},
+    {cost: 1200, desc: 'Transmission repair'},
+    {cost: 3500, desc: 'Engine rebuild'}
+];
+
+window.addEventListener('DOMContentLoaded', function() {  // This stays at line 653
+    console.log('🚀 Page loaded - initializing DontPark...');
+    // ... rest of your existing slider code
         window.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Page loaded - initializing DontPark...');
             
