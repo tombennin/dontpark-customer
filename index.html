@@ -684,204 +684,86 @@
             // ============================================
             // FORM SUBMISSION WITH CORRECT COLUMN NAMES
             // ============================================
-            const bookingForm = document.getElementById('bookingForm');
-            if (bookingForm) {
-                bookingForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    console.log('📋 Form submitted!');
-                    
-                    try {
-                        const formData = new FormData(this);
-                        
-                        // Map form data to correct Supabase column names
-                        const bookingData = {
-                            customer_name: formData.get('fullName'),
-                            customer_phone: formData.get('phone'),
-                            customer_email: formData.get('email'),
-                            flight_date: formData.get('departureDate'),
-                            flight_time: formData.get('departureTime'),
-                            return_date: formData.get('returnDate'),
-                            arrival_time: formData.get('returnTime'),
-                            return_flight: formData.get('returnFlight'),
-                            // Vehicle info with correct column names
-                            year: parseInt(formData.get('year')) || null,
-                            makeModel: formData.get('makeModel'),
-                            licensePlate: formData.get('licensePlate'),  // This matches your DB column
-                            color: formData.get('color'),
-                            // Service and metadata
-                            service_description: selectedService ? JSON.stringify(selectedService) : null,
-                            created_at: new Date().toISOString(),
-                            status: 'new'
-                        };
-                        
-                        console.log('💾 Sending to Supabase:', bookingData);
-                        
-                        const { data, error } = await supabase
-                            .from('bookings')
-                            .insert(bookingData);
-                        
-                        if (error) {
-                            console.error('❌ Supabase error:', error);
-                            alert('Booking error: ' + (error.message || 'Unknown error occurred'));
-                        } else {
-                            console.log('✅ Booking saved successfully:', data);
-                            
-                            // Show success message
-                            const successMsg = document.getElementById('successMessage');
-                            if (successMsg) {
-                                successMsg.style.display = 'block';
-                                successMsg.scrollIntoView({ behavior: 'smooth' });
-                            }
-                            
-                            // Reset form
-                            this.reset();
-                            
-                            // Reset service recommendation
-                            const serviceRec = document.getElementById('serviceRecommendation');
-                            const initialInput = document.getElementById('initialChatInput');
-                            if (serviceRec) serviceRec.style.display = 'none';
-                            if (initialInput) initialInput.style.display = 'block';
-                            selectedService = null;
-                        }
-                        
-                    } catch (error) {
-                        console.error('💥 Unexpected error:', error);
-                        alert('Connection error: ' + error.message);
-                    }
-                });
-            }
+        const bookingForm = document.getElementById('bookingForm');
+if (bookingForm) {
+    bookingForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log('📋 Form submitted!');
+        
+        try {
+            const formData = new FormData(this);
             
-            // ============================================
-            // CLAUDE AI CHAT FUNCTIONALITY
-            // ============================================
-            const chatSendBtn = document.getElementById('chatSendBtn');
-            const chatInput = document.getElementById('chatInput');
+            // Collect customer's raw issue description from chat
+            const chatMessages = document.getElementById('chatMessages');
+            const userMessages = Array.from(chatMessages.querySelectorAll('.user-message .message-content'))
+                .map(msg => msg.textContent)
+                .join(' | ');
             
-            if (chatSendBtn && chatInput) {
-                console.log('✅ Claude chat elements found');
+            // Map form data to YOUR EXISTING database columns
+            const bookingData = {
+                // Customer Information - exact matches
+                customer_name: formData.get('fullName'),
+                customer_phone: formData.get('phone'),
+                customer_email: formData.get('email'),
                 
-                chatSendBtn.addEventListener('click', sendMessage);
-                chatInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        sendMessage();
-                    }
-                });
+                // Flight Information - exact matches  
+                flight_date: formData.get('departureDate'),
+                flight_time: formData.get('departureTime'),
+                return_date: formData.get('returnDate'),
+                arrival_time: formData.get('returnTime'),
+                // Note: you don't have return_flight column, but have return_date/arrival_time
                 
-                function sendMessage() {
-                    const message = chatInput.value.trim();
-                    if (!message) return;
-                    
-                    console.log('💬 Sending message:', message);
-                    
-                    // Add user message
-                    addMessage(message, 'user');
-                    chatInput.value = '';
-                    
-                    // Show thinking state
-                    chatSendBtn.disabled = true;
-                    chatSendBtn.textContent = 'Thinking...';
-                    
-                    // Generate Claude response
-                    setTimeout(function() {
-                        const response = getClaudeResponse(message);
-                        addMessage(response.message, 'claude');
-                        
-                        if (response.recommendation) {
-                            selectedService = response.recommendation;
-                            showServiceRecommendation(response.recommendation);
-                        }
-                        
-                        // Reset button
-                        chatSendBtn.disabled = false;
-                        chatSendBtn.textContent = 'Send';
-                    }, 1500);
-                }
+                // Vehicle Information - match YOUR column names
+                year: parseInt(formData.get('year')) || null,
+                car_make: formData.get('makeModel')?.split(' ')[0] || '', // Extract make from "Honda Accord"
+                Make_model: formData.get('makeModel'), // Your exact column name
+                license_plate: formData.get('licensePlate'), // Your exact column name  
+                color: formData.get('color'),
                 
-                function addMessage(message, sender) {
-                    const chat = document.getElementById('chatMessages');
-                    if (chat) {
-                        const messageDiv = document.createElement('div');
-                        messageDiv.className = 'message ' + (sender === 'user' ? 'user-message' : 'claude-message');
-                        messageDiv.innerHTML = '<div class="message-content">' + message + '</div>';
-                        chat.appendChild(messageDiv);
-                        chat.scrollTop = chat.scrollHeight;
-                    }
-                }
+                // Service Information - use YOUR columns
+                service_description: selectedService ? JSON.stringify(selectedService) : null,
+                customer_notes: userMessages || 'No specific issue described',
+                estimated_cost: selectedService ? selectedService.cost : null,
                 
-                function getClaudeResponse(message) {
-                    const lower = message.toLowerCase();
-                    
-                    if (lower.includes('brake') || lower.includes('squeal') || lower.includes('grind')) {
-                        return {
-                            message: '🚨 Brake issues are serious safety concerns. Based on your description, you likely need brake pad replacement or rotor service. This is critical for safe driving.',
-                            recommendation: {
-                                service: 'Complete Brake Inspection & Service',
-                                description: 'Full brake system inspection and repair including pads, rotors, and fluid check.',
-                                cost: 180
-                            }
-                        };
-                    } else if (lower.includes('oil') || lower.includes('change')) {
-                        return {
-                            message: '🛢️ Regular oil changes keep your engine healthy! Perfect timing to do this while you travel.',
-                            recommendation: {
-                                service: 'Full Synthetic Oil Change',
-                                description: 'Premium synthetic oil change with filter replacement and multi-point inspection.',
-                                cost: 65
-                            }
-                        };
-                    } else if (lower.includes('ac') || lower.includes('air') || lower.includes('cold') || lower.includes('heat')) {
-                        return {
-                            message: '🌡️ Climate control issues can make driving uncomfortable. Common causes include refrigerant leaks, compressor problems, or electrical issues.',
-                            recommendation: {
-                                service: 'Complete A/C System Diagnosis',
-                                description: 'Full air conditioning system inspection including refrigerant levels, compressor function, and electrical components.',
-                                cost: 120
-                            }
-                        };
-                    } else if (lower.includes('engine') || lower.includes('check engine') || lower.includes('light')) {
-                        return {
-                            message: '🔍 Check engine lights indicate your car\'s computer has detected an issue. A diagnostic scan will reveal the specific problem code.',
-                            recommendation: {
-                                service: 'Engine Diagnostic Scan',
-                                description: 'Computer diagnostic scan to identify error codes and determine necessary repairs.',
-                                cost: 95
-                            }
-                        };
-                    } else {
-                        return {
-                            message: '🔍 I understand your concern. Let me arrange a comprehensive inspection to identify and fix the issue.',
-                            recommendation: {
-                                service: 'Comprehensive Vehicle Inspection',
-                                description: 'Complete diagnostic inspection to identify all issues with detailed report.',
-                                cost: 75
-                            }
-                        };
-                    }
-                }
+                // Status & Tracking - use YOUR columns
+                status: 'new',
+                priority_score: 5, // Normal priority
                 
-                function showServiceRecommendation(recommendation) {
-                    const recContent = document.getElementById('recommendationContent');
-                    const costAmount = document.getElementById('costAmount');
-                    const serviceRec = document.getElementById('serviceRecommendation');
-                    const initialInput = document.getElementById('initialChatInput');
-                    
-                    if (recContent && costAmount && serviceRec) {
-                        recContent.innerHTML = '<strong>' + recommendation.service + '</strong><br><br>' + recommendation.description;
-                        costAmount.textContent = '$' + recommendation.cost;
-                        serviceRec.style.display = 'block';
-                        
-                        if (initialInput) {
-                            initialInput.style.display = 'none';
-                        }
-                    }
-                }
+                // Generate a DontPark booking ID
+                dontpark_booking_id: 'DP' + Date.now().toString().slice(-6),
+                
+                // Auto-timestamps (your DB should handle these)
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+            };
+            
+            console.log('💾 Sending to Supabase (matching YOUR schema):', bookingData);
+            
+            const { data, error } = await supabase
+                .from('bookings')
+                .insert([bookingData]);
+            
+            if (error) {
+                console.error('❌ Supabase error:', error);
+                alert('Booking error: ' + (error.message || 'Unknown error occurred'));
             } else {
-                console.log('❌ Claude chat elements not found');
+                console.log('✅ Booking saved successfully:', data);
+                
+                // Show success message
+                const successMsg = document.getElementById('successMessage');
+                if (successMsg) {
+                    successMsg.style.display = 'block';
+                    successMsg.scrollIntoView({ behavior: 'smooth' });
+                }
+                
+                // Reset form and chat
+                this.reset();
+                resetChat();
             }
             
-            console.log('🎉 DontPark initialization complete!');
-        });
-    </script>
-</body>
-</html>
+        } catch (error) {
+            console.error('💥 Unexpected error:', error);
+            alert('Connection error: ' + error.message);
+        }
+    });
+}
