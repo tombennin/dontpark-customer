@@ -940,7 +940,128 @@ window.addEventListener('DOMContentLoaded', function() {
             selectedService = null;
         }
     }
+      // ============================================
+    // GOOGLE MAPS INTEGRATION
+    // ============================================
     
+    // Google Maps integration for service area
+    let serviceMap;
+    let serviceMarkers = [];
+
+    // Location data
+    const serviceLocations = {
+        airport: {
+            coords: { lat: 36.1245, lng: -86.6782 },
+            name: "Nashville Airport (BNA)",
+            type: "airport",
+            icon: "✈️"
+        },
+        bennetts: {
+            coords: { lat: 35.9828, lng: -86.5186 },
+            name: "Bennett's Automotive",
+            type: "active",
+            icon: "🔧",
+            details: {
+                distance: "15 miles southeast",
+                driveTime: "20 minutes",
+                areas: "Smyrna, Murfreesboro, La Vergne, Antioch"
+            }
+        },
+        north: {
+            coords: { lat: 36.2088, lng: -86.7644 },
+            name: "North Nashville",
+            type: "coming",
+            icon: "🚧",
+            launch: "Q2 2025"
+        },
+        east: {
+            coords: { lat: 36.1627, lng: -86.6000 },
+            name: "East Nashville", 
+            type: "coming",
+            icon: "🚧",
+            launch: "Q3 2025"
+        }
+    };
+
+    // Initialize service map
+    function initServiceMap() {
+        console.log('🗺️ Loading service area map...');
+        
+        serviceMap = new google.maps.Map(document.getElementById("serviceMap"), {
+            zoom: 10,
+            center: { lat: 36.1627, lng: -86.7816 },
+            styles: [
+                {
+                    featureType: "poi.business",
+                    stylers: [{ visibility: "off" }]
+                }
+            ]
+        });
+
+        // Add markers for each service location
+        Object.entries(serviceLocations).forEach(([key, location]) => {
+            addServiceMarker(location);
+        });
+
+        // Add service area circle for Bennett's
+        new google.maps.Circle({
+            strokeColor: "#f59e0b",
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: "#f59e0b", 
+            fillOpacity: 0.1,
+            map: serviceMap,
+            center: serviceLocations.bennetts.coords,
+            radius: 25000, // 25km radius
+        });
+
+        console.log('✅ Service map loaded successfully!');
+    }
+
+    // Add service marker
+    function addServiceMarker(location) {
+        const marker = new google.maps.Marker({
+            position: location.coords,
+            map: serviceMap,
+            title: location.name,
+            label: {
+                text: location.icon,
+                fontSize: "16px"
+            }
+        });
+
+        // Create info window content
+        let infoContent = `<div style="text-align: center; padding: 10px;">`;
+        infoContent += `<strong style="color: #1e3a8a;">${location.icon} ${location.name}</strong><br>`;
+        
+        if (location.type === 'airport') {
+            infoContent += `<span style="color: #64748b;">Your departure point</span>`;
+        } else if (location.type === 'active') {
+            infoContent += `<span style="color: #64748b;">${location.details.distance} from airport<br>`;
+            infoContent += `Serves: ${location.details.areas}</span>`;
+        } else if (location.type === 'coming') {
+            infoContent += `<span style="color: #64748b;">Expected: ${location.launch}</span>`;
+        }
+        
+        infoContent += `</div>`;
+        
+        const infoWindow = new google.maps.InfoWindow({
+            content: infoContent
+        });
+
+        marker.addListener("click", () => {
+            // Close other info windows first
+            serviceMarkers.forEach(({infoWindow: iw}) => iw.close());
+            infoWindow.open(serviceMap, marker);
+        });
+
+        serviceMarkers.push({marker, infoWindow});
+    }
+
+    // Global function for Google Maps callback
+    window.initServiceMap = initServiceMap;
+    
+    console.log('🎉 DontPark initialization complete!');
     console.log('🎉 DontPark initialization complete!');
 });
 </script>
