@@ -349,6 +349,231 @@
             .header-top { flex-direction: column; gap: 15px; }
             .form-row { grid-template-columns: 1fr; }
         }
+        <!-- ADD THIS CSS TO YOUR <HEAD> SECTION -->
+<style>
+/* Add these map styles to your existing CSS */
+.service-map-section {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    border: 2px solid #0ea5e9;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 30px 0;
+}
+
+.map-container {
+    height: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid #e5e7eb;
+    margin: 15px 0;
+    position: relative;
+}
+
+#serviceMap {
+    height: 100%;
+    width: 100%;
+}
+
+.map-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.legend-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+.airport-icon { background: #3b82f6; color: white; }
+.active-service-icon { background: #f59e0b; color: white; }
+.coming-soon-icon { background: #9ca3af; color: white; }
+
+@media (max-width: 768px) {
+    .map-container { height: 300px; }
+    .map-legend { grid-template-columns: 1fr; }
+}
+</style>
+
+<!-- ADD THIS HTML SECTION AT LINE 403 (before "Fill in your info below...") -->
+<section class="service-map-section">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h3 style="color: #0c4a6e; font-size: 1.4rem; font-weight: 700; margin-bottom: 8px;">
+            🗺️ Our Service Network
+        </h3>
+        <p style="color: #64748b; font-size: 1rem;">
+            See where we can service your vehicle while you travel
+        </p>
+    </div>
+    
+    <div class="map-container">
+        <div id="serviceMap"></div>
+    </div>
+    
+    <div class="map-legend">
+        <div class="legend-item">
+            <div class="legend-icon airport-icon">✈️</div>
+            <span><strong>BNA Airport</strong> - Your departure point</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-icon active-service-icon">🔧</div>
+            <span><strong>Active Service</strong> - Ready to serve you now</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-icon coming-soon-icon">🚧</div>
+            <span><strong>Coming Soon</strong> - Expanding to your area</span>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: #64748b;">
+        💡 <strong>Tip:</strong> Click markers to see service details and coverage areas
+    </div>
+</section>
+
+<!-- ADD THIS JAVASCRIPT TO YOUR <SCRIPT> SECTION -->
+<script>
+// Google Maps integration for dontpark.com
+let serviceMap;
+let serviceMarkers = [];
+
+// Location data (same as your maps page but streamlined)
+const serviceLocations = {
+    airport: {
+        coords: { lat: 36.1245, lng: -86.6782 },
+        name: "Nashville Airport (BNA)",
+        type: "airport",
+        icon: "✈️"
+    },
+    bennetts: {
+        coords: { lat: 35.9828, lng: -86.5186 },
+        name: "Bennett's Automotive",
+        type: "active",
+        icon: "🔧",
+        details: {
+            distance: "15 miles southeast",
+            driveTime: "20 minutes",
+            areas: "Smyrna, Murfreesboro, La Vergne, Antioch"
+        }
+    },
+    north: {
+        coords: { lat: 36.2088, lng: -86.7644 },
+        name: "North Nashville",
+        type: "coming",
+        icon: "🚧",
+        launch: "Q2 2025"
+    },
+    east: {
+        coords: { lat: 36.1627, lng: -86.6000 },
+        name: "East Nashville", 
+        type: "coming",
+        icon: "🚧",
+        launch: "Q3 2025"
+    }
+};
+
+// Initialize service map
+function initServiceMap() {
+    console.log('🗺️ Loading service area map...');
+    
+    serviceMap = new google.maps.Map(document.getElementById("serviceMap"), {
+        zoom: 10,
+        center: { lat: 36.1627, lng: -86.7816 },
+        styles: [
+            {
+                featureType: "poi.business",
+                stylers: [{ visibility: "off" }]
+            }
+        ]
+    });
+
+    // Add markers for each service location
+    Object.entries(serviceLocations).forEach(([key, location]) => {
+        addServiceMarker(location);
+    });
+
+    // Add service area circle for Bennett's
+    new google.maps.Circle({
+        strokeColor: "#f59e0b",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "#f59e0b", 
+        fillOpacity: 0.1,
+        map: serviceMap,
+        center: serviceLocations.bennetts.coords,
+        radius: 25000, // 25km radius
+    });
+
+    console.log('✅ Service map loaded successfully!');
+}
+
+// Add service marker
+function addServiceMarker(location) {
+    const marker = new google.maps.Marker({
+        position: location.coords,
+        map: serviceMap,
+        title: location.name,
+        label: {
+            text: location.icon,
+            fontSize: "16px"
+        }
+    });
+
+    // Create info window content
+    let infoContent = `<div style="text-align: center; padding: 10px;">`;
+    infoContent += `<strong style="color: #1e3a8a;">${location.icon} ${location.name}</strong><br>`;
+    
+    if (location.type === 'airport') {
+        infoContent += `<span style="color: #64748b;">Your departure point</span>`;
+    } else if (location.type === 'active') {
+        infoContent += `<span style="color: #64748b;">${location.details.distance} from airport<br>`;
+        infoContent += `Serves: ${location.details.areas}</span>`;
+    } else if (location.type === 'coming') {
+        infoContent += `<span style="color: #64748b;">Expected: ${location.launch}</span>`;
+    }
+    
+    infoContent += `</div>`;
+    
+    const infoWindow = new google.maps.InfoWindow({
+        content: infoContent
+    });
+
+    marker.addListener("click", () => {
+        // Close other info windows first
+        serviceMarkers.forEach(({infoWindow: iw}) => iw.close());
+        infoWindow.open(serviceMap, marker);
+    });
+
+    serviceMarkers.push({marker, infoWindow});
+}
+
+// Add this to your existing window.addEventListener('DOMContentLoaded', function()
+// Add this line in your DOMContentLoaded event:
+// initServiceMap(); // Call this after your existing slider initialization
+
+// Global function for Google Maps callback
+window.initServiceMap = initServiceMap;
+</script>
+
+<!-- ADD THIS SCRIPT TAG TO THE END OF YOUR <BODY> SECTION -->
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA55xI2xoTn_kGTLDmHnDOoWhw18ZehT4A&callback=initServiceMap">
+</script>
     </style>
 </head>
 <body>
