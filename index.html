@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nashville Airport Car Repair - AI Diagnosis & Concierge Service | DontPark.ai</title>
-<meta name="description" content="Car problems before your Nashville flight? Get instant AI diagnosis, trusted mechanics near BNA airport, and door-to-door concierge service. Don't miss your flight!">
-<meta name="keywords" content="Nashville airport car repair, BNA auto service, airport car problems, Nashville mechanics, flight car service">
+    <meta name="description" content="Car problems before your Nashville flight? Get instant AI diagnosis, trusted mechanics near BNA airport, and door-to-door concierge service. Don't miss your flight!">
+    <meta name="keywords" content="Nashville airport car repair, BNA auto service, airport car problems, Nashville mechanics, flight car service">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -129,6 +129,51 @@
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             border: none;
+        }
+        
+        /* Google Maps Styles */
+        .service-map-section {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .map-container {
+            margin: 20px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        #serviceMap {
+            height: 400px;
+            width: 100%;
+            background: #e2e8f0;
+        }
+        
+        .map-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+        
+        .legend-icon {
+            font-size: 1.2rem;
         }
         
         .form-section { margin-bottom: 30px; }
@@ -348,8 +393,9 @@
         @media (max-width: 768px) {
             .header-top { flex-direction: column; gap: 15px; }
             .form-row { grid-template-columns: 1fr; }
+            .map-legend { flex-direction: column; }
+            #serviceMap { height: 300px; }
         }
-
     </style>
 </head>
 <body>
@@ -367,13 +413,13 @@
                     <span style="color: white; font-weight: 600;">Powered by Claude AI</span>
                 </div>
             </div>
-<div class="tagline">Fixing instead of Parking Your Car</div>
+            <div class="tagline">Fixing instead of Parking Your Car</div>
         </header>
         
         <main class="content">
-          <div class="status-banner">
-    ✅ Ready to serve Nashville travelers!
-</div>
+            <div class="status-banner">
+                ✅ Ready to serve Nashville travelers!
+            </div>
             
             <section class="savings-calculator">
                 <div class="calculator-header">
@@ -388,8 +434,9 @@
                         <div class="slider-description" id="parkingDays">3 days of airport parking</div>
                     </div>
                     <input type="range" id="parkingSlider" min="1" max="14" value="3">
-                        </div>
-                                <div class="slider-section">
+                </div>
+                
+                <div class="slider-section">
                     <div class="slider-label">🔧 What could you fix for that money?</div>
                     <div class="slider-display">
                         <div class="slider-value" id="repairCost">$180</div>
@@ -398,41 +445,43 @@
                     <input type="range" id="repairSlider" min="0" max="11" value="6">
                 </div>
             </section>
-  <div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8fafc; border-radius: 12px;">
+            
+            <section class="service-map-section">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h3 style="color: #0c4a6e; font-size: 1.4rem; font-weight: 700; margin-bottom: 8px;">
+                        🗺️ Our Service Network
+                    </h3>
+                    <p style="color: #64748b; font-size: 1rem;">
+                        See where we can service your vehicle while you travel
+                    </p>
+                </div>
+                
+                <div class="map-container">
+                    <div id="serviceMap"></div>
+                </div>
+                
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-icon airport-icon">✈️</div>
+                        <span><strong>BNA Airport</strong> - Your departure point</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon active-service-icon">🔧</div>
+                        <span><strong>Active Service</strong> - Ready to serve you now</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon coming-soon-icon">🚧</div>
+                        <span><strong>Coming Soon</strong> - Expanding to your area</span>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: #64748b;">
+                    💡 <strong>Tip:</strong> Click markers to see service details and coverage areas
+                </div>
+            </section>
+            
+            <div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8fafc; border-radius: 12px;">
                 <p style="font-size: 1.1rem; color: #1e293b; font-weight: 500;">
-                    <section class="service-map-section">
-    <div style="text-align: center; margin-bottom: 20px;">
-        <h3 style="color: #0c4a6e; font-size: 1.4rem; font-weight: 700; margin-bottom: 8px;">
-            🗺️ Our Service Network
-        </h3>
-        <p style="color: #64748b; font-size: 1rem;">
-            See where we can service your vehicle while you travel
-        </p>
-    </div>
-    
-    <div class="map-container">
-        <div id="serviceMap"></div>
-    </div>
-    
-    <div class="map-legend">
-        <div class="legend-item">
-            <div class="legend-icon airport-icon">✈️</div>
-            <span><strong>BNA Airport</strong> - Your departure point</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-icon active-service-icon">🔧</div>
-            <span><strong>Active Service</strong> - Ready to serve you now</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-icon coming-soon-icon">🚧</div>
-            <span><strong>Coming Soon</strong> - Expanding to your area</span>
-        </div>
-    </div>
-    
-    <div style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: #64748b;">
-        💡 <strong>Tip:</strong> Click markers to see service details and coverage areas
-    </div>
-</section>
                     Fill in your info below, then tell Claude what's going on with your car. To book a shop visit with concierge service to the airport, press the bottom button.
                 </p>
             </div>
@@ -546,10 +595,10 @@
                         </div>
                     </div>
                     
-                   <div class="chat-input-container" id="initialChatInput">
-                    <textarea class="chat-input" id="chatInput" placeholder="Describe what's happening with your car..." rows="2"></textarea>
-                    <button type="button" class="chat-send-btn" id="chatSendBtn">Send</button>
-                </div>
+                    <div class="chat-input-container" id="initialChatInput">
+                        <textarea class="chat-input" id="chatInput" placeholder="Describe what's happening with your car..." rows="2"></textarea>
+                        <button type="button" class="chat-send-btn" id="chatSendBtn">Send</button>
+                    </div>
                     
                     <div id="serviceRecommendation" class="service-recommendation">
                         <div class="recommendation-header">
@@ -577,497 +626,8 @@
     </div>
     
     <script>
-// ============================================
-// CDN-FREE SUPABASE CLIENT - NO EXTERNAL DEPENDENCIES!
-// ============================================
-class SimpleSupabaseClient {
-    constructor(url, key) {
-        this.url = url;
-        this.key = key;
-        this.headers = {
-            'apikey': key,
-            'Authorization': `Bearer ${key}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=representation'
-        };
-    }
-    
-    from(table) {
-        return new SupabaseTable(this.url, this.headers, table);
-    }
-}
-
-class SupabaseTable {
-    constructor(baseUrl, headers, table) {
-        this.baseUrl = baseUrl;
-        this.headers = headers;
-        this.table = table;
-    }
-    
-    async insert(data) {
-        try {
-            console.log('Inserting data to Supabase:', data);
-            
-            const response = await fetch(`${this.baseUrl}/rest/v1/${this.table}`, {
-                method: 'POST',
-                headers: this.headers,
-                body: JSON.stringify(Array.isArray(data) ? data : [data])
-            });
-            
-            const result = await response.text();
-            console.log('Supabase response:', { status: response.status, result });
-            
-            if (!response.ok) {
-                let errorData;
-                try {
-                    errorData = JSON.parse(result);
-                } catch {
-                    errorData = { message: result || 'Unknown error' };
-                }
-                return { data: null, error: errorData };
-            }
-            
-            let responseData = null;
-            if (result) {
-                try {
-                    responseData = JSON.parse(result);
-                } catch {
-                    responseData = result;
-                }
-            }
-            
-            return { data: responseData, error: null };
-        } catch (error) {
-            console.error('Supabase client error:', error);
-            return { data: null, error: { message: error.message } };
-        }
-    }
-}
-
-// Initialize Supabase with CDN-free client
-const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw';
-
-const supabase = new SimpleSupabaseClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-console.log('✅ CDN-free Supabase client initialized!');
-
-// Global variables
-let selectedService = null;
-
-// Repairs array - ONLY DECLARE ONCE
-const repairs = [
-    {cost: 15, desc: 'Car air freshener'},
-    {cost: 25, desc: 'Replace windshield wipers'},
-    {cost: 45, desc: 'Standard oil change'},
-    {cost: 75, desc: 'Battery test & cleaning'},
-    {cost: 95, desc: 'Tire rotation & balance'},
-    {cost: 125, desc: 'Brake inspection'},
-    {cost: 180, desc: 'Brake pad replacement'},
-    {cost: 220, desc: 'Transmission service'},
-    {cost: 350, desc: 'Engine tune-up'},
-    {cost: 450, desc: 'AC repair & recharge'},
-    {cost: 1200, desc: 'Transmission repair'},
-    {cost: 3500, desc: 'Engine rebuild'}
-];
-
-// Initialize everything when page loads
-window.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Page loaded - initializing DontPark...');
-    
-    // PARKING SLIDER
-    const parkingSlider = document.getElementById('parkingSlider');
-    const parkingCost = document.getElementById('parkingCost');
-    const parkingDays = document.getElementById('parkingDays');
-    
-    if (parkingSlider) {
-        function updateParking() {
-            const days = parkingSlider.value;
-            const cost = days * 25;
-            parkingCost.textContent = '$' + cost;
-            parkingDays.textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
-        }
-        
-        parkingSlider.addEventListener('input', updateParking);
-        updateParking();
-    }
-    
-    // REPAIR SLIDER
-    const repairSlider = document.getElementById('repairSlider');
-    const repairCost = document.getElementById('repairCost');
-    const repairService = document.getElementById('repairService');
-    
-    if (repairSlider) {
-        function updateRepair() {
-            const index = parseInt(repairSlider.value);
-            const repair = repairs[index];
-            repairCost.textContent = '$' + repair.cost;
-            repairService.textContent = repair.desc;
-        }
-        
-        repairSlider.addEventListener('input', updateRepair);
-        updateRepair();
-    }
-    
-    // Set minimum date to today
-    const today = new Date().toISOString().split('T')[0];
-    const depDateInput = document.querySelector('input[name="departureDate"]');
-    if (depDateInput) {
-        depDateInput.setAttribute('min', today);
-    }
-    
-    // ============================================
-    // FORM SUBMISSION
-    // ============================================
-    const bookingForm = document.getElementById('bookingForm');
-    if (bookingForm) {
-        bookingForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            console.log('📋 Form submitted!');
-            
-            try {
-                const formData = new FormData(this);
-                
-                // Collect customer's raw issue description from chat
-                const chatMessages = document.getElementById('chatMessages');
-                const userMessages = Array.from(chatMessages.querySelectorAll('.user-message .message-content'))
-                    .map(msg => msg.textContent)
-                    .join(' | ');
-                
-                // Map form data to database columns
-                const bookingData = {
-                    customer_name: formData.get('fullName'),
-                    customer_phone: formData.get('phone'),
-                    customer_email: formData.get('email'),
-                    flight_date: formData.get('departureDate'),
-                    flight_time: formData.get('departureTime'),
-                    return_date: formData.get('returnDate'),
-                    arrival_time: formData.get('returnTime'),
-                    year: parseInt(formData.get('year')) || null,
-                    car_make: formData.get('makeModel')?.split(' ')[0] || '',
-                    Make_model: formData.get('makeModel'),
-                    license_plate: formData.get('licensePlate'),
-                    color: formData.get('color'),
-                    service_description: selectedService ? JSON.stringify(selectedService) : null,
-                    customer_notes: userMessages || 'No specific issue described',
-                    estimated_cost: selectedService ? selectedService.cost : null,
-                    status: 'pending',
-                    priority_score: 5,
-                    dontpark_booking_id: 'DP' + Date.now().toString().slice(-6),
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                };
-                
-                console.log('💾 Sending to Supabase:', bookingData);
-                
-                const { data, error } = await supabase
-                    .from('bookings')
-                    .insert([bookingData]);
-                
-                if (error) {
-                    console.error('❌ Supabase error:', error);
-                    alert('Booking error: ' + (error.message || 'Unknown error occurred'));
-                } else {
-                    console.log('✅ Booking saved successfully:', data);
-                    
-                    // Show success message
-                    const successMsg = document.getElementById('successMessage');
-                    if (successMsg) {
-                        successMsg.style.display = 'block';
-                        successMsg.scrollIntoView({ behavior: 'smooth' });
-                    }
-                    
-                    // Reset form and chat
-                    this.reset();
-                    resetChat();
-                }
-                
-            } catch (error) {
-                console.error('💥 Unexpected error:', error);
-                alert('Connection error: ' + error.message);
-            }
-        });
-    }
-    
-    // ============================================
-    // CLAUDE AI CHAT FUNCTIONALITY
-    // ============================================
-    const chatSendBtn = document.getElementById('chatSendBtn');
-    const chatInput = document.getElementById('chatInput');
-    
-    if (chatSendBtn && chatInput) {
-        console.log('✅ Claude chat elements found');
-        
-        chatSendBtn.addEventListener('click', sendMessage);
-        chatInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-        
-        function sendMessage() {
-            const message = chatInput.value.trim();
-            if (!message) return;
-            
-            console.log('💬 Sending message:', message);
-            
-            // Add user message
-            addMessage(message, 'user');
-            chatInput.value = '';
-            
-            // Show thinking state
-            chatSendBtn.disabled = true;
-            chatSendBtn.textContent = 'Thinking...';
-            
-            // Generate Claude response
-            setTimeout(function() {
-                const response = getClaudeResponse(message);
-                addMessage(response.message, 'claude');
-                
-                if (response.recommendation) {
-                    selectedService = response.recommendation;
-                    showServiceRecommendation(response.recommendation);
-                }
-                
-                // Reset button
-                chatSendBtn.disabled = false;
-                chatSendBtn.textContent = 'Send';
-            }, 1500);
-        }
-        
-        function addMessage(message, sender) {
-            const chat = document.getElementById('chatMessages');
-            if (chat) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'message ' + (sender === 'user' ? 'user-message' : 'claude-message');
-                messageDiv.innerHTML = '<div class="message-content">' + message + '</div>';
-                chat.appendChild(messageDiv);
-                chat.scrollTop = chat.scrollHeight;
-            }
-        }
-        
-        function getClaudeResponse(message) {
-            const lower = message.toLowerCase();
-            
-            if (lower.includes('brake') || lower.includes('squeal') || lower.includes('grind')) {
-                return {
-                    message: '🚨 Brake issues are serious safety concerns. Based on your description, you likely need brake pad replacement or rotor service. This is critical for safe driving and should be addressed before your trip.',
-                    recommendation: {
-                        service: 'Complete Brake Inspection & Service',
-                        description: 'Comprehensive brake system inspection including pads, rotors, fluid check, and test drive to ensure safe operation.',
-                        cost: 280
-                    }
-                };
-            } else if (lower.includes('oil') || lower.includes('change') || lower.includes('maintenance')) {
-                return {
-                    message: '🛢️ Regular oil changes keep your engine healthy! Perfect timing to do this while you travel. We can have this done quickly before your flight.',
-                    recommendation: {
-                        service: 'Full Synthetic Oil Change Plus',
-                        description: 'Premium synthetic oil change with filter replacement, fluid level check, and 15-point inspection.',
-                        cost: 75
-                    }
-                };
-            } else if (lower.includes('ac') || lower.includes('air') || lower.includes('cold') || lower.includes('heat') || lower.includes('cooling')) {
-                return {
-                    message: '🌡️ Climate control issues can make driving uncomfortable, especially for your return trip. Common causes include refrigerant leaks, compressor problems, or clogged filters.',
-                    recommendation: {
-                        service: 'Complete A/C System Service',
-                        description: 'Full air conditioning system diagnosis, refrigerant recharge, component inspection, and performance test.',
-                        cost: 185
-                    }
-                };
-            } else if (lower.includes('engine') || lower.includes('check engine') || lower.includes('light') || lower.includes('dashboard')) {
-                return {
-                    message: '🔍 Check engine lights indicate your car\'s computer has detected an issue that needs attention. A diagnostic scan will reveal the specific problem code and recommended repairs.',
-                    recommendation: {
-                        service: 'Engine Diagnostic & Repair',
-                        description: 'Computer diagnostic scan to identify error codes, component testing, and necessary repairs to clear warning lights.',
-                        cost: 145
-                    }
-                };
-            } else {
-                return {
-                    message: '🔍 I understand your concern about your vehicle. Let me arrange a comprehensive inspection to identify and address any issues before your trip.',
-                    recommendation: {
-                        service: 'Comprehensive Pre-Travel Inspection',
-                        description: 'Complete diagnostic inspection covering all major systems with detailed report and priority recommendations.',
-                        cost: 120
-                    }
-                };
-            }
-        }
-        
-        function showServiceRecommendation(recommendation) {
-            const recContent = document.getElementById('recommendationContent');
-            const costAmount = document.getElementById('costAmount');
-            const serviceRec = document.getElementById('serviceRecommendation');
-            const initialInput = document.getElementById('initialChatInput');
-            
-            if (recContent && costAmount && serviceRec) {
-                recContent.innerHTML = '<strong>' + recommendation.service + '</strong><br><br>' + recommendation.description;
-                costAmount.textContent = '$' + recommendation.cost;
-                serviceRec.style.display = 'block';
-                
-                if (initialInput) {
-                    initialInput.style.display = 'none';
-                }
-            }
-        }
-        
-        function resetChat() {
-            const serviceRec = document.getElementById('serviceRecommendation');
-            const initialInput = document.getElementById('initialChatInput');
-            const chatMessages = document.getElementById('chatMessages');
-            
-            if (serviceRec) serviceRec.style.display = 'none';
-            if (initialInput) initialInput.style.display = 'block';
-            
-            // Reset to initial Claude message
-            if (chatMessages) {
-                chatMessages.innerHTML = `
-                    <div class="message claude-message">
-                        <div class="message-content">
-                            Hi! I'm Claude, You can describe symptoms like:
-                            <br><br>
-                            • "Steering is pulling to the left"<br>
-                            • "Check engine light is on"<br>
-                            • "AC isn't cold"
-                        </div>
-                    </div>
-                `;
-            }
-            
-            selectedService = null;
-        }
-    }
-      // ============================================
-    // GOOGLE MAPS INTEGRATION
-    // ============================================
-    
-    // Google Maps integration for service area
-    let serviceMap;
-    let serviceMarkers = [];
-
-    // Location data
-    const serviceLocations = {
-        airport: {
-            coords: { lat: 36.1245, lng: -86.6782 },
-            name: "Nashville Airport (BNA)",
-            type: "airport",
-            icon: "✈️"
-        },
-        bennetts: {
-            coords: { lat: 35.9828, lng: -86.5186 },
-            name: "Bennett's Automotive",
-            type: "active",
-            icon: "🔧",
-            details: {
-                distance: "15 miles southeast",
-                driveTime: "20 minutes",
-                areas: "Smyrna, Murfreesboro, La Vergne, Antioch"
-            }
-        },
-        north: {
-            coords: { lat: 36.2088, lng: -86.7644 },
-            name: "North Nashville",
-            type: "coming",
-            icon: "🚧",
-            launch: "Q2 2025"
-        },
-        east: {
-            coords: { lat: 36.1627, lng: -86.6000 },
-            name: "East Nashville", 
-            type: "coming",
-            icon: "🚧",
-            launch: "Q3 2025"
-        }
-    };
-
-    // Initialize service map
-    function initServiceMap() {
-        console.log('🗺️ Loading service area map...');
-        
-        serviceMap = new google.maps.Map(document.getElementById("serviceMap"), {
-            zoom: 10,
-            center: { lat: 36.1627, lng: -86.7816 },
-            styles: [
-                {
-                    featureType: "poi.business",
-                    stylers: [{ visibility: "off" }]
-                }
-            ]
-        });
-
-        // Add markers for each service location
-        Object.entries(serviceLocations).forEach(([key, location]) => {
-            addServiceMarker(location);
-        });
-
-        // Add service area circle for Bennett's
-        new google.maps.Circle({
-            strokeColor: "#f59e0b",
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: "#f59e0b", 
-            fillOpacity: 0.1,
-            map: serviceMap,
-            center: serviceLocations.bennetts.coords,
-            radius: 25000, // 25km radius
-        });
-
-        console.log('✅ Service map loaded successfully!');
-    }
-
-    // Add service marker
-    function addServiceMarker(location) {
-        const marker = new google.maps.Marker({
-            position: location.coords,
-            map: serviceMap,
-            title: location.name,
-            label: {
-                text: location.icon,
-                fontSize: "16px"
-            }
-        });
-
-        // Create info window content
-        let infoContent = `<div style="text-align: center; padding: 10px;">`;
-        infoContent += `<strong style="color: #1e3a8a;">${location.icon} ${location.name}</strong><br>`;
-        
-        if (location.type === 'airport') {
-            infoContent += `<span style="color: #64748b;">Your departure point</span>`;
-        } else if (location.type === 'active') {
-            infoContent += `<span style="color: #64748b;">${location.details.distance} from airport<br>`;
-            infoContent += `Serves: ${location.details.areas}</span>`;
-        } else if (location.type === 'coming') {
-            infoContent += `<span style="color: #64748b;">Expected: ${location.launch}</span>`;
-        }
-        
-        infoContent += `</div>`;
-        
-        const infoWindow = new google.maps.InfoWindow({
-            content: infoContent
-        });
-
-        marker.addListener("click", () => {
-            // Close other info windows first
-            serviceMarkers.forEach(({infoWindow: iw}) => iw.close());
-            infoWindow.open(serviceMap, marker);
-        });
-
-        serviceMarkers.push({marker, infoWindow});
-    }
-
-    // Global function for Google Maps callback
-    window.initServiceMap = initServiceMap;
-    
-    console.log('🎉 DontPark initialization complete!');
-    console.log('🎉 DontPark initialization complete!');
-});
-</script>
-    <script>
         // ============================================
-        // CDN-FREE SUPABASE CLIENT - NO EXTERNAL DEPENDENCIES!
+        // CDN-FREE SUPABASE CLIENT
         // ============================================
         class SimpleSupabaseClient {
             constructor(url, key) {
@@ -1133,7 +693,7 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Initialize Supabase with CDN-free client
+        // Initialize Supabase
         const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw';
         
@@ -1142,8 +702,10 @@ window.addEventListener('DOMContentLoaded', function() {
 
         // Global variables
         let selectedService = null;
+        let serviceMap;
+        let serviceMarkers = [];
 
-        // Repairs array - ONLY DECLARE ONCE
+        // Repairs array
         const repairs = [
             {cost: 15, desc: 'Car air freshener'},
             {cost: 25, desc: 'Replace windshield wipers'},
@@ -1159,11 +721,7 @@ window.addEventListener('DOMContentLoaded', function() {
             {cost: 3500, desc: 'Engine rebuild'}
         ];
 
-        // Google Maps integration for service area
-        let serviceMap;
-        let serviceMarkers = [];
-
-        // Location data
+        // Service locations
         const serviceLocations = {
             airport: {
                 coords: { lat: 36.1245, lng: -86.6782 },
@@ -1198,39 +756,47 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         };
 
-        // Initialize service map
+        // Initialize service map (called by Google Maps callback)
         function initServiceMap() {
-            console.log('🗺️ Loading service area map...');
+            console.log('🗺️ Initializing Google Maps...');
             
-            serviceMap = new google.maps.Map(document.getElementById("serviceMap"), {
-                zoom: 10,
-                center: { lat: 36.1627, lng: -86.7816 },
-                styles: [
-                    {
-                        featureType: "poi.business",
-                        stylers: [{ visibility: "off" }]
-                    }
-                ]
-            });
+            try {
+                serviceMap = new google.maps.Map(document.getElementById("serviceMap"), {
+                    zoom: 10,
+                    center: { lat: 36.1627, lng: -86.7816 },
+                    mapTypeControl: true,
+                    streetViewControl: false,
+                    fullscreenControl: true,
+                    styles: [
+                        {
+                            featureType: "poi.business",
+                            stylers: [{ visibility: "off" }]
+                        }
+                    ]
+                });
 
-            // Add markers for each service location
-            Object.entries(serviceLocations).forEach(([key, location]) => {
-                addServiceMarker(location);
-            });
+                // Add markers for each service location
+                Object.entries(serviceLocations).forEach(([key, location]) => {
+                    addServiceMarker(location);
+                });
 
-            // Add service area circle for Bennett's
-            new google.maps.Circle({
-                strokeColor: "#f59e0b",
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: "#f59e0b", 
-                fillOpacity: 0.1,
-                map: serviceMap,
-                center: serviceLocations.bennetts.coords,
-                radius: 25000, // 25km radius
-            });
+                // Add service area circle for Bennett's
+                new google.maps.Circle({
+                    strokeColor: "#f59e0b",
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: "#f59e0b", 
+                    fillOpacity: 0.1,
+                    map: serviceMap,
+                    center: serviceLocations.bennetts.coords,
+                    radius: 25000, // 25km radius
+                });
 
-            console.log('✅ Service map loaded successfully!');
+                console.log('✅ Google Maps loaded successfully!');
+            } catch (error) {
+                console.error('❌ Error loading Google Maps:', error);
+                document.getElementById("serviceMap").innerHTML = '<p style="text-align: center; padding: 50px; color: #64748b;">Map loading error. Please refresh the page.</p>';
+            }
         }
 
         // Add service marker
@@ -1241,21 +807,25 @@ window.addEventListener('DOMContentLoaded', function() {
                 title: location.name,
                 label: {
                     text: location.icon,
-                    fontSize: "16px"
-                }
+                    fontSize: "20px"
+                },
+                animation: google.maps.Animation.DROP
             });
 
             // Create info window content
-            let infoContent = `<div style="text-align: center; padding: 10px;">`;
-            infoContent += `<strong style="color: #1e3a8a;">${location.icon} ${location.name}</strong><br>`;
+            let infoContent = `<div style="padding: 10px; min-width: 200px;">`;
+            infoContent += `<h4 style="color: #1e3a8a; margin-bottom: 8px;">${location.icon} ${location.name}</h4>`;
             
             if (location.type === 'airport') {
-                infoContent += `<span style="color: #64748b;">Your departure point</span>`;
+                infoContent += `<p style="color: #64748b; margin: 0;">Your departure point</p>`;
             } else if (location.type === 'active') {
-                infoContent += `<span style="color: #64748b;">${location.details.distance} from airport<br>`;
-                infoContent += `Serves: ${location.details.areas}</span>`;
+                infoContent += `<p style="color: #059669; font-weight: 600; margin-bottom: 5px;">✅ Currently Active</p>`;
+                infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Distance:</strong> ${location.details.distance}</p>`;
+                infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Drive Time:</strong> ${location.details.driveTime}</p>`;
+                infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Service Areas:</strong><br>${location.details.areas}</p>`;
             } else if (location.type === 'coming') {
-                infoContent += `<span style="color: #64748b;">Expected: ${location.launch}</span>`;
+                infoContent += `<p style="color: #f59e0b; font-weight: 600;">🚧 Coming Soon</p>`;
+                infoContent += `<p style="color: #64748b; margin: 0;">Expected: ${location.launch}</p>`;
             }
             
             infoContent += `</div>`;
@@ -1273,11 +843,11 @@ window.addEventListener('DOMContentLoaded', function() {
             serviceMarkers.push({marker, infoWindow});
         }
 
-        // Initialize everything when page loads
+        // Initialize everything when DOM is ready
         window.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Page loaded - initializing DontPark...');
+            console.log('🚀 DontPark.com initializing...');
             
-            // PARKING SLIDER
+            // Initialize parking cost slider
             const parkingSlider = document.getElementById('parkingSlider');
             const parkingCost = document.getElementById('parkingCost');
             const parkingDays = document.getElementById('parkingDays');
@@ -1294,7 +864,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 updateParking();
             }
             
-            // REPAIR SLIDER
+            // Initialize repair cost slider
             const repairSlider = document.getElementById('repairSlider');
             const repairCost = document.getElementById('repairCost');
             const repairService = document.getElementById('repairService');
@@ -1311,32 +881,30 @@ window.addEventListener('DOMContentLoaded', function() {
                 updateRepair();
             }
             
-            // Set minimum date to today
+            // Set minimum date to today for date inputs
             const today = new Date().toISOString().split('T')[0];
             const depDateInput = document.querySelector('input[name="departureDate"]');
-            if (depDateInput) {
-                depDateInput.setAttribute('min', today);
-            }
+            const retDateInput = document.querySelector('input[name="returnDate"]');
+            if (depDateInput) depDateInput.setAttribute('min', today);
+            if (retDateInput) retDateInput.setAttribute('min', today);
             
-            // ============================================
-            // FORM SUBMISSION
-            // ============================================
+            // Handle form submission
             const bookingForm = document.getElementById('bookingForm');
             if (bookingForm) {
                 bookingForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
-                    console.log('📋 Form submitted!');
+                    console.log('📋 Processing booking...');
                     
                     try {
                         const formData = new FormData(this);
                         
-                        // Collect customer's raw issue description from chat
+                        // Collect chat messages
                         const chatMessages = document.getElementById('chatMessages');
                         const userMessages = Array.from(chatMessages.querySelectorAll('.user-message .message-content'))
                             .map(msg => msg.textContent)
                             .join(' | ');
                         
-                        // Map form data to database columns
+                        // Prepare booking data
                         const bookingData = {
                             customer_name: formData.get('fullName'),
                             customer_phone: formData.get('phone'),
@@ -1345,6 +913,7 @@ window.addEventListener('DOMContentLoaded', function() {
                             flight_time: formData.get('departureTime'),
                             return_date: formData.get('returnDate'),
                             arrival_time: formData.get('returnTime'),
+                            return_flight: formData.get('returnFlight'),
                             year: parseInt(formData.get('year')) || null,
                             car_make: formData.get('makeModel')?.split(' ')[0] || '',
                             Make_model: formData.get('makeModel'),
@@ -1360,17 +929,17 @@ window.addEventListener('DOMContentLoaded', function() {
                             updated_at: new Date().toISOString()
                         };
                         
-                        console.log('💾 Sending to Supabase:', bookingData);
+                        console.log('💾 Saving booking to database...');
                         
                         const { data, error } = await supabase
                             .from('bookings')
                             .insert([bookingData]);
                         
                         if (error) {
-                            console.error('❌ Supabase error:', error);
+                            console.error('❌ Database error:', error);
                             alert('Booking error: ' + (error.message || 'Unknown error occurred'));
                         } else {
-                            console.log('✅ Booking saved successfully:', data);
+                            console.log('✅ Booking saved successfully!');
                             
                             // Show success message
                             const successMsg = document.getElementById('successMessage');
@@ -1379,7 +948,7 @@ window.addEventListener('DOMContentLoaded', function() {
                                 successMsg.scrollIntoView({ behavior: 'smooth' });
                             }
                             
-                            // Reset form and chat
+                            // Reset form
                             this.reset();
                             resetChat();
                         }
@@ -1391,14 +960,12 @@ window.addEventListener('DOMContentLoaded', function() {
                 });
             }
             
-            // ============================================
-            // CLAUDE AI CHAT FUNCTIONALITY
-            // ============================================
+            // Claude AI Chat functionality
             const chatSendBtn = document.getElementById('chatSendBtn');
             const chatInput = document.getElementById('chatInput');
             
             if (chatSendBtn && chatInput) {
-                console.log('✅ Claude chat elements found');
+                console.log('✅ Claude AI chat ready');
                 
                 chatSendBtn.addEventListener('click', sendMessage);
                 chatInput.addEventListener('keypress', function(e) {
@@ -1412,8 +979,6 @@ window.addEventListener('DOMContentLoaded', function() {
                     const message = chatInput.value.trim();
                     if (!message) return;
                     
-                    console.log('💬 Sending message:', message);
-                    
                     // Add user message
                     addMessage(message, 'user');
                     chatInput.value = '';
@@ -1422,7 +987,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     chatSendBtn.disabled = true;
                     chatSendBtn.textContent = 'Thinking...';
                     
-                    // Generate Claude response
+                    // Simulate Claude response
                     setTimeout(function() {
                         const response = getClaudeResponse(message);
                         addMessage(response.message, 'claude');
@@ -1525,7 +1090,6 @@ window.addEventListener('DOMContentLoaded', function() {
                     if (serviceRec) serviceRec.style.display = 'none';
                     if (initialInput) initialInput.style.display = 'block';
                     
-                    // Reset to initial Claude message
                     if (chatMessages) {
                         chatMessages.innerHTML = `
                             <div class="message claude-message">
@@ -1544,17 +1108,16 @@ window.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
-            console.log('🎉 DontPark initialization complete!');
+            console.log('🎉 DontPark.com ready!');
         });
 
-        // Global function for Google Maps callback
+        // Set global function for Google Maps callback
         window.initServiceMap = initServiceMap;
     </script>
     
-    <!-- Google Maps API -->
-  
+    <!-- Google Maps API Script -->
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA55xI2xoTn_kGTLDmHnDOoWhw18ZehT4A&callback=initServiceMap">
-</script>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA55xI2xoTn_kGTLDmHnDOoWhw18ZehT4A&callback=initServiceMap">
+    </script>
 </body>
 </html>
