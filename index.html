@@ -975,7 +975,7 @@
                     }
                 });
                 
-                function sendMessage() {
+                async function sendMessage() {
                     const message = chatInput.value.trim();
                     if (!message) return;
                     
@@ -985,22 +985,25 @@
                     
                     // Show thinking state
                     chatSendBtn.disabled = true;
-                    chatSendBtn.textContent = 'Thinking...';
+                    chatSendBtn.textContent = 'Claude is thinking...';
                     
-                    // Simulate Claude response
-                    setTimeout(function() {
-                        const response = getClaudeResponse(message);
+                    // Get real Claude response via Supabase Edge Function
+                    try {
+                        const response = await getClaudeResponse(message);
                         addMessage(response.message, 'claude');
                         
                         if (response.recommendation) {
                             selectedService = response.recommendation;
                             showServiceRecommendation(response.recommendation);
                         }
-                        
-                        // Reset button
-                        chatSendBtn.disabled = false;
-                        chatSendBtn.textContent = 'Send';
-                    }, 1500);
+                    } catch (error) {
+                        console.error('Error sending message:', error);
+                        addMessage('I apologize, but I\'m having trouble connecting right now. Please try again in a moment.', 'claude');
+                    }
+                    
+                    // Reset button
+                    chatSendBtn.disabled = false;
+                    chatSendBtn.textContent = 'Send';
                 }
                 
                 function addMessage(message, sender) {
@@ -1014,51 +1017,49 @@
                     }
                 }
                 
-                function getClaudeResponse(message) {
-                    const lower = message.toLowerCase();
-                    
-                    if (lower.includes('brake') || lower.includes('squeal') || lower.includes('grind')) {
+                async function getClaudeResponse(message) {
+                    try {
+                        // Get car info from form
+                        const makeModel = document.querySelector('input[name="makeModel"]')?.value || '';
+                        const year = document.querySelector('input[name="year"]')?.value || '';
+                        const carInfo = year && makeModel ? `${year} ${makeModel}` : 'Not specified';
+                        
+                        // Call the real Supabase Edge Function
+                        const response = await fetch('https://uhrhukcovvvbmopvoncr.supabase.co/functions/v1/hello-world', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                message: message,
+                                carInfo: carInfo
+                            })
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('API request failed');
+                        }
+
+                        const data = await response.json();
+                        
+                        // Return the real Claude response
                         return {
-                            message: '🚨 Brake issues are serious safety concerns. Based on your description, you likely need brake pad replacement or rotor service. This is critical for safe driving and should be addressed before your trip.',
-                            recommendation: {
-                                service: 'Complete Brake Inspection & Service',
-                                description: 'Comprehensive brake system inspection including pads, rotors, fluid check, and test drive to ensure safe operation.',
-                                cost: 280
+                            message: data.message || 'I can help diagnose your car issue. Let me review what you\'ve described.',
+                            recommendation: data.recommendation || {
+                                service: 'Diagnostic Inspection',
+                                description: 'Complete inspection to identify the issue',
+                                cost: 120
                             }
                         };
-                    } else if (lower.includes('oil') || lower.includes('change') || lower.includes('maintenance')) {
+                        
+                    } catch (error) {
+                        console.error('Claude API Error:', error);
+                        // Fallback response if API fails
                         return {
-                            message: '🛢️ Regular oil changes keep your engine healthy! Perfect timing to do this while you travel. We can have this done quickly before your flight.',
+                            message: 'I understand your concern. Based on your description, I recommend getting a professional diagnostic inspection to properly identify and address the issue.',
                             recommendation: {
-                                service: 'Full Synthetic Oil Change Plus',
-                                description: 'Premium synthetic oil change with filter replacement, fluid level check, and 15-point inspection.',
-                                cost: 75
-                            }
-                        };
-                    } else if (lower.includes('ac') || lower.includes('air') || lower.includes('cold') || lower.includes('heat') || lower.includes('cooling')) {
-                        return {
-                            message: '🌡️ Climate control issues can make driving uncomfortable, especially for your return trip. Common causes include refrigerant leaks, compressor problems, or clogged filters.',
-                            recommendation: {
-                                service: 'Complete A/C System Service',
-                                description: 'Full air conditioning system diagnosis, refrigerant recharge, component inspection, and performance test.',
-                                cost: 185
-                            }
-                        };
-                    } else if (lower.includes('engine') || lower.includes('check engine') || lower.includes('light') || lower.includes('dashboard')) {
-                        return {
-                            message: '🔍 Check engine lights indicate your car\'s computer has detected an issue that needs attention. A diagnostic scan will reveal the specific problem code and recommended repairs.',
-                            recommendation: {
-                                service: 'Engine Diagnostic & Repair',
-                                description: 'Computer diagnostic scan to identify error codes, component testing, and necessary repairs to clear warning lights.',
-                                cost: 145
-                            }
-                        };
-                    } else {
-                        return {
-                            message: '🔍 I understand your concern about your vehicle. Let me arrange a comprehensive inspection to identify and address any issues before your trip.',
-                            recommendation: {
-                                service: 'Comprehensive Pre-Travel Inspection',
-                                description: 'Complete diagnostic inspection covering all major systems with detailed report and priority recommendations.',
+                                service: 'Professional Diagnostic Service',
+                                description: 'Complete vehicle inspection by certified technicians',
                                 cost: 120
                             }
                         };
