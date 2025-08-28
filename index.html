@@ -1024,11 +1024,12 @@
                         const year = document.querySelector('input[name="year"]')?.value || '';
                         const carInfo = year && makeModel ? `${year} ${makeModel}` : 'Not specified';
                         
-                        // Call the real Supabase Edge Function
+                        // Call the real Supabase Edge Function with authorization
                         const response = await fetch('https://uhrhukcovvvbmopvoncr.supabase.co/functions/v1/hello-world', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
+                                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw'
                             },
                             body: JSON.stringify({
                                 message: message,
