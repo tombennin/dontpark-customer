@@ -798,22 +798,7 @@
         
         customerSlider.addEventListener('input', updateCalculator);
         ticketSlider.addEventListener('input', updateCalculator);
-                   
-            // Collect form data
-            const formData = new FormData(this);
-            const data = {};
-            formData.forEach((value, key) => data[key] = value);
-            
-            // In production, this would send to your backend
-            console.log('Partner application:', data);
-            
-            // Show success message
-            alert(`Thank you for your interest!\n\nWe'll call you within 24 hours to discuss your Founding Partner opportunity.\n\nDon't wait - only 7 spots remaining!`);
-            
-            // Reset form
-            this.reset();
-        });
-        
+                         
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
