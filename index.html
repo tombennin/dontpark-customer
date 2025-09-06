@@ -721,40 +721,39 @@
             {cost: 3500, desc: 'Engine rebuild'}
         ];
 
-        // Service locations
-        const serviceLocations = {
-            airport: {
-                coords: { lat: 36.1245, lng: -86.6782 },
-                name: "Nashville Airport (BNA)",
-                type: "airport",
-                icon: "✈️"
-            },
-            zekes: {
-                coords: { lat: 35.97824, lng: -86.5148 },
-                name: "Zeke's Automotive Group",
-                type: "active",
-                icon: "🔧",
-                details: {
-                    distance: "23 miles southeast",
-                    driveTime: "30 minutes",
-                    areas: "Smyrna, Murfreesboro, La Vergne, Antioch"
-                }
-            },
-            north: {
-                coords: { lat: 36.2088, lng: -86.7644 },
-                name: "North Nashville",
-                type: "coming",
-                icon: "🚧",
-                launch: "Q2 2025"
-            },
-            east: {
-                coords: { lat: 36.1627, lng: -86.6000 },
-                name: "East Nashville", 
-                type: "coming",
-                icon: "🚧",
-                launch: "Q3 2025"
-            }
-        };
+       const serviceLocations = {
+    airport: {
+        coords: { lat: 36.1245, lng: -86.6782 },
+        name: "Nashville Airport (BNA)",
+        type: "airport",
+        icon: "✈️"
+    },
+    zekes: {
+        coords: { lat: 35.9828, lng: -86.5186 },
+        name: "Zeke's Automotive Group",
+        type: "active",
+        icon: "🔧",
+        details: {
+            distance: "23 miles southeast",
+            driveTime: "30 minutes",
+            areas: "Smyrna, Murfreesboro, La Vergne, Antioch"
+        }
+    },
+    north: {
+        coords: { lat: 36.2088, lng: -86.7644 },
+        name: "North Nashville",
+        type: "coming",
+        icon: "🚧",
+        launch: "Q2 2025"
+    },
+    east: {
+        coords: { lat: 36.1627, lng: -86.6000 },
+        name: "East Nashville", 
+        type: "coming",
+        icon: "🚧",
+        launch: "Q3 2025"
+    }
+};
 
         // Initialize service map (called by Google Maps callback)
         function initServiceMap() {
