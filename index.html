@@ -853,56 +853,46 @@
                 label: {
                     text: location.icon,
                     fontSize: "20px"
-                },
-                animation: google.maps.Animation.DROP
-                // Add info window to display details when marker is clicked
-const infoContent = `
-    <div style="padding: 10px; min-width: 200px;">
-        <h3 style="margin: 0 0 10px 0;">${location.name}</h3>
-        ${location.hours ? `<p><strong>Hours:</strong> ${location.hours}</p>` : ''}
-        ${location.dropbox ? `<p style="color: green;">✓ After-hours key drop available</p>` : ''}
-        <p><strong>Distance:</strong> ${location.details.distance}</p>
-        <p><strong>Drive time:</strong> ${location.details.driveTime}</p>
-        <p><strong>Service areas:</strong> ${location.details.areas}</p>
-    </div>
-`;
-
-const infoWindow = new google.maps.InfoWindow({
-    content: infoContent
-});
-
-marker.addListener('click', () => {
-    infoWindow.open(serviceMap, marker);
-});
-            });
-
-            // Create info window content
-            let infoContent = `<div style="padding: 10px; min-width: 200px;">`;
-            infoContent += `<h4 style="color: #1e3a8a; margin-bottom: 8px;">${location.icon} ${location.name}</h4>`;
-            
-            if (location.type === 'airport') {
-                infoContent += `<p style="color: #64748b; margin: 0;">Your departure point</p>`;
-            } else if (location.type === 'active') {
-                infoContent += `<p style="color: #059669; font-weight: 600; margin-bottom: 5px;">✅ Currently Active</p>`;
-                infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Distance:</strong> ${location.details.distance}</p>`;
-                infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Drive Time:</strong> ${location.details.driveTime}</p>`;
-                infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Service Areas:</strong><br>${location.details.areas}</p>`;
-            } else if (location.type === 'coming') {
-                infoContent += `<p style="color: #f59e0b; font-weight: 600;">🚧 Coming Soon</p>`;
-                infoContent += `<p style="color: #64748b; margin: 0;">Expected: ${location.launch}</p>`;
-            }
-            
-            infoContent += `</div>`;
-            
-            const infoWindow = new google.maps.InfoWindow({
-                content: infoContent
-            });
-
-            marker.addListener("click", () => {
-                // Close other info windows first
-                serviceMarkers.forEach(({infoWindow: iw}) => iw.close());
-                infoWindow.open(serviceMap, marker);
-            });
+},
+        animation: google.maps.Animation.DROP
+    });  // This closes the Marker constructor
+    
+    // Create info window content
+    let infoContent = `<div style="padding: 10px; min-width: 200px;">`;
+    infoContent += `<h4 style="color: #1e3a8a; margin-bottom: 8px;">${location.icon} ${location.name}</h4>`;
+    
+    // Add hours and dropbox info if available
+    if (location.hours) {
+        infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Hours:</strong> ${location.hours}</p>`;
+    }
+    if (location.dropbox) {
+        infoContent += `<p style="color: green; margin: 5px 0;">✓ After-hours key drop available</p>`;
+    }
+    
+    if (location.type === 'airport') {
+        infoContent += `<p style="color: #64748b; margin: 0;">Your departure point</p>`;
+    } else if (location.type === 'active') {
+        infoContent += `<p style="color: #059669; font-weight: 600; margin-bottom: 5px;">✅ Currently Active</p>`;
+        infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Distance:</strong> ${location.details.distance}</p>`;
+        infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Drive Time:</strong> ${location.details.driveTime}</p>`;
+        infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Service Areas:</strong><br>${location.details.areas}</p>`;
+    } else if (location.type === 'coming') {
+        infoContent += `<p style="color: #f59e0b; font-weight: 600;">🚧 Coming Soon</p>`;
+        infoContent += `<p style="color: #64748b; margin: 0;">Expected: ${location.launch}</p>`;
+    }
+    
+    infoContent += `</div>`;
+    
+    const infoWindow = new google.maps.InfoWindow({
+        content: infoContent
+    });
+    
+    marker.addListener("click", () => {
+        // Close other info windows first
+        serviceMarkers.forEach(({infoWindow: iw}) => iw.close());
+        infoWindow.open(serviceMap, marker);
+    });
+     
 
             serviceMarkers.push({marker, infoWindow});
         }
