@@ -855,6 +855,25 @@
                     fontSize: "20px"
                 },
                 animation: google.maps.Animation.DROP
+                // Add info window to display details when marker is clicked
+const infoContent = `
+    <div style="padding: 10px; min-width: 200px;">
+        <h3 style="margin: 0 0 10px 0;">${location.name}</h3>
+        ${location.hours ? `<p><strong>Hours:</strong> ${location.hours}</p>` : ''}
+        ${location.dropbox ? `<p style="color: green;">✓ After-hours key drop available</p>` : ''}
+        <p><strong>Distance:</strong> ${location.details.distance}</p>
+        <p><strong>Drive time:</strong> ${location.details.driveTime}</p>
+        <p><strong>Service areas:</strong> ${location.details.areas}</p>
+    </div>
+`;
+
+const infoWindow = new google.maps.InfoWindow({
+    content: infoContent
+});
+
+marker.addListener('click', () => {
+    infoWindow.open(serviceMap, marker);
+});
             });
 
             // Create info window content
