@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - DontPark</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 50px;
+        }
+
+        .effective-date {
+            background: #f1f5f9;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            color: #475569;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #475569;
+        }
+
+        ul {
+            margin: 15px 0 15px 30px;
+            color: #475569;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        strong {
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .important-notice {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+        }
+
+        .important-notice strong {
+            color: #92400e;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            background: #f8fafc;
+            padding: 30px 50px;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 30px 25px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .footer {
+                padding: 30px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚗 DontPark</h1>
+            <p>Terms of Service</p>
+        </div>
+
+        <div class="content">
+            <div class="effective-date">
+                <strong>Effective Date:</strong> October 1, 2025<br>
+                <strong>Company:</strong> DontPark LLC (Wyoming)<br>
+                <strong>Website:</strong> dontpark.com
+            </div>
+
+            <h2>1. ACCEPTANCE OF TERMS</h2>
+            <p>By booking services through DontPark ("Platform"), you ("Customer") agree to these Terms of Service. If you do not agree, do not use our Platform.</p>
+
+            <h2>2. DESCRIPTION OF SERVICE</h2>
+            <p>DontPark is an online marketplace that connects travelers with independent automotive repair shops ("Service Providers") near airports. DontPark facilitates bookings but does not perform automotive services. All repair and maintenance work is performed solely by independent Service Providers.</p>
+
+            <h2>3. CUSTOMER RESPONSIBILITIES</h2>
+            <p><strong>You agree to:</strong></p>
+            <ul>
+                <li>Provide accurate vehicle and contact information</li>
+                <li>Authorize the selected Service Provider to perform requested services</li>
+                <li>Leave your vehicle keys with the Service Provider</li>
+                <li>Pay all charges for services rendered</li>
+                <li>Pick up your vehicle within 24 hours of your scheduled return flight arrival</li>
+                <li>Maintain current auto insurance on your vehicle</li>
+            </ul>
+
+            <h2>4. BOOKING AND PAYMENT</h2>
+            <ul>
+                <li>Initial booking may require a non-refundable inspection fee</li>
+                <li>Service Providers will provide estimates for recommended work</li>
+                <li>You authorize work by approving the estimate</li>
+                <li>Final payment is due upon vehicle pickup</li>
+                <li>All payments are processed through Stripe</li>
+                <li>DontPark collects a service fee from Service Providers, not from customers</li>
+            </ul>
+
+            <h2>5. CANCELLATION POLICY</h2>
+            <ul>
+                <li>Cancellations must be made at least 24 hours before scheduled drop-off</li>
+                <li>Inspection fees are non-refundable</li>
+                <li>If you fail to pick up your vehicle within 24 hours of return flight arrival, storage fees may apply as determined by the Service Provider</li>
+            </ul>
+
+            <h2>6. VEHICLE POSSESSION AND LIABILITY</h2>
+            <div class="important-notice">
+                <strong>IMPORTANT:</strong>
+                <p>By dropping off your vehicle, you authorize the Service Provider to possess and work on your vehicle. The Service Provider is an independent contractor, not an agent or employee of DontPark. The Service Provider maintains direct responsibility for your vehicle while in their possession. Service Providers are required to maintain garage liability insurance. <strong>DontPark is not responsible for damage, loss, or theft of your vehicle or its contents.</strong></p>
+            </div>
+
+            <h2>7. LIMITATION OF LIABILITY</h2>
+            <p><strong>DontPark provides a marketplace platform only. We do not:</strong></p>
+            <ul>
+                <li>Perform automotive repairs or services</li>
+                <li>Guarantee the quality of Service Provider work</li>
+                <li>Warrant that Service Providers will complete work on time</li>
+                <li>Accept liability for mechanical failures, damage, or issues arising from service</li>
+            </ul>
+
+            <p><strong>TO THE MAXIMUM EXTENT PERMITTED BY LAW:</strong></p>
+            <p>DontPark, its officers, directors, employees, and affiliates shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising from:</p>
+            <ul>
+                <li>Use of the Platform</li>
+                <li>Services performed by Service Providers</li>
+                <li>Vehicle damage or loss while in Service Provider possession</li>
+                <li>Delays in service completion</li>
+                <li>Disputes with Service Providers</li>
+            </ul>
+
+            <p><strong>Your sole remedy for dissatisfaction is to discontinue use of the Platform.</strong></p>
+
+            <h2>8. DISCLAIMER OF WARRANTIES</h2>
+            <p>THE PLATFORM AND SERVICES ARE PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.</p>
+
+            <h2>9. INDEMNIFICATION</h2>
+            <p>You agree to indemnify and hold harmless DontPark from any claims, damages, losses, or expenses (including attorney fees) arising from:</p>
+            <ul>
+                <li>Your use of the Platform</li>
+                <li>Your vehicle or its condition</li>
+                <li>Your violation of these Terms</li>
+                <li>Your dispute with a Service Provider</li>
+            </ul>
+
+            <h2>10. FLIGHT INFORMATION</h2>
+            <p>You authorize DontPark to access flight tracking information for your specified flights to coordinate pickup timing with Service Providers. This information is used solely for service coordination purposes.</p>
+
+            <h2>11. DISPUTE RESOLUTION</h2>
+            <p><strong>With Service Providers:</strong></p>
+            <ul>
+                <li>Disputes regarding service quality, pricing, or completion must be resolved directly with the Service Provider</li>
+                <li>DontPark may assist with communication but is not party to the dispute</li>
+            </ul>
+
+            <p><strong>With DontPark:</strong></p>
+            <ul>
+                <li>Any disputes with DontPark shall be resolved through binding arbitration in Tennessee</li>
+                <li>You waive the right to participate in class action lawsuits</li>
+            </ul>
+
+            <h2>12. PERSONAL PROPERTY</h2>
+            <p>Remove all personal property of value from your vehicle before drop-off. DontPark and Service Providers are not responsible for personal items left in vehicles.</p>
+
+            <h2>13. INSURANCE REQUIREMENT</h2>
+            <p>You represent that your vehicle is covered by valid automobile insurance. Service work does not substitute for insurance coverage.</p>
+
+            <h2>14. MODIFICATION OF TERMS</h2>
+            <p>DontPark reserves the right to modify these Terms at any time. Continued use of the Platform after changes constitutes acceptance of modified Terms.</p>
+
+            <h2>15. ENTIRE AGREEMENT</h2>
+            <p>These Terms constitute the entire agreement between you and DontPark regarding use of the Platform.</p>
+
+            <h2>16. SEVERABILITY</h2>
+            <p>If any provision is found unenforceable, the remaining provisions remain in full effect.</p>
+
+            <h2>17. GOVERNING LAW</h2>
+            <p>These Terms are governed by the laws of the State of Tennessee, without regard to conflict of law principles.</p>
+
+            <h2>18. CONTACT INFORMATION</h2>
+            <p>For questions about these Terms:</p>
+            <ul>
+                <li>Email: contact@dontpark.com</li>
+                <li>Website: dontpark.com</li>
+            </ul>
+
+            <div class="important-notice" style="margin-top: 40px;">
+                <strong>ACKNOWLEDGMENT</strong>
+                <p>BY CHECKING THE "I AGREE" BOX AND PROCEEDING WITH BOOKING, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THESE TERMS OF SERVICE.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 DontPark LLC. All rights reserved.</p>
+            <a href="/" class="back-link">← Back to DontPark</a>
+        </div>
+    </div>
+</body>
+</html>
