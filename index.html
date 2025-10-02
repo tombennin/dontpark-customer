@@ -607,14 +607,23 @@
                             <span style="margin-left: auto; font-size: 0.8rem; color: #64748b;">Powered by Anthropic</span>
                         </div>
                         <div id="recommendationContent" class="recommendation-content"></div>
-                        <div class="estimated-cost">
+               <div class="estimated-cost">
                             <span class="cost-label">Estimated Cost:</span>
                             <span id="costAmount" class="cost-amount">$0</span>
                         </div>
                     </div>
                 </section>
                 
-                <button type="submit" class="primary-button">
+             </section>
+                
+                <div class="terms-agreement" style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                    <label style="display: flex; align-items: start; gap: 10px; cursor: pointer;">
+                        <input type="checkbox" id="agreeTerms" required style="margin-top: 4px;">
+                        <span>I have read and agree to the <a href="/terms-of-service.html" target="_blank" style="color: #0ea5e9; text-decoration: underline;">Terms of Service</a></span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="primary-button" id="submitBtn">
                     📅 Book Service Appointment
                 </button>
                 
@@ -1176,6 +1185,30 @@
 
         // Set global function for Google Maps callback
         window.initServiceMap = initServiceMap;
+        // Set global function for Google Maps callback
+        window.initServiceMap = initServiceMap;
+        
+        // ============================================
+        // TERMS OF SERVICE AGREEMENT HANDLER
+        // ============================================
+        (function() {
+            const agreeCheckbox = document.getElementById('agreeTerms');
+            const submitButton = document.getElementById('submitBtn');
+            
+            if (agreeCheckbox && submitButton) {
+                // Start with button disabled
+                submitButton.disabled = true;
+                submitButton.style.opacity = '0.5';
+                submitButton.style.cursor = 'not-allowed';
+                
+                // Enable/disable button based on checkbox
+                agreeCheckbox.addEventListener('change', function() {
+                    submitButton.disabled = !this.checked;
+                    submitButton.style.opacity = this.checked ? '1' : '0.5';
+                    submitButton.style.cursor = this.checked ? 'pointer' : 'not-allowed';
+                });
+            }
+        })();
     </script>
     
     <!-- Google Maps API Script -->
