@@ -487,10 +487,25 @@
                 </p>
             </div>
             
-            <form id="bookingForm">
-                <section class="form-section">
-                    <h2 class="section-title">👤 Contact Information</h2>
+                <form id="bookingForm">
+  <!-- SHOP SELECTOR SECTION -->
+                <section class="form-section" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border: 2px solid #0ea5e9;">
+                    <h2 class="section-title" style="color: #0c4a6e;">🔧 Select Your Service Shop</h2>
+                    <p style="color: #64748b; margin-bottom: 20px; font-size: 0.95rem;">
+                        Choose the shop closest to you. We'll send your request directly to them.
+                    </p>
                     
+                    <div id="shopSelector" style="display: flex; flex-direction: column; gap: 15px;">
+                        <div style="text-align: center; padding: 20px; color: #64748b;">
+                            <p>⏳ Loading available shops...</p>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" name="shop_id" id="selectedShopId" required>
+                </section>
+    <section class="form-section">
+        <h2 class="section-title">👤 Contact Information</h2>
+                                 
                     <div class="form-group">
                         <label class="form-label">Full Name *</label>
                         <input type="text" name="fullName" class="form-input" placeholder="Enter your full name" required>
@@ -923,7 +938,64 @@ function addShopMarker(shop) {
            // Initialize everything when DOM is ready
 window.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 DontPark.com initializing...');
+    // Load shops into selector
+    async function loadShopSelector() {
+        console.log('🔧 Loading shops for selector...');
+        
+        try {
+            const { data: shops, error } = await supabase
+                .from('shops')
+                .select('*')
+                .eq('status', 'active')
+                .eq('accepts_new_bookings', true)
+                .order('name');
+            
+            if (error) {
+                console.error('Error loading shops:', error);
+                document.getElementById('shopSelector').innerHTML = 
+                    '<p style="color: #dc2626;">Error loading shops. Please refresh the page.</p>';
+                return;
+            }
+            
+            if (shops.length === 0) {
+                document.getElementById('shopSelector').innerHTML = 
+                    '<p style="color: #f59e0b;">No shops available at this time.</p>';
+                return;
+            }
+            
+            console.log(`✅ Loaded ${shops.length} shop(s)`);
+            
+            let selectorHTML = '';
+            shops.forEach((shop, index) => {
+                const isFirst = index === 0;
+                selectorHTML += `
+                    <label class="shop-option" style="display: flex; align-items: start; gap: 15px; padding: 20px; background: white; border: 2px solid ${isFirst ? '#0ea5e9' : '#e2e8f0'}; border-radius: 12px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#0ea5e9';" onmouseout="if(!this.querySelector('input').checked) this.style.borderColor='#e2e8f0';">
+                        <input type="radio" name="shop_selection" value="${shop.id}" ${isFirst ? 'checked' : ''} style="margin-top: 4px; width: 20px; height: 20px;" onchange="document.getElementById('selectedShopId').value = this.value; document.querySelectorAll('.shop-option').forEach(opt => opt.style.borderColor = '#e2e8f0'); this.parentElement.style.borderColor = '#0ea5e9';">
+                        <div style="flex: 1;">
+                            <h4 style="color: #0c4a6e; margin: 0 0 8px 0; font-size: 1.1rem;">🔧 ${shop.name}</h4>
+                            <p style="color: #64748b; margin: 5px 0; font-size: 0.9rem;">📍 ${shop.address}, ${shop.city}, ${shop.state}</p>
+                            ${shop.phone ? `<p style="color: #64748b; margin: 5px 0; font-size: 0.9rem;">📞 ${shop.phone}</p>` : ''}
+                            <p style="color: #059669; margin: 8px 0 0 0; font-size: 0.9rem; font-weight: 600;">✅ Active & Accepting Bookings</p>
+                        </div>
+                    </label>
+                `;
+            });
+            
+            document.getElementById('shopSelector').innerHTML = selectorHTML;
+            
+            if (shops.length > 0) {
+                document.getElementById('selectedShopId').value = shops[0].id;
+                const firstOption = document.querySelector('.shop-option');
+                if (firstOption) firstOption.style.borderColor = '#0ea5e9';
+            }
+            
+        } catch (error) {
+            console.error('❌ Shop selector error:', error);
+        }
+    }
     
+    // Call the function
+    loadShopSelector();
     // Initialize parking cost slider
     const parkingSlider = document.getElementById('parkingSlider');
     const parkingCost = document.getElementById('parkingCost');
