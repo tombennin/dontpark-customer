@@ -397,6 +397,7 @@
             #serviceMap { height: 300px; }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="container">
@@ -729,199 +730,214 @@
             {cost: 1200, desc: 'Transmission repair'},
             {cost: 3500, desc: 'Engine rebuild'}
         ];
+// ============================================
+// SUPABASE CONNECTION
+// Add this BEFORE line 733 (before serviceLocations)
+// ============================================
 
-       const serviceLocations = {
-    airport: {
-        coords: { lat: 36.1245, lng: -86.6782 },
-        name: "Nashville Airport (BNA)",
-        type: "airport",
-        icon: "✈️"
-    },
-    zekes: {
-        coords: { lat: 35.9828, lng: -86.5186 },
-        name: "Zeke's Automotive Group",
-        hours: "Mon-Sat 9a-6p, closed Sun",
-        type: "active",
-        icon: "🔧",
-        details: {
-            distance: "24 miles to BNA",
-            driveTime: "33 minutes",
-            areas: "Smyrna, Murfreesboro, La Vergne, Antioch"
-        }
-    },
-     distinctive: {
-        coords: { lat: 35.86744, lng: -86.41347 },
-        name: "Distinctive Auto Repair",
-        hours: "Mon-Fri 8a-6p, closed Sat-Sun",
-        dropbox: true,  // Has after-hours key drop
-        type: "active",
-        icon: "🔧",
-        details: {
-            distance: "33 miles to BNA",
-            driveTime: "42 minutes",
-            areas: "Smyrna, Murfreesboro, La Vergne, Antioch"
-        }
-    },
-   mrTransmission: {
-        coords: { lat: 35.93402, lng: -86.47560 },
-        name: "Mr. Transmission",
-        hours: "Mon-Fri 8a-5:30p, Sat 8a-noon closed Sun",
-        dropbox: true,  // Has after-hours key drop
-        type: "active",
-        icon: "🔧",
-        details: {
-            distance: "32 miles to BNA",
-            driveTime: "40 minutes",
-            areas: "Smyrna, Murfreesboro, La Vergne, Antioch"
-        }
-    },       
-    finishlineautorepair: {
-        coords: { lat: 35.94656, lng: -86.48789 },
-        name: "Finishline Auto Repair",
-        hours: "Mon-Fri 8a-5p, closed Sat-Sun",
-         dropbox: true,  // Has after-hours key drop
-        type: "active",
-        icon: "🔧",
-        details: {
-            distance: "26 miles to BNA",
-            driveTime: "35 minutes",
-            areas: "Smyrna, Murfreesboro, La Vergne, Antioch"
-        }
-    },       
-    crusaderAutoworks: {
-    coords: { lat: 35.970807, lng: -86.51755 },
-    name: "Crusader Autoworks",
-    hours: "Mon-Fri 8a-6p, Sat 8a-1p, closed Sun",
-    dropbox: true,  // Has after-hours key drop
-        type: "active",
-        icon: "🔧",
-        details: {
-            distance: "15 miles to BNA",
-            driveTime: "35 minutes",
-            areas: "Smyrna, Murfreesboro, La Vergne"
-        }
-    },       
-           north: {
-        coords: { lat: 36.2088, lng: -86.7644 },
-        name: "North Nashville",
-        type: "coming",
-        icon: "🚧",
-        launch: "Q2 2025"
-    },
-    east: {
-        coords: { lat: 36.1627, lng: -86.6000 },
-        name: "East Nashville", 
-        type: "coming",
-        icon: "🚧",
-        launch: "Q3 2025"
-    }
+// Initialize Supabase client
+const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw';
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ============================================
+// REPLACE LINES 733-822
+// Replace the entire serviceLocations object and initServiceMap function with this:
+// ============================================
+
+// Airport location (hardcoded - not a shop)
+const airportLocation = {
+    coords: { lat: 36.1245, lng: -86.6782 },
+    name: "Nashville Airport (BNA)",
+    type: "airport",
+    icon: "✈️"
 };
 
-        // Initialize service map (called by Google Maps callback)
-        function initServiceMap() {
-            console.log('🗺️ Initializing Google Maps...');
-            
-            try {
-                serviceMap = new google.maps.Map(document.getElementById("serviceMap"), {
-                    zoom: 10,
-                    center: { lat: 36.1627, lng: -86.7816 },
-                    mapTypeControl: true,
-                    streetViewControl: false,
-                    fullscreenControl: true,
-                    styles: [
-                        {
-                            featureType: "poi.business",
-                            stylers: [{ visibility: "off" }]
-                        }
-                    ]
-                });
-
-                // Add markers for each service location
-                Object.entries(serviceLocations).forEach(([key, location]) => {
-                    addServiceMarker(location);
-                });
-
-                // Add service area circle for Bennett's
-                new google.maps.Circle({
-                    strokeColor: "#f59e0b",
-                    strokeOpacity: 0.8,
-                    strokeWeight: 2,
-                    fillColor: "#f59e0b", 
-                    fillOpacity: 0.1,
-                    map: serviceMap,
-                    center: serviceLocations.zekes.coords,
-                    radius: 25000, // 25km radius
-                });
-
-                console.log('✅ Google Maps loaded successfully!');
-            } catch (error) {
-                console.error('❌ Error loading Google Maps:', error);
-                document.getElementById("serviceMap").innerHTML = '<p style="text-align: center; padding: 50px; color: #64748b;">Map loading error. Please refresh the page.</p>';
-            }
+// Fetch active shops from Supabase
+async function fetchActiveShops() {
+    try {
+        const { data: shops, error } = await supabase
+            .from('shops')
+            .select('*')
+            .eq('status', 'active')
+            .eq('accepts_new_bookings', true);
+        
+        if (error) {
+            console.error('Error fetching shops:', error);
+            return [];
         }
+        
+        console.log('✅ Fetched shops from Supabase:', shops);
+        return shops;
+    } catch (error) {
+        console.error('❌ Supabase fetch error:', error);
+        return [];
+    }
+}
 
-        // Add service marker
-        function addServiceMarker(location) {
-            const marker = new google.maps.Marker({
-                position: location.coords,
-                map: serviceMap,
-                title: location.name,
-                label: {
-                    text: location.icon,
-                    fontSize: "20px"
-},
+// Initialize service map (called by Google Maps callback)
+async function initServiceMap() {
+    console.log('🗺️ Initializing Google Maps...');
+    
+    try {
+        serviceMap = new google.maps.Map(document.getElementById("serviceMap"), {
+            zoom: 10,
+            center: { lat: 36.1627, lng: -86.7816 },
+            mapTypeControl: true,
+            streetViewControl: false,
+            fullscreenControl: true,
+            styles: [
+                {
+                    featureType: "poi.business",
+                    stylers: [{ visibility: "off" }]
+                }
+            ]
+        });
+
+        // Add airport marker (hardcoded)
+        addAirportMarker(airportLocation);
+
+        // Fetch and add shop markers from Supabase
+        const shops = await fetchActiveShops();
+        
+        if (shops.length === 0) {
+            console.warn('⚠️ No active shops found in database');
+        }
+        
+        shops.forEach(shop => {
+            if (shop.latitude && shop.longitude) {
+                addShopMarker(shop);
+            } else {
+                console.warn(`⚠️ Shop ${shop.name} missing coordinates`);
+            }
+        });
+
+        console.log('✅ Google Maps loaded successfully!');
+    } catch (error) {
+        console.error('❌ Error loading Google Maps:', error);
+        document.getElementById("serviceMap").innerHTML = 
+            '<p style="text-align: center; padding: 50px; color: #64748b;">Map loading error. Please refresh the page.</p>';
+    }
+}
+
+// Add airport marker (different style from shops)
+function addAirportMarker(location) {
+    const marker = new google.maps.Marker({
+        position: location.coords,
+        map: serviceMap,
+        title: location.name,
+        label: {
+            text: location.icon,
+            fontSize: "24px"
+        },
         animation: google.maps.Animation.DROP
-    });  // This closes the Marker constructor
-    
-    // Create info window content
-    let infoContent = `<div style="padding: 10px; min-width: 200px;">`;
-    infoContent += `<h4 style="color: #1e3a8a; margin-bottom: 8px;">${location.icon} ${location.name}</h4>`;
-    
-    // Add hours and dropbox info if available
-    if (location.hours) {
-        infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Hours:</strong> ${location.hours}</p>`;
-    }
-    if (location.dropbox) {
-        infoContent += `<p style="color: green; margin: 5px 0;">✓ After-hours key drop available</p>`;
-    }
-    
-    if (location.type === 'airport') {
-        infoContent += `<p style="color: #64748b; margin: 0;">Your departure point</p>`;
-    } else if (location.type === 'active') {
-        infoContent += `<p style="color: #059669; font-weight: 600; margin-bottom: 5px;">✅ Currently Active</p>`;
-        infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Distance:</strong> ${location.details.distance}</p>`;
-        infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Drive Time:</strong> ${location.details.driveTime}</p>`;
-        infoContent += `<p style="color: #64748b; margin: 5px 0;"><strong>Service Areas:</strong><br>${location.details.areas}</p>`;
-    } else if (location.type === 'coming') {
-        infoContent += `<p style="color: #f59e0b; font-weight: 600;">🚧 Coming Soon</p>`;
-        infoContent += `<p style="color: #64748b; margin: 0;">Expected: ${location.launch}</p>`;
-    }
-    
-    infoContent += `</div>`;
-    
+    });
+
+    const infoContent = `
+        <div style="padding: 12px; min-width: 200px;">
+            <h4 style="color: #1e3a8a; margin: 0 0 8px 0; font-size: 16px;">
+                ${location.icon} ${location.name}
+            </h4>
+            <p style="color: #64748b; margin: 0; font-size: 14px;">Your departure point</p>
+        </div>
+    `;
+
     const infoWindow = new google.maps.InfoWindow({
         content: infoContent
     });
+
+    marker.addListener("click", () => {
+        serviceMarkers.forEach(({infoWindow: iw}) => iw.close());
+        infoWindow.open(serviceMap, marker);
+    });
+
+    serviceMarkers.push({marker, infoWindow});
+}
+
+// Add shop marker with Supabase data
+function addShopMarker(shop) {
+    const marker = new google.maps.Marker({
+        position: { 
+            lat: parseFloat(shop.latitude), 
+            lng: parseFloat(shop.longitude) 
+        },
+        map: serviceMap,
+        title: shop.name,
+        label: {
+            text: "🔧",
+            fontSize: "20px"
+        },
+        animation: google.maps.Animation.DROP
+    });
+
+    // Build info window content
+    let infoContent = `<div style="padding: 15px; min-width: 280px; font-family: -apple-system, sans-serif;">`;
     
+    // Shop name
+    infoContent += `<h4 style="color: #1e3a8a; margin: 0 0 12px 0; font-size: 18px; font-weight: 600;">
+        🔧 ${shop.name}
+    </h4>`;
+    
+    // Address
+    if (shop.address) {
+        infoContent += `<p style="color: #64748b; margin: 5px 0; font-size: 14px;">
+            📍 ${shop.address}, ${shop.city}, ${shop.state} ${shop.zip_code}
+        </p>`;
+    }
+    
+    // Phone (make it clickable)
+    if (shop.phone) {
+        infoContent += `<p style="color: #64748b; margin: 5px 0; font-size: 14px;">
+            📞 <a href="tel:${shop.phone}" style="color: #0ea5e9; text-decoration: none;">${shop.phone}</a>
+        </p>`;
+    }
+    
+    // Status badge
+    infoContent += `<p style="color: #059669; font-weight: 600; margin: 12px 0 8px 0; font-size: 14px;">
+        ✅ Active & Accepting Bookings
+    </p>`;
+    
+    // Call to action button
+    infoContent += `
+        <a href="#booking-form" 
+           onclick="document.getElementById('booking-form').scrollIntoView({behavior: 'smooth'}); return false;"
+           style="display: inline-block; 
+                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                  color: white; 
+                  padding: 10px 20px; 
+                  border-radius: 8px; 
+                  text-decoration: none; 
+                  font-weight: 600; 
+                  font-size: 14px;
+                  margin-top: 10px;
+                  text-align: center;">
+            📝 Send Repair Request →
+        </a>
+    `;
+    
+    infoContent += `</div>`;
+
+    const infoWindow = new google.maps.InfoWindow({
+        content: infoContent
+    });
+
     marker.addListener("click", () => {
         // Close other info windows first
         serviceMarkers.forEach(({infoWindow: iw}) => iw.close());
         infoWindow.open(serviceMap, marker);
     });
-     
 
-            serviceMarkers.push({marker, infoWindow});
-        }
-
-        // Initialize everything when DOM is ready
-        window.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 DontPark.com initializing...');
-            
-            // Initialize parking cost slider
-            const parkingSlider = document.getElementById('parkingSlider');
-            const parkingCost = document.getElementById('parkingCost');
-            const parkingDays = document.getElementById('parkingDays');
-            
+    serviceMarkers.push({marker, infoWindow});
+}     
+           // Initialize everything when DOM is ready
+window.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 DontPark.com initializing...');
+    
+    // Initialize parking cost slider
+    const parkingSlider = document.getElementById('parkingSlider');
+    const parkingCost = document.getElementById('parkingCost');
+    const parkingDays = document.getElementById('parkingDays');
             if (parkingSlider) {
                 function updateParking() {
                     const days = parkingSlider.value;
