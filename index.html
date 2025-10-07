@@ -763,7 +763,9 @@ async function fetchActiveShops() {
         return [];
     }
 }
-
+// Global variables for map
+let serviceMap;
+let serviceMarkers = [];
 // Initialize service map (called by Google Maps callback)
 async function initServiceMap() {
     console.log('🗺️ Initializing Google Maps...');
