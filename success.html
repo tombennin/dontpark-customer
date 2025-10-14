@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed - DontPark.com</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounceIn 0.6s ease-out;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        h1 {
+            color: #16a34a;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .booking-id {
+            background: #dcfce7;
+            border: 2px solid #16a34a;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 25px 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #15803d;
+        }
+        
+        .message {
+            color: #1e293b;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+        
+        .details {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: #64748b;
+            font-weight: 600;
+        }
+        
+        .detail-value {
+            color: #1e293b;
+            font-weight: 500;
+        }
+        
+        .home-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        
+        .home-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .loading {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="loadingState">
+            <div class="loading">⏳ Processing your booking...</div>
+        </div>
+        
+        <div id="successState" style="display: none;">
+            <div class="success-icon">🎉</div>
+            <h1>Booking Confirmed!</h1>
+            <p class="message">Your payment was successful and your service appointment is confirmed.</p>
+            
+            <div class="booking-id">
+                Booking ID: <span id="bookingIdDisplay"></span>
+            </div>
+            
+            <div class="details" id="bookingDetails"></div>
+            
+            <p class="message">
+                📧 A confirmation email has been sent to your inbox.<br>
+                📱 We'll send you text updates about your service.
+            </p>
+            
+            <a href="/" class="home-button">Return to Home</a>
+        </div>
+        
+        <div id="errorState" style="display: none;">
+            <div style="font-size: 60px; margin-bottom: 20px;">❌</div>
+            <h1 style="color: #dc2626;">Booking Error</h1>
+            <p class="message" id="errorMessage"></p>
+            <a href="/" class="home-button">Return to Home</a>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function processBooking() {
+            // Get session ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+
+            if (!sessionId) {
+                showError('No payment session found. Please try booking again.');
+                return;
+            }
+
+            try {
+                // Retrieve session details from Stripe (via Netlify function)
+                const response = await fetch('/.netlify/functions/verify-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sessionId })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Payment verification failed');
+                }
+
+                const { session, paymentIntent } = await response.json();
+
+                // Generate booking ID
+                const bookingId = 'DP' + Date.now().toString().slice(-6);
+
+                // Prepare booking data from Stripe metadata
+                const metadata = session.metadata;
+                const bookingData = {
+                    dontpark_booking_id: bookingId,
+                    customer_name: metadata.customerName,
+                    customer_phone: metadata.customerPhone,
+                    customer_email: metadata.customerEmail,
+                    shop_id: metadata.shopId,
+                    flight_date: metadata.flightDate,
+                    flight_time: metadata.flightTime,
+                    return_date: metadata.returnDate,
+                    arrival_time: metadata.returnTime,
+                    return_flight: metadata.returnFlight,
+                    year: parseInt(metadata.year) || null,
+                    car_make: metadata.makeModel?.split(' ')[0] || '',
+                    Make_model: metadata.makeModel,
+                    license_plate: metadata.licensePlate,
+                    color: metadata.color,
+                    service_description: metadata.serviceDescription,
+                    customer_notes: metadata.customerNotes || 'No specific notes',
+                    estimated_cost: parseFloat(metadata.estimatedCost) || null,
+                    payment_status: 'paid',
+                    stripe_payment_id: paymentIntent.id,
+                    stripe_session_id: session.id,
+                    amount_paid: paymentIntent.amount / 100, // Convert cents to dollars
+                    status: 'confirmed',
+                    priority_score: 5,
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                };
+
+                // Save to Supabase
+                const { data, error } = await supabase
+                    .from('bookings')
+                    .insert([bookingData])
+                    .select();
+
+                if (error) {
+                    console.error('Supabase error:', error);
+                    throw new Error('Failed to save booking: ' + error.message);
+                }
+
+                console.log('✅ Booking saved successfully:', data);
+
+                // Show success
+                showSuccess(bookingData);
+
+            } catch (error) {
+                console.error('Processing error:', error);
+                showError('Unable to complete booking. Please contact support with session ID: ' + sessionId);
+            }
+        }
+
+        function showSuccess(booking) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('successState').style.display = 'block';
+            
+            document.getElementById('bookingIdDisplay').textContent = booking.dontpark_booking_id;
+            
+            // Build booking details
+            const detailsHTML = `
+                <div class="detail-row">
+                    <span class="detail-label">Customer:</span>
+                    <span class="detail-value">${booking.customer_name}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Vehicle:</span>
+                    <span class="detail-value">${booking.year} ${booking.Make_model}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Flight Date:</span>
+                    <span class="detail-value">${booking.flight_date} at ${booking.flight_time}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Return Date:</span>
+                    <span class="detail-value">${booking.return_date} at ${booking.arrival_time}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Amount Paid:</span>
+                    <span class="detail-value" style="color: #16a34a; font-weight: 700;">$${booking.amount_paid.toFixed(2)}</span>
+                </div>
+            `;
+            
+            document.getElementById('bookingDetails').innerHTML = detailsHTML;
+        }
+
+        function showError(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+            document.getElementById('errorMessage').textContent = message;
+        }
+
+        // Run on page load
+        processBooking();
+    </script>
+</body>
+</html>
