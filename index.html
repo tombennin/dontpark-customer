@@ -1036,78 +1036,7 @@ window.addEventListener('DOMContentLoaded', function() {
             if (depDateInput) depDateInput.setAttribute('min', today);
             if (retDateInput) retDateInput.setAttribute('min', today);
             
-            // Handle form submission
-            const bookingForm = document.getElementById('bookingForm');
-            if (bookingForm) {
-                bookingForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    console.log('📋 Processing booking...');
-                    
-                    try {
-                        const formData = new FormData(this);
-                        
-                        // Collect chat messages
-                        const chatMessages = document.getElementById('chatMessages');
-                        const userMessages = Array.from(chatMessages.querySelectorAll('.user-message .message-content'))
-                            .map(msg => msg.textContent)
-                            .join(' | ');
-                        
-                        // Prepare booking data
-                        const bookingData = {
-                            customer_name: formData.get('fullName'),
-                            customer_phone: formData.get('phone'),
-                            customer_email: formData.get('email'),
-                            shop_id: formData.get('shop_id'),
-                            flight_date: formData.get('departureDate'),
-                            flight_time: formData.get('departureTime'),
-                            return_date: formData.get('returnDate'),
-                            arrival_time: formData.get('returnTime'),
-                            return_flight: formData.get('returnFlight'),
-                            year: parseInt(formData.get('year')) || null,
-                            car_make: formData.get('makeModel')?.split(' ')[0] || '',
-                            Make_model: formData.get('makeModel'),
-                            license_plate: formData.get('licensePlate'),
-                            color: formData.get('color'),
-                            service_description: selectedService ? JSON.stringify(selectedService) : null,
-                            customer_notes: userMessages || 'No specific issue described',
-                            estimated_cost: selectedService ? selectedService.cost : null,
-                            status: 'pending',
-                            priority_score: 5,
-                            dontpark_booking_id: 'DP' + Date.now().toString().slice(-6),
-                            created_at: new Date().toISOString(),
-                            updated_at: new Date().toISOString()
-                        };
-                        
-                        console.log('💾 Saving booking to database...');
-                        
-                        const { data, error } = await supabase
-                            .from('bookings')
-                            .insert([bookingData]);
-                        
-                        if (error) {
-                            console.error('❌ Database error:', error);
-                            alert('Booking error: ' + (error.message || 'Unknown error occurred'));
-                        } else {
-                            console.log('✅ Booking saved successfully!');
-                            
-                            // Show success message
-                            const successMsg = document.getElementById('successMessage');
-                            if (successMsg) {
-                                successMsg.style.display = 'block';
-                                successMsg.scrollIntoView({ behavior: 'smooth' });
-                            }
-                            
-                            // Reset form
-                            this.reset();
-                            resetChat();
-                        }
-                        
-                    } catch (error) {
-                        console.error('💥 Unexpected error:', error);
-                        alert('Connection error: ' + error.message);
-                    }
-                });
-            }
+         
             
             // Claude AI Chat functionality
             const chatSendBtn = document.getElementById('chatSendBtn');
