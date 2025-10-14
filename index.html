@@ -1036,7 +1036,76 @@ window.addEventListener('DOMContentLoaded', function() {
             if (depDateInput) depDateInput.setAttribute('min', today);
             if (retDateInput) retDateInput.setAttribute('min', today);
             
-         
+         // Handle form submission - NOW WITH STRIPE PAYMENT
+const bookingForm = document.getElementById('bookingForm');
+if (bookingForm) {
+    bookingForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log('📋 Processing booking with payment...');
+        
+        const submitBtn = document.getElementById('submitBtn');
+        const originalBtnText = submitBtn.textContent;
+        
+        try {
+            submitBtn.disabled = true;
+            submitBtn.textContent = '💳 Redirecting to payment...';
+            
+            const formData = new FormData(this);
+            
+            // Collect chat messages
+            const chatMessages = document.getElementById('chatMessages');
+            const userMessages = Array.from(chatMessages.querySelectorAll('.user-message .message-content'))
+                .map(msg => msg.textContent)
+                .join(' | ');
+            
+            // Prepare booking data for Stripe
+            const bookingData = {
+                fullName: formData.get('fullName'),
+                phone: formData.get('phone'),
+                email: formData.get('email'),
+                shopId: formData.get('shop_id'),
+                departureDate: formData.get('departureDate'),
+                departureTime: formData.get('departureTime'),
+                returnDate: formData.get('returnDate'),
+                returnTime: formData.get('returnTime'),
+                returnFlight: formData.get('returnFlight'),
+                year: formData.get('year'),
+                makeModel: formData.get('makeModel'),
+                licensePlate: formData.get('licensePlate'),
+                color: formData.get('color'),
+                serviceDescription: selectedService ? selectedService.service : 'Vehicle Service',
+                customerNotes: userMessages || 'No specific issue described',
+                estimatedCost: selectedService ? (selectedService.cost * 100) : 12000 // Convert to cents
+            };
+            
+            console.log('💳 Creating Stripe checkout session...');
+            
+            // Call Netlify function to create Stripe checkout
+            const response = await fetch('/.netlify/functions/create-checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bookingData)
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to create checkout session');
+            }
+            
+            const { url } = await response.json();
+            
+            console.log('✅ Redirecting to Stripe checkout...');
+            
+            // Redirect to Stripe Checkout
+            window.location.href = url;
+            
+        } catch (error) {
+            console.error('💥 Payment error:', error);
+            alert('Payment setup error: ' + error.message);
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+        }
+    });
+}
             
             // Claude AI Chat functionality
             const chatSendBtn = document.getElementById('chatSendBtn');
