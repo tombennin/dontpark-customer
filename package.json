@@ -1,0 +1,9 @@
+{
+  "name": "dontpark-functions",
+  "version": "1.0.0",
+  "description": "Netlify functions for DontPark Stripe integration",
+  "main": "index.js",
+  "dependencies": {
+    "stripe": "^14.0.0"
+  }
+}
