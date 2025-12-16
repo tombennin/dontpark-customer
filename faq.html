@@ -423,881 +423,125 @@ Stop Paying $25/Day – Get Your Car Fixed Instead
     </div>
 </div>
         </header>
-        
-        <main class="content">
-            <div class="status-banner">
-                ✅ Ready to serve Nashville Airport travelers!
-            </div>
-            
-            <section class="savings-calculator">
-                <div class="calculator-header">
-                    <div class="calculator-title">See How Much You Could Save</div>
-                    <div class="calculator-subtitle">Adjust the sliders to see real parking costs vs. car maintenance</div>
-                </div>
-                
-                <div class="slider-section">
-                    <div class="slider-label">🅿️ How many days will you park at the airport?</div>
-                    <div class="slider-display">
-                        <div class="slider-value" id="parkingCost">$75</div>
-                        <div class="slider-description" id="parkingDays">3 days of airport parking</div>
-                    </div>
-                    <input type="range" id="parkingSlider" min="1" max="14" value="3">
-                </div>
-                
-                <div class="slider-section">
-                    <div class="slider-label">🔧 What could you fix for that money?</div>
-                    <div class="slider-display">
-                        <div class="slider-value" id="repairCost">$180</div>
-                        <div class="slider-description" id="repairService">Brake pad replacement</div>
-                    </div>
-                    <input type="range" id="repairSlider" min="0" max="11" value="6">
-                </div>
-            </section>
-            
-            <section class="service-map-section">
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <h3 style="color: #0c4a6e; font-size: 1.4rem; font-weight: 700; margin-bottom: 8px;">
-                        🗺️ Our Service Network
-                    </h3>
-                    <p style="color: #64748b; font-size: 1rem;">
-                        See where we can service your vehicle while you travel
-                    </p>
-                </div>
-                
-                <div class="map-container">
-                    <div id="serviceMap"></div>
-                </div>
-                
-                <div class="map-legend">
-                    <div class="legend-item">
-                        <div class="legend-icon airport-icon">✈️</div>
-                        <span><strong>BNA Airport</strong> - Your departure point</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-icon active-service-icon">🔧</div>
-                        <span><strong>Active Service</strong> - Ready to serve you now</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-icon coming-soon-icon">🚧</div>
-                        <span><strong>Coming Soon</strong> - Expanding to your area</span>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: #64748b;">
-                    💡 <strong>Tip:</strong> Click markers to see service details and coverage areas
-                </div>
-            </section>
-            
-            <div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8fafc; border-radius: 12px;">
-                <p style="font-size: 1.1rem; color: #1e293b; font-weight: 500;">
-                    Fill in your info below, then tell Claude what's going on with your car. To book a shop visit with concierge service to the airport, press the bottom button.
+ <main style="max-width: 900px; margin: 40px auto; padding: 0 20px;">
+            <h1 style="font-size: 2em; color: #1e293b; margin-bottom: 30px; text-align: center;">
+                Frequently Asked Questions About BNA Parking Alternatives
+            </h1>
+
+            <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h2 style="color: #2563eb; font-size: 1.3em; margin-bottom: 15px;">
+                    What's the cheapest BNA long term parking option?
+                </h2>
+                <p style="color: #475569; line-height: 1.8;">
+                    BNA economy parking costs $20-25 per day. For a 5-day trip, that's $125+ just to park your car. DontPark offers a smarter alternative: invest that money in your vehicle instead. Get necessary repairs or maintenance done while you travel, and we provide free airport transportation.
                 </p>
             </div>
-            
-                <form id="bookingForm">
-  <!-- SHOP SELECTOR SECTION -->
-                <section class="form-section" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border: 2px solid #0ea5e9;">
-                    <h2 class="section-title" style="color: #0c4a6e;">🔧 Select Your Service Shop</h2>
-                    <p style="color: #64748b; margin-bottom: 20px; font-size: 0.95rem;">
-                        Choose the shop closest to you. We'll send your request directly to them.
-                    </p>
-                    
-                    <div id="shopSelector" style="display: flex; flex-direction: column; gap: 15px;">
-                        <div style="text-align: center; padding: 20px; color: #64748b;">
-                            <p>⏳ Loading available shops...</p>
-                        </div>
-                    </div>
-                    
-                    <input type="hidden" name="shop_id" id="selectedShopId" required>
-                </section>
-    <section class="form-section">
-        <h2 class="section-title">👤 Contact Information</h2>
-                                 
-                    <div class="form-group">
-                        <label class="form-label">Full Name *</label>
-                        <input type="text" name="fullName" class="form-input" placeholder="Enter your full name" required>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Phone Number *</label>
-                            <input type="tel" name="phone" class="form-input" placeholder="(615) 555-0123" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Email Address *</label>
-                            <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
-                        </div>
-                    </div>
-                </section>
-                
-                <section class="form-section">
-                    <h2 class="section-title">✈️ Flight Information</h2>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Departure Date *</label>
-                            <input type="date" name="departureDate" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Departure Time *</label>
-                            <input type="time" name="departureTime" class="form-input" required>
-                        </div>
-                    </div>
-                </section>
-                
-                <section class="form-section">
-                    <h2 class="section-title">🛬 Return Flight Information</h2>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Return to Nashville Date *</label>
-                            <input type="date" name="returnDate" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Return to Nashville Time *</label>
-                            <input type="time" name="returnTime" class="form-input" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Return Flight Number *</label>
-                            <input type="text" name="returnFlight" class="form-input" placeholder="WN 1234 or Southwest 1234" required>
-                        </div>
-                    </div>
-                </section>
-               
-                <section class="form-section">
-                    <h2 class="section-title">🚗 Vehicle Information</h2>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Year *</label>
-                            <input type="number" name="year" class="form-input" placeholder="2020" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Make & Model *</label>
-                            <input type="text" name="makeModel" class="form-input" placeholder="Honda Accord" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">License Plate *</label>
-                            <input type="text" name="licensePlate" class="form-input" placeholder="ABC123" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Color *</label>
-                            <input type="text" name="color" class="form-input" placeholder="Silver" required>
-                        </div>
-                    </div>
-                </section>
-                
-                <section class="ai-chat-section">
-                    <div class="ai-header">
-                        <div class="ai-avatar">AI</div>
-                        <div class="ai-info">
-                            <div class="ai-name">Claude AI - Your Car Expert</div>
-                            <div class="ai-subtitle">Tell me what's happening with your car for service recommendations.</div>
-                        </div>
-                        <div class="ai-branding">
-                            <strong>Powered by</strong><br>
-                            <span style="color: #0ea5e9; font-weight: 700;">Anthropic</span>
-                        </div>
-                    </div>
-                    
-                    <div class="chat-messages" id="chatMessages">
-                        <div class="message claude-message">
-                            <div class="message-content">
-                                Hi! I'm Claude, You can describe symptoms like:
-                                <br><br>
-                                • "Steering is pulling to the left"<br>
-                                • "Check engine light is on"<br>
-                                • "AC isn't cold"
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="chat-input-container" id="initialChatInput">
-                        <textarea class="chat-input" id="chatInput" placeholder="Describe what's happening with your car..." rows="2"></textarea>
-                        <button type="button" class="chat-send-btn" id="chatSendBtn">Send</button>
-                    </div>
-                    
-                    <div id="serviceRecommendation" class="service-recommendation">
-                        <div class="recommendation-header">
-                            <span>🔧</span>
-                            <strong>Claude AI's Recommendation</strong>
-                            <span style="margin-left: auto; font-size: 0.8rem; color: #64748b;">Powered by Anthropic</span>
-                        </div>
-                        <div id="recommendationContent" class="recommendation-content"></div>
-               <div class="estimated-cost">
-                            <span class="cost-label">Estimated Cost:</span>
-                            <span id="costAmount" class="cost-amount">$0</span>
-                        </div>
-                    </div>
-                </section>
-                
-             </section>
-                
-                <div class="terms-agreement" style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                    <label style="display: flex; align-items: start; gap: 10px; cursor: pointer;">
-                        <input type="checkbox" id="agreeTerms" required style="margin-top: 4px;">
-                        <span>I have read and agree to the <a href="/terms-of-service.html" target="_blank" style="color: #0ea5e9; text-decoration: underline;">Terms of Service</a></span>
-                    </label>
-                </div>
-                
-         <button type="submit" class="primary-button" id="submitBtn">
-    📅 Book Service Appointment
-</button>
-                
-                <div id="successMessage" class="success-message">
-                    🎉 Booking Confirmed! Check your email for details.
-                </div>
-            </form>
+
+            <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h2 style="color: #2563eb; font-size: 1.3em; margin-bottom: 15px;">
+                    Are there alternatives to onsite BNA parking?
+                </h2>
+                <p style="color: #475569; line-height: 1.8;">
+                    Yes! DontPark is Nashville's premier alternative to traditional airport parking. Instead of leaving your car idle in a parking lot, drop it at a local repair shop for service. We provide rides to and from BNA, turning your parking expense into productive vehicle maintenance.
+                </p>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h2 style="color: #2563eb; font-size: 1.3em; margin-bottom: 15px;">
+                    How much does BNA parking cost?
+                </h2>
+                <p style="color: #475569; line-height: 1.8; margin-bottom: 15px;">
+                    Nashville International Airport parking rates:
+                </p>
+                <ul style="color: #475569; line-height: 2; margin-left: 20px;">
+                    <li>Economy Lot: $20-25/day</li>
+                    <li>Garage Parking: $25-30/day</li>
+                    <li>Valet: Up to $45/day</li>
+                </ul>
+                <p style="color: #475569; line-height: 1.8; margin-top: 15px;">
+                    For frequent travelers, these costs add up quickly. DontPark eliminates parking fees entirely.
+                </p>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h2 style="color: #2563eb; font-size: 1.3em; margin-bottom: 15px;">
+                    How does DontPark compare to off-site BNA parking lots?
+                </h2>
+                <p style="color: #475569; line-height: 1.8;">
+                    Off-site parking lots charge $10-20/day and require shuttle service. DontPark costs nothing for parking – you only pay for car service you need anyway, and we provide direct rides (no shuttles).
+                </p>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h2 style="color: #2563eb; font-size: 1.3em; margin-bottom: 15px;">
+                    What services can I get while my car is at your shop?
+                </h2>
+                <p style="color: #475569; line-height: 1.8; margin-bottom: 15px;">
+                    Any service your vehicle needs:
+                </p>
+                <ul style="color: #475569; line-height: 2; margin-left: 20px;">
+                    <li>Oil changes</li>
+                    <li>Brake service</li>
+                    <li>Tire rotation/replacement</li>
+                    <li>State inspections</li>
+                    <li>Routine maintenance</li>
+                    <li>Repairs</li>
+                </ul>
+                <p style="color: #475569; line-height: 1.8; margin-top: 15px;">
+                    We partner with trusted Nashville-area shops.
+                </p>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h2 style="color: #2563eb; font-size: 1.3em; margin-bottom: 15px;">
+                    Is this safe? How do I know my car will be secure?
+                </h2>
+                <p style="color: #475569; line-height: 1.8;">
+                    Your vehicle is serviced at licensed, insured automotive shops – the same shops Nashville residents trust daily. All work is guaranteed, and shops carry full liability coverage.
+                </p>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h2 style="color: #2563eb; font-size: 1.3em; margin-bottom: 15px;">
+                    What areas do you serve?
+                </h2>
+                <p style="color: #475569; line-height: 1.8;">
+                    We currently serve travelers in Smyrna, La Vergne, Murfreesboro, Antioch, and surrounding Nashville suburbs flying out of BNA.
+                </p>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h2 style="color: #2563eb; font-size: 1.3em; margin-bottom: 15px;">
+                    Do you offer airport parking at BNA?
+                </h2>
+                <p style="color: #475569; line-height: 1.8;">
+                    No – we offer something better. Instead of paying to park your car at the airport, we connect you with professional automotive service while you travel. It's the smartest alternative to traditional BNA parking.
+                </p>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h2 style="color: #2563eb; font-size: 1.3em; margin-bottom: 15px;">
+                    How far in advance do I need to book?
+                </h2>
+                <p style="color: #475569; line-height: 1.8;">
+                    We recommend booking 3-5 days before your flight to ensure shop availability. Same-week bookings are often possible.
+                </p>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h2 style="color: #2563eb; font-size: 1.3em; margin-bottom: 15px;">
+                    What if my flight is delayed?
+                </h2>
+                <p style="color: #475569; line-height: 1.8;">
+                    We track your flight through FlightAware and adjust pickup times automatically. No need to call or text – we're ready when you land.
+                </p>
+            </div>
+
+            <div style="text-align: center; margin: 50px 0 30px 0;">
+                <a href="/" style="display: inline-block; background: #2563eb; color: white; padding: 15px 40px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1em;">
+                    Book Your Service Now
+                </a>
+            </div>
         </main>
-    </div>
-    <a href="/shops" class="button">Auto Shops: Partner With Us</a>
-    <script>
-        // ============================================
-        // CDN-FREE SUPABASE CLIENT
-        // ============================================
-        class SimpleSupabaseClient {
-            constructor(url, key) {
-                this.url = url;
-                this.key = key;
-                this.headers = {
-                    'apikey': key,
-                    'Authorization': `Bearer ${key}`,
-                    'Content-Type': 'application/json',
-                    'Prefer': 'return=representation'
-                };
-            }
-            
-            from(table) {
-                return new SupabaseTable(this.url, this.headers, table);
-            }
-        }
-        
-        class SupabaseTable {
-            constructor(baseUrl, headers, table) {
-                this.baseUrl = baseUrl;
-                this.headers = headers;
-                this.table = table;
-            }
-            
-            async insert(data) {
-                try {
-                    console.log('Inserting data to Supabase:', data);
-                    
-                    const response = await fetch(`${this.baseUrl}/rest/v1/${this.table}`, {
-                        method: 'POST',
-                        headers: this.headers,
-                        body: JSON.stringify(Array.isArray(data) ? data : [data])
-                    });
-                    
-                    const result = await response.text();
-                    console.log('Supabase response:', { status: response.status, result });
-                    
-                    if (!response.ok) {
-                        let errorData;
-                        try {
-                            errorData = JSON.parse(result);
-                        } catch {
-                            errorData = { message: result || 'Unknown error' };
-                        }
-                        return { data: null, error: errorData };
-                    }
-                    
-                    let responseData = null;
-                    if (result) {
-                        try {
-                            responseData = JSON.parse(result);
-                        } catch {
-                            responseData = result;
-                        }
-                    }
-                    
-                    return { data: responseData, error: null };
-                } catch (error) {
-                    console.error('Supabase client error:', error);
-                    return { data: null, error: { message: error.message } };
-                }
-            }
-        }
-
-           // Repairs array
-        const repairs = [
-            {cost: 15, desc: 'Car air freshener'},
-            {cost: 25, desc: 'Replace windshield wipers'},
-            {cost: 45, desc: 'Standard oil change'},
-            {cost: 75, desc: 'Battery test & cleaning'},
-            {cost: 95, desc: 'Tire rotation & balance'},
-            {cost: 125, desc: 'Brake inspection'},
-            {cost: 180, desc: 'Brake pad replacement'},
-            {cost: 220, desc: 'Transmission service'},
-            {cost: 350, desc: 'Engine tune-up'},
-            {cost: 450, desc: 'AC repair & recharge'},
-            {cost: 1200, desc: 'Transmission repair'},
-            {cost: 3500, desc: 'Engine rebuild'}
-        ];
-// ============================================
-// SUPABASE CONNECTION
-// Add this BEFORE line 733 (before serviceLocations)
-// ============================================
-
-// Initialize Supabase client
-const SUPABASE_URL = 'https://uhrhukcovvvbmopvoncr.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw';
-
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// ============================================
-// REPLACE LINES 733-822
-// Replace the entire serviceLocations object and initServiceMap function with this:
-// ============================================
-
-// Airport location (hardcoded - not a shop)
-const airportLocation = {
-    coords: { lat: 36.1245, lng: -86.6782 },
-    name: "Nashville Airport (BNA)",
-    type: "airport",
-    icon: "✈️"
-};
-
-// Fetch active shops from Supabase
-async function fetchActiveShops() {
-    try {
-        const { data: shops, error } = await supabase
-            .from('shops')
-            .select('*')
-            .eq('status', 'active')
-            .eq('accepts_new_bookings', true);
-        
-        if (error) {
-            console.error('Error fetching shops:', error);
-            return [];
-        }
-        
-        console.log('✅ Fetched shops from Supabase:', shops);
-        return shops;
-    } catch (error) {
-        console.error('❌ Supabase fetch error:', error);
-        return [];
-    }
-}
-// Global variables for map
-let serviceMap;
-let serviceMarkers = [];
-// Initialize service map (called by Google Maps callback)
-async function initServiceMap() {
-    console.log('🗺️ Initializing Google Maps...');
-    
-    try {
-        serviceMap = new google.maps.Map(document.getElementById("serviceMap"), {
-            zoom: 10,
-            center: { lat: 36.1627, lng: -86.7816 },
-            mapTypeControl: true,
-            streetViewControl: false,
-            fullscreenControl: true,
-            styles: [
-                {
-                    featureType: "poi.business",
-                    stylers: [{ visibility: "off" }]
-                }
-            ]
-        });
-
-        // Add airport marker (hardcoded)
-        addAirportMarker(airportLocation);
-
-        // Fetch and add shop markers from Supabase
-        const shops = await fetchActiveShops();
-        
-        if (shops.length === 0) {
-            console.warn('⚠️ No active shops found in database');
-        }
-        
-        shops.forEach(shop => {
-            if (shop.latitude && shop.longitude) {
-                addShopMarker(shop);
-            } else {
-                console.warn(`⚠️ Shop ${shop.name} missing coordinates`);
-            }
-        });
-
-        console.log('✅ Google Maps loaded successfully!');
-    } catch (error) {
-        console.error('❌ Error loading Google Maps:', error);
-        document.getElementById("serviceMap").innerHTML = 
-            '<p style="text-align: center; padding: 50px; color: #64748b;">Map loading error. Please refresh the page.</p>';
-    }
-}
-
-// Add airport marker (different style from shops)
-function addAirportMarker(location) {
-    const marker = new google.maps.Marker({
-        position: location.coords,
-        map: serviceMap,
-        title: location.name,
-        label: {
-            text: location.icon,
-            fontSize: "24px"
-        },
-        animation: google.maps.Animation.DROP
-    });
-
-    const infoContent = `
-        <div style="padding: 12px; min-width: 200px;">
-            <h4 style="color: #1e3a8a; margin: 0 0 8px 0; font-size: 16px;">
-                ${location.icon} ${location.name}
-            </h4>
-            <p style="color: #64748b; margin: 0; font-size: 14px;">Your departure point</p>
-        </div>
-    `;
-
-    const infoWindow = new google.maps.InfoWindow({
-        content: infoContent
-    });
-
-    marker.addListener("click", () => {
-        serviceMarkers.forEach(({infoWindow: iw}) => iw.close());
-        infoWindow.open(serviceMap, marker);
-    });
-
-    serviceMarkers.push({marker, infoWindow});
-}
-
-// Add shop marker with Supabase data
-function addShopMarker(shop) {
-    const marker = new google.maps.Marker({
-        position: { 
-            lat: parseFloat(shop.latitude), 
-            lng: parseFloat(shop.longitude) 
-        },
-        map: serviceMap,
-        title: shop.name,
-        label: {
-            text: "🔧",
-            fontSize: "20px"
-        },
-        animation: google.maps.Animation.DROP
-    });
-
-    // Build info window content
-    let infoContent = `<div style="padding: 15px; min-width: 280px; font-family: -apple-system, sans-serif;">`;
-    
-    // Shop name
-    infoContent += `<h4 style="color: #1e3a8a; margin: 0 0 12px 0; font-size: 18px; font-weight: 600;">
-        🔧 ${shop.name}
-    </h4>`;
-    
-    // Address
-    if (shop.address) {
-        infoContent += `<p style="color: #64748b; margin: 5px 0; font-size: 14px;">
-            📍 ${shop.address}, ${shop.city}, ${shop.state} ${shop.zip_code}
-        </p>`;
-    }
-    
-    // Phone (make it clickable)
-    if (shop.phone) {
-        infoContent += `<p style="color: #64748b; margin: 5px 0; font-size: 14px;">
-            📞 <a href="tel:${shop.phone}" style="color: #0ea5e9; text-decoration: none;">${shop.phone}</a>
-        </p>`;
-    }
-    
-    // Status badge
-    infoContent += `<p style="color: #059669; font-weight: 600; margin: 12px 0 8px 0; font-size: 14px;">
-        ✅ Active & Accepting Bookings
-    </p>`;
-    
-    // Call to action button
-    infoContent += `
-        <a href="#booking-form" 
-           onclick="document.getElementById('booking-form').scrollIntoView({behavior: 'smooth'}); return false;"
-           style="display: inline-block; 
-                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                  color: white; 
-                  padding: 10px 20px; 
-                  border-radius: 8px; 
-                  text-decoration: none; 
-                  font-weight: 600; 
-                  font-size: 14px;
-                  margin-top: 10px;
-                  text-align: center;">
-            📝 Send Repair Request →
-        </a>
-    `;
-    
-    infoContent += `</div>`;
-
-    const infoWindow = new google.maps.InfoWindow({
-        content: infoContent
-    });
-
-    marker.addListener("click", () => {
-        // Close other info windows first
-        serviceMarkers.forEach(({infoWindow: iw}) => iw.close());
-        infoWindow.open(serviceMap, marker);
-    });
-
-    serviceMarkers.push({marker, infoWindow});
-}     
-           // Initialize everything when DOM is ready
-window.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 DontPark.com initializing...');
-    // Load shops into selector
-    async function loadShopSelector() {
-        console.log('🔧 Loading shops for selector...');
-        
-        try {
-            const { data: shops, error } = await supabase
-                .from('shops')
-                .select('*')
-                .eq('status', 'active')
-                .eq('accepts_new_bookings', true)
-                .order('name');
-            
-            if (error) {
-                console.error('Error loading shops:', error);
-                document.getElementById('shopSelector').innerHTML = 
-                    '<p style="color: #dc2626;">Error loading shops. Please refresh the page.</p>';
-                return;
-            }
-            
-            if (shops.length === 0) {
-                document.getElementById('shopSelector').innerHTML = 
-                    '<p style="color: #f59e0b;">No shops available at this time.</p>';
-                return;
-            }
-            
-            console.log(`✅ Loaded ${shops.length} shop(s)`);
-            
-            let selectorHTML = '';
-            shops.forEach((shop, index) => {
-                const isFirst = index === 0;
-                selectorHTML += `
-                    <label class="shop-option" style="display: flex; align-items: start; gap: 15px; padding: 20px; background: white; border: 2px solid ${isFirst ? '#0ea5e9' : '#e2e8f0'}; border-radius: 12px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#0ea5e9';" onmouseout="if(!this.querySelector('input').checked) this.style.borderColor='#e2e8f0';">
-                        <input type="radio" name="shop_selection" value="${shop.id}" ${isFirst ? 'checked' : ''} style="margin-top: 4px; width: 20px; height: 20px;" onchange="document.getElementById('selectedShopId').value = this.value; document.querySelectorAll('.shop-option').forEach(opt => opt.style.borderColor = '#e2e8f0'); this.parentElement.style.borderColor = '#0ea5e9';">
-                        <div style="flex: 1;">
-                            <h4 style="color: #0c4a6e; margin: 0 0 8px 0; font-size: 1.1rem;">🔧 ${shop.name}</h4>
-                            <p style="color: #64748b; margin: 5px 0; font-size: 0.9rem;">📍 ${shop.address}, ${shop.city}, ${shop.state}</p>
-                            ${shop.phone ? `<p style="color: #64748b; margin: 5px 0; font-size: 0.9rem;">📞 ${shop.phone}</p>` : ''}
-                            <p style="color: #059669; margin: 8px 0 0 0; font-size: 0.9rem; font-weight: 600;">✅ Active & Accepting Bookings</p>
-                        </div>
-                    </label>
-                `;
-            });
-            
-            document.getElementById('shopSelector').innerHTML = selectorHTML;
-            
-            if (shops.length > 0) {
-                document.getElementById('selectedShopId').value = shops[0].id;
-                const firstOption = document.querySelector('.shop-option');
-                if (firstOption) firstOption.style.borderColor = '#0ea5e9';
-            }
-            
-        } catch (error) {
-            console.error('❌ Shop selector error:', error);
-        }
-    }
-    
-    // Call the function
-    loadShopSelector();
-    // Initialize parking cost slider
-    const parkingSlider = document.getElementById('parkingSlider');
-    const parkingCost = document.getElementById('parkingCost');
-    const parkingDays = document.getElementById('parkingDays');
-            if (parkingSlider) {
-                function updateParking() {
-                    const days = parkingSlider.value;
-                    const cost = days * 25;
-                    parkingCost.textContent = '$' + cost;
-                    parkingDays.textContent = days + ' day' + (days > 1 ? 's' : '') + ' of airport parking';
-                }
-                
-                parkingSlider.addEventListener('input', updateParking);
-                updateParking();
-            }
-            
-            // Initialize repair cost slider
-            const repairSlider = document.getElementById('repairSlider');
-            const repairCost = document.getElementById('repairCost');
-            const repairService = document.getElementById('repairService');
-            
-            if (repairSlider) {
-                function updateRepair() {
-                    const index = parseInt(repairSlider.value);
-                    const repair = repairs[index];
-                    repairCost.textContent = '$' + repair.cost;
-                    repairService.textContent = repair.desc;
-                }
-                
-                repairSlider.addEventListener('input', updateRepair);
-                updateRepair();
-            }
-            
-            // Set minimum date to today for date inputs
-            const today = new Date().toISOString().split('T')[0];
-            const depDateInput = document.querySelector('input[name="departureDate"]');
-            const retDateInput = document.querySelector('input[name="returnDate"]');
-            if (depDateInput) depDateInput.setAttribute('min', today);
-            if (retDateInput) retDateInput.setAttribute('min', today);
-            
- // Handle form submission
-const bookingForm = document.getElementById('bookingForm');
-if (bookingForm) {
-    bookingForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        console.log('📋 Processing booking...');
-        
-        try {
-            const formData = new FormData(this);
-            
-            // Collect chat messages
-            const chatMessages = document.getElementById('chatMessages');
-            const userMessages = Array.from(chatMessages.querySelectorAll('.user-message .message-content'))
-                .map(msg => msg.textContent)
-                .join(' | ');
-            
-            // Prepare booking data
-            const bookingData = {
-                customer_name: formData.get('fullName'),
-                customer_phone: formData.get('phone'),
-                customer_email: formData.get('email'),
-                shop_id: formData.get('shop_id'),
-                flight_date: formData.get('departureDate'),
-                flight_time: formData.get('departureTime'),
-                return_date: formData.get('returnDate'),
-                arrival_time: formData.get('returnTime'),
-                return_flight: formData.get('returnFlight'),
-                year: parseInt(formData.get('year')) || null,
-                car_make: formData.get('makeModel')?.split(' ')[0] || '',
-                Make_model: formData.get('makeModel'),
-                license_plate: formData.get('licensePlate'),
-                color: formData.get('color'),
-                service_description: selectedService ? JSON.stringify(selectedService) : null,
-                customer_notes: userMessages || 'No specific issue described',
-                estimated_cost: selectedService ? selectedService.cost : null,
-                status: 'pending',
-                priority_score: 5,
-                dontpark_booking_id: 'DP' + Date.now().toString().slice(-6),
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString()
-            };
-            
-            console.log('💾 Saving booking to database...');
-            
-            const { data, error } = await supabase
-                .from('bookings')
-                .insert([bookingData]);
-            
-            if (error) {
-                console.error('❌ Database error:', error);
-                alert('Booking error: ' + (error.message || 'Unknown error occurred'));
-            } else {
-                console.log('✅ Booking saved successfully!');
-                
-                // Show success message
-                const successMsg = document.getElementById('successMessage');
-                if (successMsg) {
-                    successMsg.style.display = 'block';
-                    successMsg.scrollIntoView({ behavior: 'smooth' });
-                }
-                
-                // Reset form
-                this.reset();
-                resetChat();
-            }
-            
-        } catch (error) {
-            console.error('💥 Unexpected error:', error);
-            alert('Connection error: ' + error.message);
-        }
-    });
-}
-            
-            // Claude AI Chat functionality
-            const chatSendBtn = document.getElementById('chatSendBtn');
-            const chatInput = document.getElementById('chatInput');
-            
-            if (chatSendBtn && chatInput) {
-                console.log('✅ Claude AI chat ready');
-                
-                chatSendBtn.addEventListener('click', sendMessage);
-                chatInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        sendMessage();
-                    }
-                });
-                
-                async function sendMessage() {
-                    const message = chatInput.value.trim();
-                    if (!message) return;
-                    
-                    // Add user message
-                    addMessage(message, 'user');
-                    chatInput.value = '';
-                    
-                    // Show thinking state
-                    chatSendBtn.disabled = true;
-                    chatSendBtn.textContent = 'Claude is thinking...';
-                    
-                    // Get real Claude response via Supabase Edge Function
-                    try {
-                        const response = await getClaudeResponse(message);
-                        addMessage(response.message, 'claude');
-                        
-                        if (response.recommendation) {
-                            selectedService = response.recommendation;
-                            showServiceRecommendation(response.recommendation);
-                        }
-                    } catch (error) {
-                        console.error('Error sending message:', error);
-                        addMessage('I apologize, but I\'m having trouble connecting right now. Please try again in a moment.', 'claude');
-                    }
-                    
-                    // Reset button
-                    chatSendBtn.disabled = false;
-                    chatSendBtn.textContent = 'Send';
-                }
-                
-                function addMessage(message, sender) {
-                    const chat = document.getElementById('chatMessages');
-                    if (chat) {
-                        const messageDiv = document.createElement('div');
-                        messageDiv.className = 'message ' + (sender === 'user' ? 'user-message' : 'claude-message');
-                        messageDiv.innerHTML = '<div class="message-content">' + message + '</div>';
-                        chat.appendChild(messageDiv);
-                        chat.scrollTop = chat.scrollHeight;
-                    }
-                }
-                
-                async function getClaudeResponse(message) {
-                    try {
-                        // Get car info from form
-                        const makeModel = document.querySelector('input[name="makeModel"]')?.value || '';
-                        const year = document.querySelector('input[name="year"]')?.value || '';
-                        const carInfo = year && makeModel ? `${year} ${makeModel}` : 'Not specified';
-                        
-                        // Call the real Supabase Edge Function with authorization
-                        const response = await fetch('https://uhrhukcovvvbmopvoncr.supabase.co/functions/v1/hello-world', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVocmh1a2NvdnZ2Ym1vcHZvbmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MzIyMzcsImV4cCI6MjA3MDEwODIzN30.Ce69ktLB8h_OMe0H1XpDmRjKZawGlb59ProIs8UEaRw'
-                            },
-                            body: JSON.stringify({
-                                message: message,
-                                carInfo: carInfo
-                            })
-                        });
-
-                        if (!response.ok) {
-                            throw new Error('API request failed');
-                        }
-
-                        const data = await response.json();
-                        
-                        // Return the real Claude response
-                        return {
-                            message: data.message || 'I can help diagnose your car issue. Let me review what you\'ve described.',
-                            recommendation: data.recommendation || {
-                                service: 'Diagnostic Inspection',
-                                description: 'Complete inspection to identify the issue',
-                                cost: 120
-                            }
-                        };
-                        
-                    } catch (error) {
-                        console.error('Claude API Error:', error);
-                        // Fallback response if API fails
-                        return {
-                            message: 'I understand your concern. Based on your description, I recommend getting a professional diagnostic inspection to properly identify and address the issue.',
-                            recommendation: {
-                                service: 'Professional Diagnostic Service',
-                                description: 'Complete vehicle inspection by certified technicians',
-                                cost: 120
-                            }
-                        };
-                    }
-                }
-                
-                function showServiceRecommendation(recommendation) {
-                    const recContent = document.getElementById('recommendationContent');
-                    const costAmount = document.getElementById('costAmount');
-                    const serviceRec = document.getElementById('serviceRecommendation');
-                    const initialInput = document.getElementById('initialChatInput');
-                    
-                    if (recContent && costAmount && serviceRec) {
-                        recContent.innerHTML = '<strong>' + recommendation.service + '</strong><br><br>' + recommendation.description;
-                        costAmount.textContent = '$' + recommendation.cost;
-                        serviceRec.style.display = 'block';
-                        
-                        if (initialInput) {
-                            initialInput.style.display = 'none';
-                        }
-                    }
-                }
-                
-                function resetChat() {
-                    const serviceRec = document.getElementById('serviceRecommendation');
-                    const initialInput = document.getElementById('initialChatInput');
-                    const chatMessages = document.getElementById('chatMessages');
-                    
-                    if (serviceRec) serviceRec.style.display = 'none';
-                    if (initialInput) initialInput.style.display = 'block';
-                    
-                    if (chatMessages) {
-                        chatMessages.innerHTML = `
-                            <div class="message claude-message">
-                                <div class="message-content">
-                                    Hi! I'm Claude, You can describe symptoms like:
-                                    <br><br>
-                                    • "Steering is pulling to the left"<br>
-                                    • "Check engine light is on"<br>
-                                    • "AC isn't cold"
-                                </div>
-                            </div>
-                        `;
-                    }
-                    
-                    selectedService = null;
-                }
-            }
-            
-            console.log('🎉 DontPark.com ready!');
-        });
-
-        // Set global function for Google Maps callback
-        window.initServiceMap = initServiceMap;
-              
-        // ============================================
-        // TERMS OF SERVICE AGREEMENT HANDLER
-        // ============================================
-        (function() {
-            const agreeCheckbox = document.getElementById('agreeTerms');
-            const submitButton = document.getElementById('submitBtn');
-            
-            if (agreeCheckbox && submitButton) {
-                // Start with button disabled
-                submitButton.disabled = true;
-                submitButton.style.opacity = '0.5';
-                submitButton.style.cursor = 'not-allowed';
-                
-                // Enable/disable button based on checkbox
-                agreeCheckbox.addEventListener('change', function() {
-                    submitButton.disabled = !this.checked;
-                    submitButton.style.opacity = this.checked ? '1' : '0.5';
-                    submitButton.style.cursor = this.checked ? 'pointer' : 'not-allowed';
-                });
-            }
-        })();
-    </script>
-    
-    <!-- Google Maps API Script -->
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA55xI2xoTn_kGTLDmHnDOoWhw18ZehT4A&callback=initServiceMap">
-    </script>
 </body>
 </html>
