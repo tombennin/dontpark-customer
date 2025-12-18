@@ -720,7 +720,10 @@ Stop Paying $25/Day – Get Your Car Fixed Instead
                 } catch (error) {
                     console.error('Supabase client error:', error);
                     return { data: null, error: { message: error.message } };
-                }select(columns = '*') {
+                }}
+            }
+            
+            select(columns = '*') {select(columns = '*') {
                 this.selectColumns = columns;
                 return this;
             }
