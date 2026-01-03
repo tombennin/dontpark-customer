@@ -1111,8 +1111,15 @@ if (bookingForm) {
                 console.error('❌ Database error:', error);
                 alert('Booking error: ' + (error.message || 'Unknown error occurred'));
             } else {
-                console.log('✅ Booking saved successfully!');
-                
+console.log('✅ Booking saved successfully!');
+
+// Send notification to Make.com
+fetch('https://hook.us2.make.com/3p5rby1iiurf89mmfytel4huuuxd6m62', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: 'New DontPark booking', customer: bookingData.customer_name })
+}).catch(err => console.log('Webhook error:', err));
+
                 // Show success message
                 const successMsg = document.getElementById('successMessage');
                 if (successMsg) {
