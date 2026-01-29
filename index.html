@@ -966,13 +966,13 @@ window.addEventListener('DOMContentLoaded', function() {
     async function loadShopSelector() {
         console.log('🔧 Loading shops for selector...');
         
-        try {
+try {
             const { data: shops, error } = await supabase
                 .from('shops')
                 .select('*')
                 .eq('status', 'active')
                 .eq('accepts_new_bookings', true)
-            
+                .order('name', { ascending: true })
             if (error) {
                 console.error('Error loading shops:', error);
                 document.getElementById('shopSelector').innerHTML = 
