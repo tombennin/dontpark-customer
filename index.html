@@ -787,8 +787,7 @@ const { data: shops, error } = await supabase
     .from('shops')
     .select('*')
     .eq('status', 'active')
-    .eq('accepts_new_bookings', true)
-    .order('name', { ascending: true });
+    .eq('accepts_new_bookings', true);
         
         if (error) {
             console.error('Error fetching shops:', error);
