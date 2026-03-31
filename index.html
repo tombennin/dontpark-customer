@@ -861,7 +861,17 @@ async function initServiceMap() {
             '<p style="text-align: center; padding: 50px; color: #64748b;">Map loading error. Please refresh the page.</p>';
     }
 }
-
+function selectShop(shopId, shopName, shopAddress) {
+    document.getElementById('selectedShopId').value = shopId;
+    document.getElementById('selectedShopName').textContent = shopName;
+    document.getElementById('selectedShopAddress').textContent = shopAddress;
+    document.getElementById('selectedShopBanner').style.display = 'block';
+    serviceMarkers.forEach(({infoWindow: iw}) => iw.close());
+    setTimeout(() => {
+        document.getElementById('bookingForm').scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+    console.log('✅ Shop selected:', shopName, 'ID:', shopId);
+}
 // Add airport marker (different style from shops)
 function addAirportMarker(location) {
     const marker = new google.maps.Marker({
