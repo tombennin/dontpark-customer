@@ -934,22 +934,13 @@ function addShopMarker(shop) {
         ✅ Active & Accepting Bookings
     </p>`;
     
-    // Call to action button
+  // Call to action button
     infoContent += `
-        <a href="#booking-form" 
-           onclick="document.getElementById('booking-form').scrollIntoView({behavior: 'smooth'}); return false;"
-           style="display: inline-block; 
-                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                  color: white; 
-                  padding: 10px 20px; 
-                  border-radius: 8px; 
-                  text-decoration: none; 
-                  font-weight: 600; 
-                  font-size: 14px;
-                  margin-top: 10px;
-                  text-align: center;">
-            📝 Send Repair Request →
-        </a>
+        <button 
+            onclick="selectShop('${shop.id}', '${shop.name}', '${shop.address}, ${shop.city}, ${shop.state}')"
+            style="display: block; width: 100%; background: #16a34a; color: white; padding: 10px 20px; border-radius: 8px; border: none; font-weight: 700; font-size: 15px; margin-top: 10px; cursor: pointer;">
+            ✅ Select This Shop
+        </button>
     `;
     
     infoContent += `</div>`;
