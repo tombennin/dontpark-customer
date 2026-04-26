@@ -1189,7 +1189,17 @@ fetch('https://hook.us2.make.com/3p5rby1iiurf89mmfytel4huuuxd6m62', {
                     if (chat) {
                         const messageDiv = document.createElement('div');
                         messageDiv.className = 'message ' + (sender === 'user' ? 'user-message' : 'claude-message');
-                        messageDiv.innerHTML = '<div class="message-content">' + message + '</div>';
+                  const formatted = sender === 'claude' ? message
+    .replace(/###\s(.+)/g, '<h4>$1</h4>')
+    .replace(/##\s(.+)/g, '<h3>$1</h3>')
+    .replace(/#\s(.+)/g, '<h2>$1</h2>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/- \*\*(.+?)\*\*/g, '<br>• <strong>$1</strong>')
+    .replace(/- (.+)/g, '<br>• $1')
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>')
+    : message;
+messageDiv.innerHTML = '<div class="message-content">' + formatted + '</div>';        
                         chat.appendChild(messageDiv);
                         chat.scrollTop = chat.scrollHeight;
                     }
