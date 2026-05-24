@@ -1225,18 +1225,19 @@
             const vehicleParts = vehicle.split(' ');
             const year = parseInt(vehicleParts[0]) || new Date().getFullYear();
             
-            const bookingData = {
-                customer_name: formData.get('fullName'),
-                customer_phone: formData.get('phone'),
-                customer_email: formData.get('email'),
-                shop_id: formData.get('shop_id'),
-                flight_date: formData.get('departureDate'),
-                flight_time: formData.get('departureTime'),
-                return_date: formData.get('returnDate'),
-                return_flight: formData.get('returnFlight'),
-                year: year,
-                car_make: vehicleParts[1] || '',
-                Make_model: vehicle,
+           const bookingData = {
+    customer_name: formData.get('fullName'),
+    customer_phone: formData.get('phone'),
+    customer_email: formData.get('email'),
+    shop_id: formData.get('shop_id'),
+    flight_date: formData.get('departureDate'),
+    flight_time: formData.get('departureTime'),
+    return_date: formData.get('returnDate'),
+    return_flight: formData.get('returnFlight'),
+    arrival_time: '12:00',
+    year: year,
+    car_make: vehicleParts[1] || '',
+    Make_model: vehicle,
                 service_description: selectedService ? JSON.stringify(selectedService) : null,
                 customer_notes: userMessages || 'No specific issue described',
                 estimated_cost: selectedService ? selectedService.cost : null,
