@@ -1117,10 +1117,10 @@
 
             const infoWindow = new google.maps.InfoWindow({ content: infoContent });
 
-            marker.addListener("click", () => {
-                serviceMarkers.forEach(m => m.infoWindow.close());
-                infoWindow.open(serviceMap, marker);
-            });
+       marker.addListener("click", () => {
+    serviceMarkers.forEach(m => m.infoWindow.close());
+    selectShop(shop.id, shop.name, `${shop.address}, ${shop.city}, ${shop.state}`);
+});
 
             serviceMarkers.push({ marker, infoWindow });
         }
