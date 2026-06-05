@@ -1172,6 +1172,14 @@
                 const data = await response.json();
                 
                 addMessage(data.message || 'I can help with that. Let me provide a recommendation.', 'claude');
+                supabase.from('estimates').insert({
+    session_id: DP_SESSION_ID,
+    vehicle: vehicle,
+    service_request: message,
+    claude_response: data.message || null,
+    estimated_cost: data.recommendation ? data.recommendation.cost : null,
+    full_conversation: data
+});
                 
                 if (data.recommendation) {
                     selectedService = data.recommendation;
