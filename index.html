@@ -978,11 +978,11 @@
             const parkingSlider = document.getElementById('parkingSlider');
             const repairSlider = document.getElementById('repairSlider');
             
-            function updateParking() {
-                const days = parkingSlider.value;
-                document.getElementById('parkingCost').textContent = '$' + (days * 25);
-                document.getElementById('parkingDays').textContent = days + ' day' + (days > 1 ? 's' : '') + ' of parking';
-            }
+       function updateParking() {
+    const days = parkingSlider.value;
+    document.getElementById('parkingCost').textContent = '$' + (days * 33);
+    document.getElementById('parkingDays').textContent = days + ' day' + (days > 1 ? 's' : '') + ' of parking';
+}
             
             function updateRepair() {
                 const repair = repairs[parseInt(repairSlider.value)];
