@@ -1079,9 +1079,9 @@
                 airportInfo.open(serviceMap, airportMarker);
             });
 
-            // Fetch shops
+          // Fetch shops
             const { data: shops, error } = await supabase
-                .from('shops')
+                .from('public_shops')
                 .select('*')
                 .eq('status', 'active')
                 .eq('accepts_new_bookings', true);
